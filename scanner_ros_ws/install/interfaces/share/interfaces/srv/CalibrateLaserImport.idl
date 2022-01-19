@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from interfaces/srv/CalibrateLaserImport.srv
+// generated code does not contain a copyright notice
+
+
+module interfaces {
+  module srv {
+    struct CalibrateLaserImport_Request {
+      string file;
+    };
+    struct CalibrateLaserImport_Response {
+      boolean success;
+
+      string message;
+    };
+  };
+};

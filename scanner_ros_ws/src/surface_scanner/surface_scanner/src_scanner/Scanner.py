@@ -23,8 +23,8 @@ class Scanner:
     def calibrate_scanner(self,
                           pictures,
                           safe_data_in_npz: bool,
-                          calibration_img: str,
-                          calibration_img_laser: str):
+                          calibration_img,
+                          calibration_img_laser):
 
         self.__camera.calibrate_camera(pictures=pictures, save_data_in_npz=safe_data_in_npz)
         self.__calibrate_laser(calibration_img=calibration_img,

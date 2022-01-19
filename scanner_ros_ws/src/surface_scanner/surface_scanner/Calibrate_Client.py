@@ -17,10 +17,10 @@ class Calibration_Client(Node):
 
     def __init__(self):
         super().__init__('calibration_node')
-        self.client = self.create_client(CalibrateLaser, 'calibrate_laser')
+        self.client = self.create_client(Trigger, 'calibrate_scanner')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
-        self.request = CalibrateLaser.Request()
+        self.request = Trigger.Request()
 
     def send_request(self):
         self.future = self.client.call_async(self.request)
@@ -44,7 +44,20 @@ class Trigger_Take_Img_Pair(Node):
 
     def __init__(self):
         super().__init__('trigger_img_pair_node')
-        self.client = self.create_client(Trigger, 'send_calibration_images')
+        self.client = self.create_client(Trigger, 'send_laser_calib_imgs')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('camera not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+
+class Trigger_Take_Cam_Calib_Imgs(Node):
+
+    def __init__(self):
+        super().__init__('trigger_cam_calib_img_node')
+        self.client = self.create_client(Trigger, 'send_cam_calib_imgs')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('camera not available, waiting again...')
         self.request = Trigger.Request()
@@ -69,7 +82,10 @@ def calibrate_client_function(args=None):
                     'Service call failed %r' % (e,))
             else:
                 calibrate_client.get_logger().info(
-                    f'Calibrated laser status: "{response.response}"'
+                    f'Calibrated laser status: "{response.success}"'
+                )
+                calibrate_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
                 )
             break
 
@@ -114,6 +130,36 @@ def trigger_take_img_pair_function(args=None):
     rclpy.init(args=args)
 
     trigger_client = Trigger_Take_Img_Pair()
+    trigger_client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(trigger_client)
+        if trigger_client.future.done():
+            try:
+                response = trigger_client.future.result()
+            except Exception as e:
+                trigger_client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                trigger_client.get_logger().info(
+                    f'Status: "{response.success}"'
+                )
+                trigger_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    trigger_client.destroy_node()
+    rclpy.shutdown()
+
+
+def trigger_take_cam_calib_imgs_function(args=None):
+    rclpy.init(args=args)
+
+    trigger_client = Trigger_Take_Cam_Calib_Imgs()
     trigger_client.send_request()
 
     while rclpy.ok():

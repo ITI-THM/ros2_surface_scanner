@@ -1,3 +1,4 @@
+from operator import le
 import re
 import sys
 import os
@@ -21,7 +22,6 @@ from cv_bridge import CvBridge
 import numpy as np
 import open3d as o3d
 import cv2 as cv
-import time
 
 
 from .src_scanner.Scanner import Scanner
@@ -41,11 +41,12 @@ class Surface_Scanner_Node(Node):
 
         self.cv_bridge = CvBridge()
 
-        # SERVICE: calibrate laser
-        self.calibrate_laser_srv = self.create_service(
-            CalibrateLaser,
-            'calibrate_laser',
-            self.calibrate_srv_callback )
+        # SERVICE: calibrate scanner
+        self.calibrate_scanner_srv = self.create_service(
+            Trigger,
+            'calibrate_scanner',
+            self.calibrate_scanner_srv_callback
+        )
 
         # SERVICE: calibrate laser with import of camera params
         self.calibrate_laser_with_import_srv = self.create_service(
@@ -99,16 +100,37 @@ class Surface_Scanner_Node(Node):
 
         self.get_logger().info('Surface-Scanner-Node ready!')
 
-    # TODO: fix method!
-    def calibrate_srv_callback(self, request, response):
-        response.response = True
-        self.get_logger().info('Incoming request for laser calibration!')
+    def calibrate_scanner_srv_callback(self, request, response):
 
-        msg = PlaneEquation()
-        msg.plane_equation = [0.34234, 1.23423, -4.55, 90.0]
-        self.laser_plane_publisher.publish(msg)
-        self.get_logger().info(
-            f'Publishing plane equation: "{msg.plane_equation}"')
+        if self.__calib_imgs is None:
+            response.success = False
+            response.message = "Laser calibration cancelled! Missing images for intrinsic camera calibration."
+
+            return response    
+
+        if self.__origin_img is None or self.__laser_img is None:
+            response.success = False
+            response.message = "Laser calibration cancelled! Missing images for laser calibration!."
+
+            return response
+
+        self.get_logger().info('Incoming request for scanner calibration!')
+        self.get_logger().info('Starting to calibrate laser!')
+        self.get_logger().info(f'Holding list of {len(self.__calib_imgs)} images for intrinsic calibration.')
+        self.get_logger().info(f'Holding two images to calibrate laser with shape [{self.__origin_img.shape}, {self.__laser_img.shape}]')
+
+        self.scanner.calibrate_scanner(
+            pictures=self.__calib_imgs,
+            safe_data_in_npz=False,
+            calibration_img=self.__origin_img,
+            calibration_img_laser=self.__laser_img
+        )
+
+        response.success = True
+        response.message = "Laser calibration successful! Laser ready to scan."
+
+        self.refresh_calib_imgs_field()
+        self.refresh_img_pair_fields()
 
         return response
 
@@ -184,7 +206,12 @@ class Surface_Scanner_Node(Node):
         self.get_logger().info(f'Recieved images! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
 
     def cam_calib_imgs_callback(self, imgs):
-        self.__calib_imgs = self.cv_bridge.imgmsg_to_cv2(imgs)
+        self.__calib_imgs = []
+        print(len(imgs.imgs))
+        for index in range(0, len(imgs.imgs) - 1):
+            self.__calib_imgs.append(self.cv_bridge.imgmsg_to_cv2(imgs.imgs[index]))
+        print(self.__calib_imgs[0].shape)
+        self.get_logger().info(f"Recieved list with {len(self.__calib_imgs)} images!")
 
     def refresh_img_pair_fields(self):
         self.__origin_img = None

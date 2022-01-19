@@ -1,3 +1,4 @@
+from email.mime import image
 import rclpy
 from rclpy.node import Node
 
@@ -19,10 +20,17 @@ class Camera_Node(Node):
         self.bridge = CvBridge()
 
         # SERVICE: send images to calibrate laser
-        self.send_calibration_images_srv = self.create_service(
+        self.send_laser_calibration_imgs_srv = self.create_service(
             Trigger, 
-            'send_calibration_images',
+            'send_laser_calib_imgs',
             self.send_img_pair
+        )
+
+        #SERVICE: send images for intrinsic camera calibration
+        self.send_cam_calibration_imgs_srv = self.create_service(
+            Trigger,
+            'send_cam_calib_imgs',
+            self.send_cam_calib_imgs
         )
         
         # PUBLISHER: image pair
@@ -54,11 +62,36 @@ class Camera_Node(Node):
         self.img_pair_publisher.publish(image_pair_msg)
 
         response.success = True
-        response.message = "Successfuly send images!"
+        response.message = "Successfully send images!"
         return response
 
-    def send_calib_imgs(self):
-        return
+    def send_cam_calib_imgs(self, request, response):
+        
+        image_names = []
+
+        for i in range(0, 12):
+            image_names.append(f"calibration_img_{i}.png")
+
+        print(image_names)
+
+        images = []
+
+        for name in image_names:
+            img = cv.imread(f'/home/tristan/Praktikum/git/ros2_surface_scanner/scanner_ros_ws/src/surface_scanner/data/images/calibration/{name}')
+            img = self.bridge.cv2_to_imgmsg(img)
+            images.append(img)
+
+        img_list_msg = CameraCalibrationImgs()
+
+        for index in range(0, len(images) - 1):
+            img_list_msg.imgs.append(images[index])
+
+        self.get_logger().info("Publishing list of calibration images!")
+        self.cam_calib_imgs_publisher.publish(img_list_msg)
+
+        response.success = True
+        response.message = "Successfully send images!"
+        return response
 
 def main(args=None):
     rclpy.init(args=args)

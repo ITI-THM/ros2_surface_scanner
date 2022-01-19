@@ -28,7 +28,8 @@ setup(
             'calibrate_with_import = surface_scanner.Calibrate_Client:calibrate_client_import_function',
             'pcd_subscriber = surface_scanner.pcd_subscriber_node:main',
             'start_scan = surface_scanner.Start_Scan_Client:start_scan_function',
-            'trigger_calibration_imgs = surface_scanner.Calibrate_Client:trigger_take_img_pair_function'
+            'trigger_img_pair = surface_scanner.Calibrate_Client:trigger_take_img_pair_function',
+            'trigger_img_list = surface_scanner.Calibrate_Client:trigger_take_cam_calib_imgs_function'
         ],
     },
 )

@@ -39,11 +39,10 @@ class LaserCamera:
     def showImages(self):
         images = self.getLaserImages()
 
-        for i, cv_img in enumerate(images):
-            cv2.namedWindow(f'Img{i}', cv2.WINDOW_NORMAL)
-            cv2.imshow(f'Img{i}', cv_img)
-        
+        cv2.imshow("origin_img", images[0])
+        cv2.imshow("laser_img", images[1])
         cv2.imshow("diff", cv2.subtract(images[1], images[0]))
+        cv2.imshow("diff_grey", cv2.cvtColor(cv2.subtract(images[1], images[0]) , cv2.COLOR_BGR2GRAY))
 
     def getLaserImages(self):
         self._camera.UserOutputValue.SetValue(False)
@@ -53,7 +52,7 @@ class LaserCamera:
                 if i > 0:
                     self._camera.UserOutputValue.SetValue(True)
                 self._camera.ExecuteSoftwareTrigger()
-                time.sleep(0.05)
+                time.sleep(0.1)
                 print("Line Value: ", self._camera.LineStatus.GetValue())
 
         self._camera.UserOutputValue.SetValue(False)

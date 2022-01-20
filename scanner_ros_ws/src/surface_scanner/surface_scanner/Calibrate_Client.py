@@ -53,6 +53,19 @@ class Trigger_Take_Img_Pair(Node):
         self.future = self.client.call_async(self.request)
 
 
+class Trigger_Take_Img_Pair_Stream(Node):
+
+    def __init__(self):
+        super().__init__('img_pair_stream_node')
+        self.client = self.create_client(Trigger, 'send_img_pair_stream')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('camera not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+
 class Trigger_Take_Cam_Calib_Imgs(Node):
 
     def __init__(self):
@@ -160,6 +173,36 @@ def trigger_take_cam_calib_imgs_function(args=None):
     rclpy.init(args=args)
 
     trigger_client = Trigger_Take_Cam_Calib_Imgs()
+    trigger_client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(trigger_client)
+        if trigger_client.future.done():
+            try:
+                response = trigger_client.future.result()
+            except Exception as e:
+                trigger_client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                trigger_client.get_logger().info(
+                    f'Status: "{response.success}"'
+                )
+                trigger_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    trigger_client.destroy_node()
+    rclpy.shutdown()
+
+
+def trigger_send_img_pair_stream_function(args=None):
+    rclpy.init(args=args)
+
+    trigger_client = Trigger_Take_Img_Pair_Stream()
     trigger_client.send_request()
 
     while rclpy.ok():

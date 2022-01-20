@@ -25,6 +25,7 @@ extern "C"
 // Struct defined in msg/ImagePair in the package interfaces.
 typedef struct interfaces__msg__ImagePair
 {
+  bool is_for_laser_calib;
   sensor_msgs__msg__Image origin_img;
   sensor_msgs__msg__Image laser_img;
 } interfaces__msg__ImagePair;

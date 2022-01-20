@@ -39,7 +39,7 @@ def get_line_pixels(diff_img_laser):
     for row in img_diff:
         i_max = np.amax(row)
 
-        if i_max <= 10:
+        if i_max <= 15:
             row_index += 1
             continue
 

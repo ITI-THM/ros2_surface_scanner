@@ -37,7 +37,22 @@ void ImagePair_fini_function(void * message_memory)
   typed_message->~ImagePair();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember ImagePair_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ImagePair_message_member_array[3] = {
+  {
+    "is_for_laser_calib",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces::msg::ImagePair, is_for_laser_calib),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr  // resize(index) function pointer
+  },
   {
     "origin_img",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
@@ -73,7 +88,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ImagePair_mes
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ImagePair_message_members = {
   "interfaces::msg",  // message namespace
   "ImagePair",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(interfaces::msg::ImagePair),
   ImagePair_message_member_array,  // message members
   ImagePair_init_function,  // function to initialize message memory (memory has to be allocated)

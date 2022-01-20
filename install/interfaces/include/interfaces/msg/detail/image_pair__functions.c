@@ -20,6 +20,7 @@ interfaces__msg__ImagePair__init(interfaces__msg__ImagePair * msg)
   if (!msg) {
     return false;
   }
+  // is_for_laser_calib
   // origin_img
   if (!sensor_msgs__msg__Image__init(&msg->origin_img)) {
     interfaces__msg__ImagePair__fini(msg);
@@ -39,6 +40,7 @@ interfaces__msg__ImagePair__fini(interfaces__msg__ImagePair * msg)
   if (!msg) {
     return;
   }
+  // is_for_laser_calib
   // origin_img
   sensor_msgs__msg__Image__fini(&msg->origin_img);
   // laser_img

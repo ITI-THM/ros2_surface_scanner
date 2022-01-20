@@ -3,7 +3,7 @@ import cv2 as cv
 
 
 class Camera:
-    """Representation of a Camera"""
+    """This class holds and calculates all camera data."""
 
     def __init__(self, src=None):
 

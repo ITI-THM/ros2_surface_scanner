@@ -29,7 +29,8 @@ setup(
             'pcd_subscriber = surface_scanner.pcd_subscriber_node:main',
             'start_scan = surface_scanner.Start_Scan_Client:start_scan_function',
             'trigger_img_pair = surface_scanner.Calibrate_Client:trigger_take_img_pair_function',
-            'trigger_img_list = surface_scanner.Calibrate_Client:trigger_take_cam_calib_imgs_function'
+            'trigger_img_list = surface_scanner.Calibrate_Client:trigger_take_cam_calib_imgs_function',
+            'trigger_img_pair_stream = surface_scanner.Calibrate_Client:trigger_send_img_pair_stream_function'
         ],
     },
 )

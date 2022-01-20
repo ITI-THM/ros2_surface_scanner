@@ -42,10 +42,8 @@ class Scanner:
 
         self.__calibrated = True
 
-    def generate_pcd(self, surface_img: str, surface_img_laser: str, threshold=50, print_in_plot=False):
-        surface_img = cv.imread(surface_img)
+    def generate_pcd(self, surface_img, surface_img_laser, threshold=50, print_in_plot=False):
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
-        surface_img_laser = cv.imread(surface_img_laser)
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
 
 

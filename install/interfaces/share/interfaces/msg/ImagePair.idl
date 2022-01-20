@@ -7,6 +7,8 @@
 module interfaces {
   module msg {
     struct ImagePair {
+      boolean is_for_laser_calib;
+
       sensor_msgs::msg::Image origin_img;
 
       sensor_msgs::msg::Image laser_img;

@@ -39,7 +39,22 @@ void ImagePair__rosidl_typesupport_introspection_c__ImagePair_fini_function(void
   interfaces__msg__ImagePair__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array[2] = {
+static rosidl_typesupport_introspection_c__MessageMember ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array[3] = {
+  {
+    "is_for_laser_calib",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(interfaces__msg__ImagePair, is_for_laser_calib),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
+  },
   {
     "origin_img",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
@@ -75,7 +90,7 @@ static rosidl_typesupport_introspection_c__MessageMember ImagePair__rosidl_types
 static const rosidl_typesupport_introspection_c__MessageMembers ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_members = {
   "interfaces__msg",  // message namespace
   "ImagePair",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(interfaces__msg__ImagePair),
   ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array,  // message members
   ImagePair__rosidl_typesupport_introspection_c__ImagePair_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -93,9 +108,9 @@ static rosidl_message_type_support_t ImagePair__rosidl_typesupport_introspection
 ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_interfaces
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, interfaces, msg, ImagePair)() {
-  ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array[0].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, sensor_msgs, msg, Image)();
   ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array[1].members_ =
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, sensor_msgs, msg, Image)();
+  ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_member_array[2].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, sensor_msgs, msg, Image)();
   if (!ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_type_support_handle.typesupport_identifier) {
     ImagePair__rosidl_typesupport_introspection_c__ImagePair_message_type_support_handle.typesupport_identifier =

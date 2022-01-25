@@ -24,6 +24,16 @@ inline void to_yaml(
   const interfaces::msg::ImagePair & msg,
   std::ostream & out, size_t indentation = 0)
 {
+  // member: is_for_laser_calib
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "is_for_laser_calib: ";
+    value_to_yaml(msg.is_for_laser_calib, out);
+    out << "\n";
+  }
+
   // member: origin_img
   {
     if (indentation > 0) {

@@ -39,13 +39,29 @@ private:
 class Init_ImagePair_origin_img
 {
 public:
-  Init_ImagePair_origin_img()
-  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  explicit Init_ImagePair_origin_img(::interfaces::msg::ImagePair & msg)
+  : msg_(msg)
   {}
   Init_ImagePair_laser_img origin_img(::interfaces::msg::ImagePair::_origin_img_type arg)
   {
     msg_.origin_img = std::move(arg);
     return Init_ImagePair_laser_img(msg_);
+  }
+
+private:
+  ::interfaces::msg::ImagePair msg_;
+};
+
+class Init_ImagePair_is_for_laser_calib
+{
+public:
+  Init_ImagePair_is_for_laser_calib()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_ImagePair_origin_img is_for_laser_calib(::interfaces::msg::ImagePair::_is_for_laser_calib_type arg)
+  {
+    msg_.is_for_laser_calib = std::move(arg);
+    return Init_ImagePair_origin_img(msg_);
   }
 
 private:
@@ -63,7 +79,7 @@ template<>
 inline
 auto build<::interfaces::msg::ImagePair>()
 {
-  return interfaces::msg::builder::Init_ImagePair_origin_img();
+  return interfaces::msg::builder::Init_ImagePair_is_for_laser_calib();
 }
 
 }  // namespace interfaces

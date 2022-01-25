@@ -41,17 +41,28 @@ struct ImagePair_
   : origin_img(_init),
     laser_img(_init)
   {
-    (void)_init;
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->is_for_laser_calib = false;
+    }
   }
 
   explicit ImagePair_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : origin_img(_alloc, _init),
     laser_img(_alloc, _init)
   {
-    (void)_init;
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
+    {
+      this->is_for_laser_calib = false;
+    }
   }
 
   // field types and members
+  using _is_for_laser_calib_type =
+    bool;
+  _is_for_laser_calib_type is_for_laser_calib;
   using _origin_img_type =
     sensor_msgs::msg::Image_<ContainerAllocator>;
   _origin_img_type origin_img;
@@ -60,6 +71,12 @@ struct ImagePair_
   _laser_img_type laser_img;
 
   // setters for named parameter idiom
+  Type & set__is_for_laser_calib(
+    const bool & _arg)
+  {
+    this->is_for_laser_calib = _arg;
+    return *this;
+  }
   Type & set__origin_img(
     const sensor_msgs::msg::Image_<ContainerAllocator> & _arg)
   {
@@ -115,6 +132,9 @@ struct ImagePair_
   // comparison operators
   bool operator==(const ImagePair_ & other) const
   {
+    if (this->is_for_laser_calib != other.is_for_laser_calib) {
+      return false;
+    }
     if (this->origin_img != other.origin_img) {
       return false;
     }

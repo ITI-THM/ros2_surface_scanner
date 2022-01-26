@@ -1,6 +1,7 @@
 from pypylon import pylon
 import time
-import cv2
+import cv2 as cv
+import numpy as np
 
 
 class LaserCamera:
@@ -34,15 +35,17 @@ class LaserCamera:
     def __del__(self):
         self._camera.StopGrabbing()
         self._camera.Close()
-        cv2.destroyAllWindows()
+        cv.destroyAllWindows()
 
     def showImages(self):
         images = self.getLaserImages()
 
-        cv2.imshow("origin_img", images[0])
-        cv2.imshow("laser_img", images[1])
-        cv2.imshow("diff", cv2.subtract(images[1], images[0]))
-        cv2.imshow("diff_grey", cv2.cvtColor(cv2.subtract(images[1], images[0]) , cv2.COLOR_BGR2GRAY))
+        img_diff = cv.subtract(images[1], images[0])
+
+        cv.imshow("origin_img", images[0])
+        cv.imshow("laser_img", images[1])
+        cv.imshow("diff", img_diff)
+        cv.imshow("diff_grey", cv.cvtColor(img_diff , cv.COLOR_BGR2GRAY))
 
     def getLaserImages(self):
         self._camera.UserOutputValue.SetValue(False)
@@ -74,4 +77,4 @@ class LaserCamera:
 
 cam = LaserCamera()
 cam.showImages()
-cv2.waitKey(0)
+cv.waitKey(0)

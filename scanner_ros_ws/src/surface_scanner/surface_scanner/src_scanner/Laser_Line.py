@@ -29,6 +29,7 @@ def get_line_pixels(diff_img_laser):
     x = np.array([])
     y = np.array([])
 
+    # describes the deviation from the middle point
     mat = np.matrix([
         [1, -1, 1],
         [0, 0, 1],
@@ -37,31 +38,39 @@ def get_line_pixels(diff_img_laser):
     row_index = 0
 
     for row in img_diff:
-        i_max = np.amax(row)
+        print(row)
+        max_intensity = np.amax(row)
+        print(max_intensity)
 
-        if i_max <= 15:
+        # apllying treshold
+        if max_intensity <= 15:
             row_index += 1
             continue
 
-        i_max_pix = np.argwhere(row == i_max)
-        i_max_index: int
+        max_intensity_indices = np.argwhere(row == max_intensity)
 
-        if len(i_max_pix[0]) != 1:
-            i_max_pix = i_max_pix[0]
-            i_max_index = i_max_pix[len(i_max_pix[0]) // 2]
+        if len(max_intensity_indices) > 1:
+            max_intensity_index = max_intensity_indices[len(max_intensity_indices) // 2]
         else:
-            i_max_pix = i_max_pix[0]
-            i_max_index = i_max_pix[0]
+            max_intensity_index = max_intensity_indices[0]
 
-        i_l = int(row[i_max_index - 1])
-        i_r = int(row[i_max_index + 1])
-        i_vec = np.array([i_l, i_max, i_r])
+        max_intensity_index = max_intensity_index[0]
+        print(f"max_intensity_index: {max_intensity_index}")
 
-        abc = np.linalg.solve(mat, i_vec)
+        left_from_max_intensity = row[max_intensity_index - 1]
+        right_from_max_intensity = row[max_intensity_index + 1]
+        intensity_vec = np.array([left_from_max_intensity, max_intensity, right_from_max_intensity])
 
-        i = (-1 * abc[1]) / (2 * abc[0])
-
-        x_coord = i + i_max_index
+        if intensity_vec[0] == intensity_vec[1] == intensity_vec[2]:
+            x_coord = max_intensity_index
+        else:
+            abc = np.linalg.solve(mat, intensity_vec)
+            # calculate zero crossing
+            # 0 = 2a * i + b
+            # -->
+            # i = -b / 2a
+            deviation_from_middle = (-1 * abc[1]) / (2 * abc[0])
+            x_coord = deviation_from_middle + max_intensity_index
 
         x = np.append(x, x_coord)
         y = np.append(y, row_index)
@@ -93,6 +102,7 @@ class LaserLine:
 
             self.__img_laser = cv.subtract(img_with_laser, original_img)
             self.__laser_points = get_line_pixels(self.__img_laser)
+            print(self.__laser_points.shape)
 
             # only for debug-information
             # self.display_laser_line()

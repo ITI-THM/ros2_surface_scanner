@@ -54,23 +54,19 @@ class Surface_Scanner_Node(Node):
             'calibrate_with_import', 
             self.calibrate_with_import_srv_callback)
 
-        # SERVICE: start scan
-        self.start_scan_srv = self.create_service(
-            Trigger, 
-            'scan', 
-            self.start_scan_callback)
-
-        # PUBLISHER: laser plane equation
-        self.laser_plane_publisher = self.create_publisher(
-            PlaneEquation, 
-            'laser_plane', 
-            10)
-
-        # PUBLISHER: point cloud
+        # PUBLISHER: point cloud of surface line
         self.pcd_publisher = self.create_publisher(
             sensor_msgs.PointCloud2, 
             'surface_line', 
             10)
+
+        # PUBLISHER: generated laser plane
+        # ---> Debug-Information
+        self.laser_plane_publisher = self.create_publisher(
+            sensor_msgs.PointCloud2,
+            'laser_plane',
+            10
+        )
 
         # SUBSCRIBER: image pair, one origin and one with laser
         self.img_pair_sub = self.create_subscription(
@@ -126,6 +122,13 @@ class Surface_Scanner_Node(Node):
             calibration_img_laser=self.__laser_img
         )
 
+        # Publish laser lines of laser calibration
+        pcd_laser = self.scanner.make_laser_lines_pcd()
+        points = np.asarray(pcd_laser.points) * 0.01
+        colors = np.asarray(pcd_laser.colors)
+        pcd_laser = point_cloud(points, colors, 'map')
+        self.laser_plane_publisher.publish(pcd_laser)
+
         response.success = True
         response.message = "Laser calibration successful! Laser ready to scan."
 
@@ -160,54 +163,11 @@ class Surface_Scanner_Node(Node):
 
         return response
 
-    def start_scan_callback(self, request, response):
-
-        self.get_logger().info('Incoming request to start scanning!')
-
-        if self.__origin_img is None or self.__laser_img is None:
-            response.success = False
-            response.message = "Scan failed! Recieved no images."
-
-            return response
-
-        if self.scanner.is_laser_calibrated():
-            self.scanner.generate_pcd(
-                surface_img=self.__origin_img,
-                surface_img_laser=self.__laser_img
-            )
-
-            self.get_logger().info(
-                f"My point cloud: ' {self.scanner.get_point_cloud()}'")
-
-            # TODO find right size for the points and remove '* 0.01'
-            points = np.asarray(self.scanner.get_point_cloud().points) * 0.01
-            colors = np.asarray(self.scanner.get_point_cloud().colors)
-
-            pcd = point_cloud(points, colors, 'map')
-            self.pcd_publisher.publish(pcd)
-
-            response.success = True
-            response.message = 'Scan successful finished!'
-
-            self.get_logger().info('Scan successful!')
-
-            return response
-        else:
-            response.success = False
-            response.message = 'Scan failed! \n Laser is not calibrated!'
-
-            self.get_logger().info('Scan failed!')
-
-            return response
-
     def image_pair_callback(self, img_pair):
 
         if img_pair.is_for_laser_calib:
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
-
-            # cv.imshow("test", origin_img)
-            # cv.waitKey(1)
 
             self.__origin_img = origin_img
             self.__laser_img = laser_img

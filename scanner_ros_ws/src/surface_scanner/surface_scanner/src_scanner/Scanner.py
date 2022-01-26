@@ -74,6 +74,8 @@ class Scanner:
 
         self.__surface.points = o3d.utility.Vector3dVector(points_surface.T)
 
+        print(surface_line.get_laser_points())
+
         self.__set_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
 
     def display_pcd(self, with_laser: bool = False):
@@ -83,8 +85,7 @@ class Scanner:
                 origin=[0, 0, 0]
             )
             if with_laser:
-                pcd_laser = o3d.geometry.PointCloud()
-                pcd_laser.points = o3d.utility.Vector3dVector(self.__laser.get_plane_points().T)
+                pcd_laser = self.make_laser_lines_pcd()
                 o3d.visualization.draw_geometries([self.__surface, pcd_laser, coordinate_axis])
             else:
                 o3d.visualization.draw_geometries([self.__surface, coordinate_axis])
@@ -189,7 +190,8 @@ class Scanner:
         # print("INFO: 'down' ready!")
 
         self.__laser.make_plane_eq(camera_matrix=self.__camera.get_mtx())
-        print(f"INFO: Laser-plane calibrated with equation: '{self.__laser.get_plane_eq()}'!")
+        plane_eq = self.__laser.get_plane_eq()
+        print(f"INFO: Laser-plane calibrated with equation: '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
         return True
 
     def __get_pose_in_charuco_board(self, aruco_params, board, dictionary, img):
@@ -266,6 +268,30 @@ class Scanner:
 
         # set the colors in the point cloud
         self.__surface.colors = o3d.utility.Vector3dVector(color_values)
+
+    def make_laser_lines_pcd(self):
+
+        # generate sample laser plane
+        x_values = np.array(range(200, 500))
+        y_values = np.array(range(200, 500))
+        plane_eq = self.__laser.get_plane_eq()
+
+        x, y = np.meshgrid(x_values, y_values)
+
+        x = x.reshape(-1)
+        y = y.reshape(-1)
+
+        z = (-plane_eq[3] - (plane_eq[0] * x) - (plane_eq[1] * y)) / plane_eq[2]
+
+        xyz = np.vstack([x, y, z]).T
+
+        # add the generated laser lines
+        sample_plane_with_laser_lines = np.append(xyz, self.__laser.get_plane_points().T, axis=0)
+
+        pcd_laser = o3d.geometry.PointCloud()
+        pcd_laser.points = o3d.utility.Vector3dVector(sample_plane_with_laser_lines)
+        pcd_laser.paint_uniform_color([1, 0, 0])
+        return pcd_laser
 
     def get_point_cloud(self):
         return self.__surface

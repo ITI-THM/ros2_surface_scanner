@@ -116,7 +116,7 @@ class Camera_Node(Node):
         images = []
 
         for name in image_names:
-            img = cv.imread(f'/home/tristan/Praktikum/git/ros2_surface_scanner/scanner_ros_ws/src/surface_scanner/data/images/calibration/{name}')
+            img = cv.imread(f'/home/tristan/Praktikum/calib_imgs/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 
@@ -178,7 +178,7 @@ class Camera_Node(Node):
 
         self.__camera.UserOutputValue.SetValue(False)
 
-        time.sleep(0.01)
+        time.sleep(0.2)
 
         if self.__camera.GetGrabResultWaitObject().Wait(0):
             self.get_logger().info("Grab results wait in the output queue.")
@@ -186,7 +186,7 @@ class Camera_Node(Node):
         images = []
         for i in range(2):
             result = self.__camera.RetrieveResult(
-                0, pylon.TimeoutHandling_Return)
+                200 , pylon.TimeoutHandling_ThrowException)
             image = self.__converter.Convert(result)
             images.append(image.GetArray())
 

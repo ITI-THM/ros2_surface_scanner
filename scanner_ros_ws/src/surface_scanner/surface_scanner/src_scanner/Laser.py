@@ -40,11 +40,9 @@ def plane_fit_with_pyransac3d(points):
 def plane_fit_with_svd(points):
     svd = np.linalg.svd(points - np.mean(points, axis=1, keepdims=True))
 
-    plane = svd[0][:, -1]#
+    plane = svd[0][:, -1]
 
-    print(points.shape[1])
-
-    # insert one random point to get D for plane equation like X + Y + Z + D = 0
+    # insert one random point to get D for plane equation like Ax + By + Cz + D = 0
     plane = np.append(
         plane,
         plane @ points.T[

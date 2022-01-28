@@ -103,5 +103,5 @@ class Camera:
         print(f"INFO: Camera calibration finished with camera matrix: \n {self.__mtx}!")
 
         if save_data_in_npz:
-            np.savez_compressed('../data/camera_params/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+            np.savez_compressed('/home/tristan/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
             print("INFO: Camera-Params saved in 'camera_params.npz'!")

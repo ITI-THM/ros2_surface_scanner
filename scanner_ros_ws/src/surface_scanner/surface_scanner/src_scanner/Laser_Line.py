@@ -1,3 +1,4 @@
+from cv2 import THRESH_OTSU
 import numpy as np
 import cv2 as cv
 
@@ -35,14 +36,16 @@ def get_line_pixels(diff_img_laser):
         [0, 0, 1],
         [1, 1, 1]])
 
+    # calculate threshold with otsu
+    threshold, binary_img = cv.threshold(img_diff, 0, 255, cv.THRESH_BINARY+THRESH_OTSU)
+    print(f"INFO: calculated threshold is: {threshold}")
+
     row_index = 0
 
     for row in img_diff:
-        print(row)
         max_intensity = np.amax(row)
-        print(max_intensity)
 
-        # apllying treshold
+        # apllying threshold
         if max_intensity <= 15:
             row_index += 1
             continue
@@ -55,7 +58,6 @@ def get_line_pixels(diff_img_laser):
             max_intensity_index = max_intensity_indices[0]
 
         max_intensity_index = max_intensity_index[0]
-        print(f"max_intensity_index: {max_intensity_index}")
 
         left_from_max_intensity = row[max_intensity_index - 1]
         right_from_max_intensity = row[max_intensity_index + 1]
@@ -102,7 +104,6 @@ class LaserLine:
 
             self.__img_laser = cv.subtract(img_with_laser, original_img)
             self.__laser_points = get_line_pixels(self.__img_laser)
-            print(self.__laser_points.shape)
 
             # only for debug-information
             # self.display_laser_line()

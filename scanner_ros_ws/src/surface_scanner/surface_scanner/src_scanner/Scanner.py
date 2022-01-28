@@ -74,9 +74,8 @@ class Scanner:
 
         self.__surface.points = o3d.utility.Vector3dVector(points_surface.T)
 
-        print(surface_line.get_laser_points())
-
         self.__set_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
+        print("INFO: Finished point cloud generation!")
 
     def display_pcd(self, with_laser: bool = False):
         if len(self.__surface.points) != 0:
@@ -191,7 +190,7 @@ class Scanner:
 
         self.__laser.make_plane_eq(camera_matrix=self.__camera.get_mtx())
         plane_eq = self.__laser.get_plane_eq()
-        print(f"INFO: Laser-plane calibrated with equation: '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
+        print(f"INFO: Laser-plane calibrated with equation: \n '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
         return True
 
     def __get_pose_in_charuco_board(self, aruco_params, board, dictionary, img):
@@ -271,9 +270,9 @@ class Scanner:
 
     def make_laser_lines_pcd(self):
 
-        # generate sample laser plane
-        x_values = np.array(range(200, 500))
-        y_values = np.array(range(200, 500))
+        # generate sample laser plane 600 x 600
+        x_values = np.array(range(-300, 300, 2))
+        y_values = np.array(range(-300, 300, 2))
         plane_eq = self.__laser.get_plane_eq()
 
         x, y = np.meshgrid(x_values, y_values)

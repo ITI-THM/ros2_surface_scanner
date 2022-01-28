@@ -100,24 +100,24 @@ class Surface_Scanner_Node(Node):
 
         if self.__calib_imgs is None:
             response.success = False
-            response.message = "Laser calibration cancelled! Missing images for intrinsic camera calibration."
+            response.message = "Scanner calibration cancelled! Missing images for intrinsic camera calibration."
 
             return response    
 
         if self.__origin_img is None or self.__laser_img is None:
             response.success = False
-            response.message = "Laser calibration cancelled! Missing images for laser calibration!."
+            response.message = "Scanner calibration cancelled! Missing images for laser calibration."
 
             return response
 
         self.get_logger().info('Incoming request for scanner calibration!')
-        self.get_logger().info('Starting to calibrate laser!')
         self.get_logger().info(f'Holding list of {len(self.__calib_imgs)} images for intrinsic calibration.')
         self.get_logger().info(f'Holding two images to calibrate laser with shape [{self.__origin_img.shape}, {self.__laser_img.shape}]')
 
+        # scanner object calibrates laser
         self.scanner.calibrate_scanner(
             pictures=self.__calib_imgs,
-            safe_data_in_npz=False,
+            safe_data_in_npz=True,
             calibration_img=self.__origin_img,
             calibration_img_laser=self.__laser_img
         )
@@ -128,9 +128,10 @@ class Surface_Scanner_Node(Node):
         colors = np.asarray(pcd_laser.colors)
         pcd_laser = point_cloud(points, colors, 'map')
         self.laser_plane_publisher.publish(pcd_laser)
+        self.get_logger().info("Publishing point cloud to display the laser plane! -> Topic: laser_plane")
 
         response.success = True
-        response.message = "Laser calibration successful! Laser ready to scan."
+        response.message = "Scanner calibration successful! Ready to scan."
 
         self.refresh_calib_imgs_field()
         self.refresh_img_pair_fields()
@@ -138,15 +139,16 @@ class Surface_Scanner_Node(Node):
         return response
 
     def calibrate_with_import_srv_callback(self, request, response):
-        self.get_logger().info('Incoming request to calibrate laser')
-
         path = request.file
 
         if self.__origin_img is None or self.__laser_img is None:
             response.success = False
-            response.message = "Laser calibration failed! Recieved no images."
+            response.message = "Scanner calibration cancelled! Missing images for laser calibration."
 
             return response
+
+        self.get_logger().info('Incoming request for scanner calibration with import of camera parameters!')
+        self.get_logger().info(f'Holding two images to calibrate laser with shape [{self.__origin_img.shape}, {self.__laser_img.shape}]')
 
         # scanner object calibrates laser
         self.scanner.calibrate_scanner_with_import(
@@ -155,10 +157,20 @@ class Surface_Scanner_Node(Node):
             calibration_img_laser=self.__laser_img
         )
 
+        # Publish laser lines of laser calibration
+        pcd_laser = self.scanner.make_laser_lines_pcd()
+        points = np.asarray(pcd_laser.points) * 0.01
+        colors = np.asarray(pcd_laser.colors)
+        pcd_laser = point_cloud(points, colors, 'map')
+        self.laser_plane_publisher.publish(pcd_laser)
+        self.get_logger().info("Publishing point cloud to display the laser plane! -> Topic: laser_plane")
+
+
         # fill response
         response.success = True
-        response.message = "Finished laser calibration!"
+        response.message = "Scanner calibration successful! Ready to scan."
 
+        self.refresh_calib_imgs_field()
         self.refresh_img_pair_fields()
 
         return response
@@ -169,24 +181,24 @@ class Surface_Scanner_Node(Node):
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
 
+            # origin_img = cv.imread("/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser0.png")
+            # laser_img = cv.imread("/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser1.png")
+
             self.__origin_img = origin_img
             self.__laser_img = laser_img
-            self.get_logger().info(f'Recieved images! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
+            self.get_logger().info(f'Recieved image pair to calibrate laser! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
         else:
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
 
             self.__origin_img = origin_img
             self.__laser_img = laser_img
-            self.get_logger().info(f'Recieved images! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
+            self.get_logger().info(f'Recieved image pair to generate surface point cloud! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
             
             self.scanner.generate_pcd(
                 surface_img=self.__origin_img,
                 surface_img_laser=self.__laser_img
             )
-
-            self.get_logger().info(
-                f"My point cloud: ' {self.scanner.get_point_cloud()}'")
 
             # TODO find right size for the points and remove '* 0.01'
             points = np.asarray(self.scanner.get_point_cloud().points) * 0.01
@@ -195,6 +207,9 @@ class Surface_Scanner_Node(Node):
             pcd = point_cloud(points, colors, 'map')
             self.pcd_publisher.publish(pcd)
 
+            self.get_logger().info(
+                f"Publish genrated point cloud: ' {self.scanner.get_point_cloud()}'")
+
             self.refresh_img_pair_fields()
 
     def cam_calib_imgs_callback(self, imgs):
@@ -202,7 +217,7 @@ class Surface_Scanner_Node(Node):
         for index in range(0, len(imgs.imgs)):
             self.__calib_imgs.append(self.cv_bridge.imgmsg_to_cv2(imgs.imgs[index]))
         print(self.__calib_imgs[0].shape)
-        self.get_logger().info(f"Recieved list with {len(self.__calib_imgs)} images!")
+        self.get_logger().info(f"Recieved list with {len(self.__calib_imgs)} images for intrinsic camera calibration!")
 
     def refresh_img_pair_fields(self):
         self.__origin_img = None

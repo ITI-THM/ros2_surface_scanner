@@ -27,20 +27,20 @@ class Scanner:
                           calibration_img_laser):
 
         self.__camera.calibrate_camera(pictures=pictures, save_data_in_npz=safe_data_in_npz)
-        self.__calibrate_laser(calibration_img=calibration_img,
+        control_flag = self.__calibrate_laser(calibration_img=calibration_img,
                                calibration_img_with_laser=calibration_img_laser)
         
-        self.__calibrated = True
+        self.__calibrated = control_flag
 
     def calibrate_scanner_with_import(self,
                                       src: str,
                                       calibration_img,
                                       calibration_img_laser):
         self.__camera.import_camera_params(src=src)
-        self.__calibrate_laser(calibration_img=calibration_img,
+        control_flag = self.__calibrate_laser(calibration_img=calibration_img,
                                calibration_img_with_laser=calibration_img_laser)
 
-        self.__calibrated = True
+        self.__calibrated = control_flag
 
     def generate_pcd(self, surface_img, surface_img_laser, threshold=50, print_in_plot=False):
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
@@ -63,16 +63,29 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
-        points_surface = world2cam(
-            pts=points_surface,
-            rot_matrix=surface_line.get_rvec(),
-            trans=surface_line.get_tvec()
-        )
+        plane_eq = self.__laser.get_plane_eq()
+        cam_mtx = self.__camera.get_mtx()
+        points = surface_line.get_laser_points()
+
+        points_cam = np.linalg.inv(cam_mtx) @ points
+
+        x = points_cam[0] * 420
+        y = points_cam[1] * 420
+
+        z = ((-plane_eq[3] - (plane_eq[0] * x) - (plane_eq[1] * y)) / plane_eq[2])
+
+        xyz = np.vstack([x, y, z]).T * -1
+
+        # points_surface = world2cam(
+        #     pts=points_surface,
+        #     rot_matrix=surface_line.get_rvec(),
+        #     trans=surface_line.get_tvec()
+        # )
 
         if print_in_plot:
             self.__generate_plot(surface_points=points_surface)
 
-        self.__surface.points = o3d.utility.Vector3dVector(points_surface.T)
+        self.__surface.points = o3d.utility.Vector3dVector(xyz)
 
         self.__set_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
         print("INFO: Finished point cloud generation!")
@@ -253,7 +266,10 @@ class Scanner:
 
             # get colors
             color_rounded_pix = np.flip(np.array([img_original[int(pts[1])][int(pts[0])] / 255]))
-            color_next_pix = np.flip(np.array([img_original[int(pts[1])][int(pts[0]) + 1] / 255]))
+            if int(pts[0]) >= img_original.shape[1] - 1:
+                color_next_pix = color_rounded_pix
+            else:
+                color_next_pix = np.flip(np.array([img_original[int(pts[1])][int(pts[0]) + 1] / 255]))
 
             # calculate the weighted color
             weighted_color = (color_rounded_pix * decimal_place_reverse) + (color_next_pix * decimal_place)
@@ -295,5 +311,5 @@ class Scanner:
     def get_point_cloud(self):
         return self.__surface
 
-    def is_laser_calibrated(self):
+    def is_scanner_calibrated(self):
         return self.__calibrated

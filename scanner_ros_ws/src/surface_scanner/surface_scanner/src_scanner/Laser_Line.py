@@ -46,7 +46,7 @@ def get_line_pixels(diff_img_laser):
         max_intensity = np.amax(row)
 
         # apllying threshold
-        if max_intensity <= 15:
+        if max_intensity <= threshold:
             row_index += 1
             continue
 
@@ -59,8 +59,14 @@ def get_line_pixels(diff_img_laser):
 
         max_intensity_index = max_intensity_index[0]
 
-        left_from_max_intensity = row[max_intensity_index - 1]
-        right_from_max_intensity = row[max_intensity_index + 1]
+        if max_intensity_index - 1 < 0:
+            left_from_max_intensity = max_intensity
+        else:
+            left_from_max_intensity = row[max_intensity_index - 1]
+        if max_intensity_index + 1 == len(row):
+            right_from_max_intensity = max_intensity
+        else:
+            right_from_max_intensity = row[max_intensity_index + 1]
         intensity_vec = np.array([left_from_max_intensity, max_intensity, right_from_max_intensity])
 
         if intensity_vec[0] == intensity_vec[1] == intensity_vec[2]:

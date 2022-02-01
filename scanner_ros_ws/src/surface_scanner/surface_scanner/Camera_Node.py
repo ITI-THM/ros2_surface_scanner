@@ -141,7 +141,7 @@ class Camera_Node(Node):
             laser_img = self.bridge.cv2_to_imgmsg(images[1])
 
             cv.imshow('title', images[1])
-            k = cv.waitKey(1)
+            exit_key = cv.waitKey(1)
 
             image_pair_msg = ImagePair()
             image_pair_msg.is_for_laser_calib = False
@@ -151,7 +151,7 @@ class Camera_Node(Node):
             self.get_logger().info("Publishing image pair!")
 
             self.img_pair_publisher.publish(image_pair_msg)
-            if k == 27:
+            if exit_key == 27:
                 break
 
         response.success = True

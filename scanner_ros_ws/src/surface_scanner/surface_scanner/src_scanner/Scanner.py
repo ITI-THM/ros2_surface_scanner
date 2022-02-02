@@ -50,8 +50,8 @@ class Scanner:
         surface_line = LaserLine(
             original_img=surface_img,
             img_with_laser=surface_img_laser,
-            rvec=self.__camera.get_rot(0),
-            tvec=self.__camera.get_trans(0),
+            rvec=self.__laser.get_up().get_rvec(),
+            tvec=self.__laser.get_up().get_tvec(),
             threshold=threshold
         )
 
@@ -76,16 +76,16 @@ class Scanner:
 
         xyz = np.vstack([x, y, z]).T * -1
 
-        # points_surface = world2cam(
-        #     pts=points_surface,
-        #     rot_matrix=surface_line.get_rvec(),
-        #     trans=surface_line.get_tvec()
-        # )
+        points_surface = world2cam(
+            pts=points_surface,
+            rot_matrix=surface_line.get_rvec(),
+            trans=surface_line.get_tvec()
+        )
 
         if print_in_plot:
             self.__generate_plot(surface_points=points_surface)
 
-        self.__surface.points = o3d.utility.Vector3dVector(xyz)
+        self.__surface.points = o3d.utility.Vector3dVector(points_surface.T)
 
         self.__set_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
         print("INFO: Finished point cloud generation!")
@@ -149,9 +149,9 @@ class Scanner:
         aruco_dict_primary = aruco.Dictionary_get(aruco.DICT_4X4_50)
         aruco_dict_secondary = aruco.Dictionary_get(aruco.DICT_5X5_50)
         aruco_params = aruco.DetectorParameters_create()
-        board_primary = aruco.CharucoBoard_create(squaresX=7, squaresY=5, squareLength=25, markerLength=19,
+        board_primary = aruco.CharucoBoard_create(squaresX=7, squaresY=5, squareLength=0.025, markerLength=0.019,
                                                   dictionary=aruco_dict_primary)
-        board_secondary = aruco.CharucoBoard_create(squaresX=7, squaresY=5, squareLength=25, markerLength=19,
+        board_secondary = aruco.CharucoBoard_create(squaresX=7, squaresY=5, squareLength=0.025, markerLength=0.019,
                                                     dictionary=aruco_dict_secondary)
 
         # Get pose of the first board
@@ -287,8 +287,8 @@ class Scanner:
     def make_laser_lines_pcd(self):
 
         # generate sample laser plane 600 x 600
-        x_values = np.array(range(-300, 300, 2))
-        y_values = np.array(range(-300, 300, 2))
+        x_values = np.array(range(-100, 100, 2)) / 10
+        y_values = np.array(range(-100, 100, 2)) / 10
         plane_eq = self.__laser.get_plane_eq()
 
         x, y = np.meshgrid(x_values, y_values)
@@ -303,8 +303,14 @@ class Scanner:
         # add the generated laser lines
         sample_plane_with_laser_lines = np.append(xyz, self.__laser.get_plane_points().T, axis=0)
 
+        sample_plane_with_laser_lines = world2cam(
+            pts=sample_plane_with_laser_lines.T,
+            rot_matrix=self.__laser.get_up().get_rvec(),
+            trans=self.__laser.get_up().get_tvec()
+        )
+
         pcd_laser = o3d.geometry.PointCloud()
-        pcd_laser.points = o3d.utility.Vector3dVector(sample_plane_with_laser_lines)
+        pcd_laser.points = o3d.utility.Vector3dVector(sample_plane_with_laser_lines.T)
         pcd_laser.paint_uniform_color([1, 0, 0])
         return pcd_laser
 

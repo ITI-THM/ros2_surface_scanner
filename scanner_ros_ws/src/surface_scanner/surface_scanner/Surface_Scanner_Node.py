@@ -130,7 +130,7 @@ class Surface_Scanner_Node(Node):
 
         # Publish laser lines of laser calibration
         pcd_laser = self.scanner.make_laser_lines_pcd()
-        points = np.asarray(pcd_laser.points) * 0.01
+        points = np.asarray(pcd_laser.points)
         colors = np.asarray(pcd_laser.colors)
         pcd_laser = point_cloud(points, colors, 'map')
         self.laser_plane_publisher.publish(pcd_laser)
@@ -171,7 +171,7 @@ class Surface_Scanner_Node(Node):
 
         # Publish laser lines of laser calibration
         pcd_laser = self.scanner.make_laser_lines_pcd()
-        points = np.asarray(pcd_laser.points) # * 0.01
+        points = np.asarray(pcd_laser.points)
         colors = np.asarray(pcd_laser.colors)
         pcd_laser = point_cloud(points, colors, 'map')
         self.laser_plane_publisher.publish(pcd_laser)
@@ -213,8 +213,7 @@ class Surface_Scanner_Node(Node):
                     surface_img_laser=self.__laser_img
                 )
 
-                # TODO find right size for the points and remove '* 0.01'
-                points = np.asarray(self.scanner.get_point_cloud().points) # * 0.01
+                points = np.asarray(self.scanner.get_point_cloud().points)
                 colors = np.asarray(self.scanner.get_point_cloud().colors)
 
                 pcd = point_cloud(points, colors, 'map')

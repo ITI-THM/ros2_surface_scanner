@@ -41,13 +41,12 @@ def plane_fit_with_svd(points):
     svd = np.linalg.svd(points - np.mean(points, axis=1, keepdims=True))
 
     plane = svd[0][:, -1]
+    random_point = points.T[np.random.randint(0, points.shape[1])]
 
     # insert one random point to get D for plane equation like Ax + By + Cz + D = 0
     plane = np.append(
-        plane,
-        plane @ points.T[
-            np.random.randint(0, points.shape[1])
-        ]
+        plane, # A B C
+        - random_point @ plane # D
     )
 
     return plane
@@ -71,8 +70,14 @@ class Laser:
     def get_plane_points(self):
         return self.__points
 
+    def get_up(self):
+        return self.__up
+
     def set_up(self, up: LaserLine):
         self.__up = up
+
+    def get_down(self):
+        return self.__down
 
     def set_down(self, down: LaserLine):
         self.__down = down
@@ -114,11 +119,11 @@ class Laser:
             trans=self.__down.get_tvec()
         )
 
-        pts_up_cam = world2cam(
-            pts=pts_up,
-            trans=self.__up.get_tvec(),
-            rot_matrix=self.__up.get_rvec()
-        )
+        # pts_up_cam = world2cam(
+        #     pts=pts_up,
+        #     trans=self.__up.get_tvec(),
+        #     rot_matrix=self.__up.get_rvec()
+        # )
 
         pts_down_cam = world2cam(
             pts=pts_down,
@@ -126,7 +131,13 @@ class Laser:
             rot_matrix=self.__down.get_rvec()
         )
 
-        self.__points = np.append(pts_up_cam, pts_down_cam, axis=1)
+        pts_down_up = cam2world(
+            pts=pts_down_cam,
+            trans=self.__up.get_tvec(),
+            rot_matrix=self.__up.get_rvec()
+        )
+
+        self.__points = np.append(pts_up, pts_down_up, axis=1)
 
     def __fit_plane(self):
         self.__plane_eq = plane_fit_with_svd(self.__points)

@@ -26,6 +26,7 @@ def extracting_laser_line(laser_img, threshold: int):
 
 def get_line_pixels(diff_img_laser):
     img_diff = cv.cvtColor(diff_img_laser, cv.COLOR_BGR2GRAY)
+    img_diff = cv.GaussianBlur(img_diff, (5, 5), 0)
 
     x = np.array([])
     y = np.array([])

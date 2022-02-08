@@ -18,7 +18,10 @@ class Scanner:
         self.__camera: Camera = Camera()
         self.__laser: Laser = Laser()
         self.__surface: o3d.geometry.PointCloud = o3d.geometry.PointCloud()
+        self.__surface_points = np.empty((3, 0))
+        self.__surface_colors = np.empty((0, 3))
         self.__calibrated: bool = False
+        self.__x_step: int = 0
 
     def calibrate_scanner(self,
                           pictures,
@@ -31,6 +34,7 @@ class Scanner:
                                calibration_img_with_laser=calibration_img_laser)
         
         self.__calibrated = control_flag
+        self.__x_step = 0
 
     def calibrate_scanner_with_import(self,
                                       src: str,
@@ -41,11 +45,15 @@ class Scanner:
                                calibration_img_with_laser=calibration_img_laser)
 
         self.__calibrated = control_flag
+        self.__x_step = 0
 
     def generate_pcd(self, surface_img, surface_img_laser, threshold=50, print_in_plot=False):
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
 
+        # undistort surface images
+        surface_img = cv.undistort(surface_img, self.__camera.get_mtx(), self.__camera.get_dist(), None)
+        surface_img_laser = cv.undistort(surface_img_laser, self.__camera.get_mtx(), self.__camera.get_dist(), None)
 
         surface_line = LaserLine(
             original_img=surface_img,
@@ -63,31 +71,30 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
-        plane_eq = self.__laser.get_plane_eq()
-        cam_mtx = self.__camera.get_mtx()
-        points = surface_line.get_laser_points()
+        points_surface[0] = points_surface[0] + (self.__x_step * 0.001)
 
-        points_cam = np.linalg.inv(cam_mtx) @ points
-
-        x = points_cam[0] * 420
-        y = points_cam[1] * 420
-
-        z = ((-plane_eq[3] - (plane_eq[0] * x) - (plane_eq[1] * y)) / plane_eq[2])
-
-        xyz = np.vstack([x, y, z]).T * -1
-
-        points_surface = world2cam(
+        points_surface_cam = world2cam(
             pts=points_surface,
             rot_matrix=surface_line.get_rvec(),
             trans=surface_line.get_tvec()
         )
 
+        self.__surface_points = np.append(self.__surface_points, points_surface_cam, axis=1)
+        self.__surface_colors = np.append(self.__surface_colors, self.__get_pixel_colors(
+            pts_laser=surface_line.get_laser_points().T, 
+            img_original=surface_img), axis=0
+        )
+
         if print_in_plot:
-            self.__generate_plot(surface_points=points_surface)
+            self.__generate_plot(surface_points=points_surface_cam)
 
-        self.__surface.points = o3d.utility.Vector3dVector(points_surface.T)
+        self.refresh_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
 
-        self.__set_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
+        # self.__surface.points = o3d.utility.Vector3dVector(points_surface_cam.T)
+
+        # self.__get_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
+
+        self.__x_step += 1
         print("INFO: Finished point cloud generation!")
 
     def display_pcd(self, with_laser: bool = False):
@@ -144,6 +151,10 @@ class Scanner:
 
         charuco_board_laser = calibration_img_with_laser
         assert charuco_board_laser is not None, "Image at 'charuco_board_laser' could not ne loaded!"
+
+        # undistort calibration images
+        charuco_board = cv.undistort(charuco_board, self.__camera.get_mtx(), self.__camera.get_dist(), None)
+        charuco_board_laser = cv.undistort(charuco_board_laser, self.__camera.get_mtx(), self.__camera.get_dist(), None)
 
         # Create parameter for detecting the boards
         aruco_dict_primary = aruco.Dictionary_get(aruco.DICT_4X4_50)
@@ -248,7 +259,7 @@ class Scanner:
         else:
             return control_flag, [], [], charuco_mask
 
-    def __set_pixel_colors(self, pts_laser, img_original):
+    def __get_pixel_colors(self, pts_laser, img_original):
 
         """
         Method generates weighted color-values for every point of the Laser-Line by checking the original image (image
@@ -281,14 +292,16 @@ class Scanner:
                 axis=0
             )
 
+        return color_values
+
         # set the colors in the point cloud
-        self.__surface.colors = o3d.utility.Vector3dVector(color_values)
+        # self.__surface.colors = o3d.utility.Vector3dVector(color_values)
 
     def make_laser_lines_pcd(self):
 
-        # generate sample laser plane 600 x 600
-        x_values = np.array(range(-100, 100, 2)) / 10
-        y_values = np.array(range(-100, 100, 2)) / 10
+        # generate sample laser plane 200 x 200
+        x_values = np.array(range(-100, 100, 2)) / 1000
+        y_values = np.array(range(-100, 100, 2)) / 1000
         plane_eq = self.__laser.get_plane_eq()
 
         x, y = np.meshgrid(x_values, y_values)
@@ -319,3 +332,7 @@ class Scanner:
 
     def is_scanner_calibrated(self):
         return self.__calibrated
+
+    def refresh_pcd(self, points, colors):
+        self.__surface.points = o3d.utility.Vector3dVector(points)
+        self.__surface.colors = o3d.utility.Vector3dVector(colors)

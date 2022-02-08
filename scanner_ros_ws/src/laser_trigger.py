@@ -38,11 +38,26 @@ class LaserCamera:
         cv.destroyAllWindows()
 
     def showImages(self):
+        # unpack file with camera params
+        loaded_file = np.load('/home/tristan/camera_params.npz')
+
+        # fill camera params
+        mtx = loaded_file['mtx']
+        dist = loaded_file['dist']
+        rvecs = loaded_file['rvecs']
+        tvecs = loaded_file['tvecs']
+
         images = self.getLaserImages()
 
-        img_diff = cv.subtract(images[1], images[0])
+        origin = images[0]
+        origin = cv.undistort(origin, mtx, dist, None)
+        laser = images[1]
+        laser = cv.undistort(laser, mtx, dist, None)
 
-        cv.imshow("origin_img", images[0])
+
+        img_diff = cv.subtract(laser, origin)
+
+        cv.imshow("origin_img", laser)
         cv.imshow("laser_img", images[1])
         cv.imshow("diff", img_diff)
         cv.imshow("diff_grey", cv.cvtColor(img_diff , cv.COLOR_BGR2GRAY))

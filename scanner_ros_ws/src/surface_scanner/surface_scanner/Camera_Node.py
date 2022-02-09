@@ -11,6 +11,7 @@ from interfaces.msg import CameraCalibrationImgs
 import cv2 as cv
 import numpy as np
 from pypylon import pylon
+import serial
 import time
 
 class Camera_Node(Node):
@@ -19,6 +20,16 @@ class Camera_Node(Node):
         super().__init__('camera_node')
 
         self.bridge = CvBridge()
+
+        self.SERIAL_CONNECTION = serial.Serial("/dev/ttyACM0", 115200)
+        self.get_logger().info("Established serial connection!")
+        in_bytes = '\r\n\r\n'.encode('utf-8')
+        self.SERIAL_CONNECTION.write(in_bytes)
+        time.sleep(1)
+        self.SERIAL_CONNECTION.flushInput()
+
+        self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
+        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
 
         # CAMERA: setup camera settings!
         self.__camera = pylon.InstantCamera(
@@ -29,7 +40,7 @@ class Camera_Node(Node):
             pylon.RegistrationMode_ReplaceAll,
             pylon.Cleanup_Delete
         )
-        self.get_logger().info(f"Using device {self.__camera.GetDeviceInfo().GetModelName()}")
+        self.get_logger().info(f"Using camera device {self.__camera.GetDeviceInfo().GetModelName()}")
 
         self.__camera.MaxNumBuffer = 5
         self.__camera.Open()
@@ -88,6 +99,11 @@ class Camera_Node(Node):
     # Callback functions:
 
     def send_img_pair(self, request, response):
+
+        # self.SERIAL_CONNECTION.write('G1 Y150 F1000 \n'.encode('utf-8'))
+
+        # time.sleep(18)
+
         images = self.__getLaserImages()
 
         # origin_img = cv.imread('/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser0.png')
@@ -104,6 +120,10 @@ class Camera_Node(Node):
 
         response.success = True
         response.message = "Successfully send images!"
+
+        # self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
+        # self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
+
         return response
 
     def send_cam_calib_imgs(self, request, response):
@@ -134,7 +154,12 @@ class Camera_Node(Node):
 
     def img_pair_stream(self, request, response):
 
-        while self.__camera.IsGrabbing():
+        for mm_step in range(0, 290):
+
+            self.SERIAL_CONNECTION.write('G1 Y1 F3000 \n'.encode('utf-8'))
+
+            time.sleep(0.5)
+
             images = self.__getLaserImages()
 
             origin_img = self.bridge.cv2_to_imgmsg(images[0])
@@ -148,11 +173,12 @@ class Camera_Node(Node):
             image_pair_msg.origin_img = origin_img
             image_pair_msg.laser_img = laser_img
 
-            self.get_logger().info("Publishing image pair!")
+            self.get_logger().info(f"Publishing image pair for x-length: {mm_step + 1}!")
 
             self.img_pair_publisher.publish(image_pair_msg)
-            if exit_key == 27:
-                break
+
+        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
+        time.sleep(36)
 
         response.success = True
         response.message = "Successfully sending images!"
@@ -167,7 +193,7 @@ class Camera_Node(Node):
 
     def __getLaserImages(self):
         self.__camera.UserOutputValue.SetValue(False)
-        time.sleep(0.01)
+        # time.sleep(0.01)
         for i in range(2):
             if self.__camera.WaitForFrameTriggerReady(200, pylon.TimeoutHandling_ThrowException):
                 if i > 0:
@@ -178,7 +204,7 @@ class Camera_Node(Node):
 
         self.__camera.UserOutputValue.SetValue(False)
 
-        time.sleep(0.2)
+        # stime.sleep(0.2)
 
         if self.__camera.GetGrabResultWaitObject().Wait(0):
             self.get_logger().info("Grab results wait in the output queue.")

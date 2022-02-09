@@ -64,7 +64,7 @@ class LaserCamera:
 
     def getLaserImages(self):
         self._camera.UserOutputValue.SetValue(False)
-        time.sleep(0.05)
+        # time.sleep(0.05)
         for i in range(2):
             if self._camera.WaitForFrameTriggerReady(200, pylon.TimeoutHandling_ThrowException):
                 if i > 0:
@@ -75,7 +75,7 @@ class LaserCamera:
 
         self._camera.UserOutputValue.SetValue(False)
 
-        time.sleep(0.2)
+        # time.sleep(0.2)
 
         if self._camera.GetGrabResultWaitObject().Wait(0):
             print("Grab results wait in the output queue.")

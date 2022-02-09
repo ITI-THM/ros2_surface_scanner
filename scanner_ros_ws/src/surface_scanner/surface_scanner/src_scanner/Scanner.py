@@ -71,7 +71,7 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
-        points_surface[0] = points_surface[0] + (self.__x_step * 0.001)
+        points_surface[0] = points_surface[0] - (self.__x_step * 0.001)
 
         points_surface_cam = world2cam(
             pts=points_surface,
@@ -336,3 +336,7 @@ class Scanner:
     def refresh_pcd(self, points, colors):
         self.__surface.points = o3d.utility.Vector3dVector(points)
         self.__surface.colors = o3d.utility.Vector3dVector(colors)
+
+    def reset_pcd(self):
+        self.__x_step = 0
+        self.__surface = o3d.geometry.PointCloud()

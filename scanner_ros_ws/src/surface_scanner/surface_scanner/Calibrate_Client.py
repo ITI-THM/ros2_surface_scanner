@@ -79,6 +79,19 @@ class Trigger_Take_Cam_Calib_Imgs(Node):
         self.future = self.client.call_async(self.request)
 
 
+class Save_Pcd(Node):
+
+    def __init__(self):
+        super().__init__('save_pcd_node')
+        self.client = self.create_client(Trigger, 'save_pcd')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('surface_node not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+
 def calibrate_client_function(args=None):
     rclpy.init(args=args)
 
@@ -226,6 +239,36 @@ def trigger_send_img_pair_stream_function(args=None):
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
     trigger_client.destroy_node()
+    rclpy.shutdown()
+
+
+def save_pcd_function(args=None):
+    rclpy.init(args=args)
+
+    client = Save_Pcd()
+    client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(client)
+        if client.future.done():
+            try:
+                response = client.future.result()
+            except Exception as e:
+                client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                client.get_logger().info(
+                    f'Saved Pointcloud: "{response.success}"'
+                )
+                client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    client.destroy_node()
     rclpy.shutdown()
 
 

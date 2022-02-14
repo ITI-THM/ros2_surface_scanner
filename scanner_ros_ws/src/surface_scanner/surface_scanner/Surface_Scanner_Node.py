@@ -52,7 +52,15 @@ class Surface_Scanner_Node(Node):
         self.calibrate_laser_with_import_srv = self.create_service(
             CalibrateLaserImport, 
             'calibrate_with_import', 
-            self.calibrate_with_import_srv_callback)
+            self.calibrate_with_import_srv_callback
+        )
+
+        # SERVICE: save pointcloud
+        self.save_pcd_srv = self.create_service(
+            Trigger,
+            'save_pcd',
+            self.save_pcd_callback
+        )
 
         # PUBLISHER: point cloud of surface line
         self.pcd_publisher = self.create_publisher(
@@ -232,6 +240,27 @@ class Surface_Scanner_Node(Node):
             self.__calib_imgs.append(self.cv_bridge.imgmsg_to_cv2(imgs.imgs[index]))
         print(self.__calib_imgs[0].shape)
         self.get_logger().info(f"Recieved list with {len(self.__calib_imgs)} images for intrinsic camera calibration!")
+
+    def save_pcd_callback(self, request, response):
+        self.get_logger().info(os.path.abspath(os.getcwd()))
+
+        pcd = self.scanner.get_point_cloud()
+
+        if len(pcd.points) == 0:
+            self.get_logger().warning("Point cloud is empty!")
+
+            response.success = False
+            response.message = "Something went wrong with saving the point cloud!"
+
+            return response
+
+        o3d.io.write_point_cloud("./out/surface.ply", pcd)
+
+        # fill response
+        response.success = True
+        response.message = f"Point cloud saved successfully! --> {os.getcwd()}/out/surface.ply"
+
+        return response
 
     def refresh_img_pair_fields(self):
         self.__origin_img = None

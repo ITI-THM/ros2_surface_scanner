@@ -100,11 +100,13 @@ class Camera_Node(Node):
 
     def send_img_pair(self, request, response):
 
-        # self.SERIAL_CONNECTION.write('G1 Y150 F1000 \n'.encode('utf-8'))
+        self.SERIAL_CONNECTION.write('G1 Y150 F1000 \n'.encode('utf-8'))
 
-        # time.sleep(18)
+        time.sleep(20)
 
         images = self.__getLaserImages()
+
+        time.sleep(0.5)
 
         # origin_img = cv.imread('/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser0.png')
         origin_img = self.bridge.cv2_to_imgmsg(images[0])
@@ -121,8 +123,8 @@ class Camera_Node(Node):
         response.success = True
         response.message = "Successfully send images!"
 
-        # self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
-        # self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
+        self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
+        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
 
         return response
 

@@ -20,17 +20,7 @@ class Camera_Node(Node):
         super().__init__('camera_node')
 
         self.bridge = CvBridge()
-
-        self.SERIAL_CONNECTION = serial.Serial("/dev/ttyACM0", 115200)
-        self.get_logger().info("Established serial connection!")
-        in_bytes = '\r\n\r\n'.encode('utf-8')
-        self.SERIAL_CONNECTION.write(in_bytes)
-        time.sleep(1)
-        self.SERIAL_CONNECTION.flushInput()
-
-        self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
-        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
-
+          
         # CAMERA: setup camera settings!
         self.__camera = pylon.InstantCamera(
             pylon.TlFactory.GetInstance().CreateFirstDevice())
@@ -100,10 +90,6 @@ class Camera_Node(Node):
 
     def send_img_pair(self, request, response):
 
-        self.SERIAL_CONNECTION.write('G1 Y150 F1000 \n'.encode('utf-8'))
-
-        time.sleep(20)
-
         images = self.__getLaserImages()
 
         time.sleep(0.5)
@@ -122,9 +108,6 @@ class Camera_Node(Node):
 
         response.success = True
         response.message = "Successfully send images!"
-
-        self.SERIAL_CONNECTION.write('G91 \n'.encode('utf-8'))
-        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
 
         return response
 
@@ -155,32 +138,22 @@ class Camera_Node(Node):
         return response
 
     def img_pair_stream(self, request, response):
+        images = self.__getLaserImages()
 
-        for mm_step in range(0, 290):
+        origin_img = self.bridge.cv2_to_imgmsg(images[0])
+        laser_img = self.bridge.cv2_to_imgmsg(images[1])
 
-            self.SERIAL_CONNECTION.write('G1 Y1 F3000 \n'.encode('utf-8'))
+        cv.imshow('title', images[1])
+        exit_key = cv.waitKey(1)
 
-            time.sleep(0.5)
+        image_pair_msg = ImagePair()
+        image_pair_msg.is_for_laser_calib = False
+        image_pair_msg.origin_img = origin_img
+        image_pair_msg.laser_img = laser_img
 
-            images = self.__getLaserImages()
+        self.get_logger().info(f"Publishing image pair for x-length!")
 
-            origin_img = self.bridge.cv2_to_imgmsg(images[0])
-            laser_img = self.bridge.cv2_to_imgmsg(images[1])
-
-            cv.imshow('title', images[1])
-            exit_key = cv.waitKey(1)
-
-            image_pair_msg = ImagePair()
-            image_pair_msg.is_for_laser_calib = False
-            image_pair_msg.origin_img = origin_img
-            image_pair_msg.laser_img = laser_img
-
-            self.get_logger().info(f"Publishing image pair for x-length: {mm_step + 1}!")
-
-            self.img_pair_publisher.publish(image_pair_msg)
-
-        self.SERIAL_CONNECTION.write('G28 \n'.encode('utf-8'))
-        time.sleep(36)
+        self.img_pair_publisher.publish(image_pair_msg)
 
         response.success = True
         response.message = "Successfully sending images!"

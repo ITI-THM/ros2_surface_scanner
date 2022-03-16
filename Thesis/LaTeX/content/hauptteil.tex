@@ -41,82 +41,90 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 	Grundlegend für die Umrechnung des Pixels in der Bild-Ebene als Vektor mit u und v zu der 3D-Koordinate ist die folgende Formel:
 	
 	\begin{equation}
-		s \; p = A \begin{bmatrix} R|t \end{bmatrix} P_w
-		\label{eq:transforamtion}
+		s \; p = A \begin{bmatrix} R|t \end{bmatrix} p_w
+		\label{eq:basic_trans}
 	\end{equation}
 	
-	Hierbei ist p der Pixel im Bild. Pw ist die 3D-Koordinate, welche gesucht wird. \( A \) ist die Kamera-Matrix und \( \begin{bmatrix} R|t \end{bmatrix} \) die Rotation und Translation vom Kamera-koordinatensystem zum Weltkoordinatensystem. Kamera-Matrix, Rotation und Translation sind hierbei neu. Die genaue Bedeutung wird in dem Kapitel 4 Kalibrierung genannt. Zum Verstehen der Formel ist hier nur wichtig, dass diese durch eine Kamerakalibrierung herausgefunden werden können. Die Kamera-Matrix und die Rotation sind beides 3x3 Matritzen. Die Translation wird durch einen Vektor beschrieben. In Abbildung 4 wird die Formel noch einmal genauer gezeigt. Aus der Formel sind also p, A und \( \begin{bmatrix} R|t \end{bmatrix} \) bekannt. Unbekannte sind s der Scale-Factor und Pw die Weltkoordinate.
+	Hierbei ist \( p \) der Pixel im Bild. \( Pw \) ist die 3D-Koordinate, welche gesucht wird. \( A \) ist die Kamera-Matrix und \( \begin{bmatrix} R|t \end{bmatrix} \) die Rotation und Translation vom Kamerakoordinatensystem zum Weltkoordinatensystem. Kamera-Matrix, Rotation und Translation sind hierbei neu. Die genaue Bedeutung wird in dem Kapitel 4 Kalibrierung genannt. Zum Verstehen der Formel ist hier nur wichtig, dass diese durch eine Kamerakalibrierung herausgefunden werden können. Die Variablen sind also bekannt. Kamera-Matrix und Rotation sind beide jeweils 3x3 Matrizen. Die Translation wird durch einen Vektor (3x1) beschrieben. 
+	
+	\begin{equation}
+		s \; \begin{bmatrix}
+		u \\ 
+		v \\ 
+		1
+		\end{bmatrix} = \begin{bmatrix}
+		f_x & 0 & c_x \\
+		0 & f_y & c_y \\
+		0 & 0 & 1
+		\end{bmatrix} \begin{bmatrix}
+		r_{11} & r_{12} & r_{13} & t_1 \\ 
+		r_{21} & r_{22} & r_{23} & t_2 \\ 
+		r_{31} & r_{32} & r_{33} & t_3 \\
+		0 & 0 & 0 & 1
+		\end{bmatrix} \times \begin{bmatrix}
+		X \\ 
+		Y \\ 
+		Z \\
+		1
+		\end{bmatrix}
+		\label{eq:basic_trans_complete}
+	\end{equation}
+	
+	In der Formel (\ref{eq:basic_trans_complete}) wird dies noch einmal genauer gezeigt. Bekannt sind also \( p \), \( A \) und \( \begin{bmatrix} R|t \end{bmatrix} \). Unbekannte Variablen sind \( s \) der Scale-Factor und \( p_w \) die Weltkoordinate.
 	
 		\subsubsection{Homogene Koordinaten}
-		In Abbildung 4 sind die Rotation (R), die Translation (t) und die 3D-Weltkoordinate in Homogenen Matrizen bzw. Vektoren dargestellt. Der Vorteil davon ist, dass beliebig viele Transformationen im dreidimensionalen Raum in einer Homogenen Matrix zusammengefasst werden können. Diese kann dann auf einen Punkt im dreidimensionalen Raum, dargestellt als Homogener Vektor, angewandt werden. In diesem Fall sind die Transformationen eine Rotation und eine Translation von dem Punkt im Weltkoordinatensystem zu dem Kamerakoordinatensystem. Es soll kurz die Entstehung der homogenen Matrix für dieses Beispiel erläutert werden.
+		In der Formel (\ref{eq:basic_trans_complete}) sind die Rotation (\( R \)), die Translation (\( t \)) als homogenen Matrix und  der Punkt im Weltkoordinatensystem (\( p_w \)) als homogener Vektor dargestellt. Der Vorteil vom Verwenden einer homogenen Matrix ist, dass beliebig viele Transformationen im dreidimensionalen Raum in dieser zusammengefasst werden können. Die Matrix kann dann auf einen Punkt im dreidimensionalen Raum, dargestellt als homogener Vektor, angewandt werden. In diesem Fall sind die Transformationen eine Rotation und eine Translation von dem Punkt im Weltkoordinatensystem zu dem Kamerakoordinatensystem. Das Zusammenführen von Rotation und Translation ergibt Sinn. Die Transformation von dem einen Koordinatensystem in das andere ist nur abgeschlossen, wenn sowohl die Rotation als auch die Translation auf den Zielvektor angewandt wurden. Die Formel (\ref{eq:basic_trans}) soll aber im Folgendem nach dem Punkt im Weltkoordinatensystem umgestellt werden (siehe (\ref{eq:pixel_zu_welt})). Für diese Umstellung wird die homogene Matrix wieder aufgeteilt. Damit dieser Vorgang keine nachvollziehbar ist soll kurz die Entstehung der homogenen Matrix für dieses Beispiel erläutert werden.
 		
-		Die Rotation ist eine 3x3-Matrix:
-		
-		\( R = \begin{pmatrix} 
-		r_{11} & r_{12} & r_{13} \\ r_{21} & r_{22} & r_{23} \\ r_{31} & r_{32} & r_{33} \end{pmatrix} \)
-		
-		Die Translation ist ein 3x1-Vektor:
-		
-		\( t = \begin{pmatrix}
-		t_1 \\ t_2 \\ t_3
-		\end{pmatrix} \)
-		
-		Die beiden Transformationen wollen wir auf einen Punkt (dargestellt durch den Vektor v) anwenden:
+		Die grundsätzliche Transformation (Rotation + Translation), die angewandt werden soll ist:
 		
 		\begin{equation}
-			v' = Rv + t
-			\label{eq:test}
+			\begin{aligned}
+				v' &= R \; v + t \\
+				&= \begin{pmatrix}
+				r_{11} & r_{12} & r_{13} \\ 
+				r_{21} & r_{22} & r_{23} \\ 
+				r_{31} & r_{32} & r_{33}
+				\end{pmatrix} v + \begin{pmatrix}
+				t_1 \\ t_2 \\ t_3
+				\end{pmatrix}
+			\end{aligned}
+		\label{eq:rot_trans}
 		\end{equation}
 		
-		\( v' = Rv + t \)
+		Dabei ist v ein Beispielvektor.
 		
+		Eine homogene Matrix ist eine 4x4-Matrix. Die unterste Zeile ist immer (0, 0, 0, 1). Beide Transformationen können in ihr eingebunden werden. Die Matrix wird dann mit den homogenen Vektor verrechnet:
 		
-		
-		Oder ausgeschrieben \ref{eq:test}:
-		
-		\( v' = \begin{pmatrix}
-		r_{11} & r_{12} & r_{13} \\ r_{21} & r_{22} & r_{23} \\ r_{31} & r_{32} & r_{33}
-		\end{pmatrix} v + 
-		\begin{pmatrix}
-		t_1 \\ t_2 \\ t_3
-		\end{pmatrix}\)
-		
-		Eine homogene Matrix ist eine 4x4 -Matrix. Dabei ist die unterste Zeile immer (0, 0, 0, 1). Beide Transformationen können in ihr eingebunden werden:
-		
-		\( \begin{pmatrix}
-		r_{11} & r_{12} & r_{13} & t_1 \\ r_{21} & r_{22} & r_{23} & t_2 \\ 
-		r_{31} & r_{32} & r_{33} & t_3 \\ 0 & 0 & 0 & 1
-		\end{pmatrix} \)
-		
-		Diese wird dann mit den 3D-Punkt als homogener Vektor multipliziert:
-		
-		\( \begin{pmatrix}
-		r_{11} & r_{12} & r_{13} & t_1 \\ r_{21} & r_{22} & r_{23} & t_2 \\ 
-		r_{31} & r_{32} & r_{33} & t_3 \\ 0 & 0 & 0 & 1
-		\end{pmatrix} \times
-		\begin{pmatrix}
-		v_1 \\ v_2 \\ v_3 \\ 1
-		\end{pmatrix} \)
-		
-		Zur Verdeutlichung:
-		
-		\( v' =  \begin{pmatrix}
-		r_{11} & r_{12} & r_{13} \\ r_{21} & r_{22} & r_{23} \\ r_{31} & r_{32} & r_{33}
-		\end{pmatrix} v + 
-		\begin{pmatrix}
-		t_1 \\ t_2 \\ t_3
-		\end{pmatrix} = \begin{pmatrix}
-		r_{11} & r_{12} & r_{13} & t_1 \\ r_{21} & r_{22} & r_{23} & t_2 \\ 
-		r_{31} & r_{32} & r_{33} & t_3 \\ 0 & 0 & 0 & 1
-		\end{pmatrix} \times
-		\begin{pmatrix}
-		v_1 \\ v_2 \\ v_3 \\ 1
-		\end{pmatrix} \)
+		\begin{equation}
+			\begin{aligned}
+				v'_{homogen} &= \begin{pmatrix}
+				r_{11} & r_{12} & r_{13} & t_1 \\
+				r_{21} & r_{22} & r_{23} & t_2 \\
+				r_{31} & r_{32} & r_{33} & t_3 \\
+				0 & 0 & 0 & 1
+				\end{pmatrix} \times \begin{pmatrix}
+				v_1 \\
+				v_2 \\
+				v_3 \\
+				1
+				\end{pmatrix} \\
+				&= \begin{bmatrix}
+				R|t
+				\end{bmatrix} v_{homogen}
+			\end{aligned}
+		\label{eq:rot_trans_homgen}
+		\end{equation}
 		
 		\subsubsection{Transformationen}
-		Die Grundlegende Formel soll jetzt umgestellt werden, um die Variablen zu errechnen, die gebraucht werden. Die angewandten Transformationen werden durch die folgende Abbildung noch einmal verdeutlicht.
+		Die Grundlegende Formel soll jetzt umgestellt werden, um den 3D-Punkt im Weltkoordinatensystem anhand eines Pixels zu errechnen. Die angewandten Transformationen werden durch die folgende Abbildung noch einmal verdeutlicht.
 		
-		Abb. 5: Pinhole Camera Model 2
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.9\linewidth]{img/grundlagen/pinhole_camera_model_2.png}
+			\caption[Transformationen]{Transformationen im Pinhole Camera Model}
+			\captionsource{https://www.oreilly.com/library/view/mastering-opencv-4/9781789533576/848e4e77-32ec-499d-9945-cb0352e28236.xhtml}
+			\label{fig:pinhole-camera-model_transformations}
+		\end{figure}
 		
 		Das Ziel ist es den 3D-Punkt im Weltkoordinatensystem zu errechnen. Die Rotation (R) und Translation (t) werde für die Umrechnung in das Kamerakoordinatensystem benötigt. Das sind die sogenannten extrinsischen Parameter. Die Kamera-Matrix beschreibt die Transformation zur Bild-Ebene bzw. den Pixel-Koordinaten-System. Die Matrix enthält die sogenannten intrinsischen Parameter. Wir können einen Pixel im Bild auswählen und mithilfe dieser Parameter den entsprechenden Punkt im Weltkoordinatensystem errechnen.
 		
@@ -125,20 +133,28 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 				 \begin{bmatrix} A \end{bmatrix} \begin{bmatrix} R|t \end{bmatrix} p_w &= s \; p_{pix} \\
 				 \begin{bmatrix} R|t \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
 				 \begin{bmatrix} R \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - t \\
-				 p_w &= s \begin{bmatrix} R \end{bmatrix} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - \begin{bmatrix} R \end{bmatrix}^{-1} t
+				 p_w &= s \begin{bmatrix} R \end{bmatrix} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - \begin{bmatrix} R \end{bmatrix}^{-1} t \\
+				 p_w &= s \; \vec{a} - \vec{b} \\
+				 wobei: \quad \vec{a} & = \begin{bmatrix} R \end{bmatrix} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
+				 \vec{b} &= \begin{bmatrix} R \end{bmatrix}^{-1} t
 			\end{aligned}
+			\label{eq:pixel_zu_welt}
 		\end{equation}
 		
-		Welt zu Kamera:
+		Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen.
+		
+		Weltkoordinate zu Kamerakoordinate:
 		
 		\begin{equation}
 			p_{cam} = \begin{bmatrix} R \end{bmatrix} \; p_w + t
+			\label{eq:welt_zu_kamera}
 		\end{equation}
 		
-		Kamera zur Welt:
+		Kamerakoordinate zur Weltkoordinate:
 		
 		\begin{equation}
 			p_w = \begin{bmatrix} R \end{bmatrix}^{-1} \; (p_{cam} - t)
+			\label{eq:kamera_zu_welt}
 		\end{equation}
 		
 	\subsection{Bildverarbeitung}

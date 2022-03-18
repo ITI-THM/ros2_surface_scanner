@@ -133,15 +133,16 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 				 \begin{bmatrix} A \end{bmatrix} \begin{bmatrix} R|t \end{bmatrix} p_w &= s \; p_{pix} \\
 				 \begin{bmatrix} R|t \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
 				 \begin{bmatrix} R \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - t \\
-				 p_w &= s \begin{bmatrix} R \end{bmatrix} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - \begin{bmatrix} R \end{bmatrix}^{-1} t \\
+				 p_w &= s \begin{bmatrix} R \end{bmatrix}^{-1} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - \begin{bmatrix} R \end{bmatrix}^{-1} t \\
 				 p_w &= s \; \vec{a} - \vec{b} \\
-				 wobei: \quad \vec{a} & = \begin{bmatrix} R \end{bmatrix} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
+				 wobei: \quad \vec{a} & = \begin{bmatrix} R \end{bmatrix}^{-1} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
 				 \vec{b} &= \begin{bmatrix} R \end{bmatrix}^{-1} t
 			\end{aligned}
 			\label{eq:pixel_zu_welt}
 		\end{equation}
 		
-		Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen.
+		Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen. \( \vec{a} \) und \( \vec{b} \) dienen zur Vereinfachung. Wenn \( \begin{bmatrix} R \end{bmatrix} \), \( \begin{bmatrix} A \end{bmatrix}^{-1} \) und \( p_{pix} \) miteinander verrechnet werden entsteht ein Vektor (\( \vec{a} \)). Dasselbe gilt für \( \begin{bmatrix} R \end{bmatrix}^{-1} \) und \( t \) (\( \vec{b} \)). \newline
+		Der neue Ausgangspunkt ist die errechnete Weltkoordinate. Nach Aufgabenstellung sollen errechnete Koordinaten immer aus Sicht der Kamera dargestellt werden. Dazu wird die folgende Transformation benötigt. 
 		
 		Weltkoordinate zu Kamerakoordinate:
 		
@@ -157,6 +158,7 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 			\label{eq:kamera_zu_welt}
 		\end{equation}
 		
+		Anzumerken ist noch, das \( s \) der Scale-Factor immer noch eine Unbekannte ist. Es scheint also, als ob die Gleichung (\ref{eq:pixel_zu_welt}) noch nicht lösbar sei. Sobald konkrete Werte ausgerechnet werden sollen, muss \( s \) bekannt sein. Das passiert zum ersten Mal beim Erstellen der Ebenengleichung für die Laser-Ebene bei der extrinsischen Kalibrierung. Dabei wird auch darauf eingegangen, wie \( s \) errechnet werden kann.  
 	\subsection{Bildverarbeitung}
 	
 	\subsection{Kalibrierung}

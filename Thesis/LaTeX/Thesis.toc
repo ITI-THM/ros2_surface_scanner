@@ -14,27 +14,29 @@
 \contentsline {subsubsection}{\numberline {2.4.1}Homogene Koordinaten}{8}{subsubsection.2.4.1}%
 \contentsline {subsubsection}{\numberline {2.4.2}Transformationen}{9}{subsubsection.2.4.2}%
 \contentsline {subsection}{\numberline {2.5}Bildverarbeitung}{11}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6}Kalibrierung}{11}{subsection.2.6}%
-\contentsline {subsubsection}{\numberline {2.6.1}Intrinsische}{11}{subsubsection.2.6.1}%
-\contentsline {subsubsection}{\numberline {2.6.2}Extrinsische}{11}{subsubsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.7}Aufbau / Hardware}{11}{subsection.2.7}%
-\contentsline {subsection}{\numberline {2.8}Aufbau / Software}{11}{subsection.2.8}%
-\contentsline {subsubsection}{\numberline {2.8.1}Python (Bibliothek)}{11}{subsubsection.2.8.1}%
-\contentsline {subsubsection}{\numberline {2.8.2}ROS2}{11}{subsubsection.2.8.2}%
-\contentsline {subsection}{\numberline {2.9}Qualitative Ergebnisse}{11}{subsection.2.9}%
-\contentsline {subsection}{\numberline {2.10}Evaluation}{11}{subsection.2.10}%
-\contentsline {subsubsection}{\numberline {2.10.1}Testen von Genauigkeit}{11}{subsubsection.2.10.1}%
-\contentsline {subsubsection}{\numberline {2.10.2}Fehler}{11}{subsubsection.2.10.2}%
-\contentsline {subsubsection}{\numberline {2.10.3}Probleme und Schwierigkeiten}{11}{subsubsection.2.10.3}%
-\contentsline {section}{\numberline {3}Fazit}{12}{section.3}%
-\contentsline {section}{\numberline {4}Ausblick}{14}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Erweiterung}{14}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Anpassungen}{16}{subsection.4.2}%
-\contentsline {section}{\numberline {A}Anhang}{17}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{17}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{18}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{19}{subsection.A.3}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{21}{section*.13}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{22}{section*.14}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{23}{section*.15}%
-\contentsline {section}{Abkürzungsverzeichnis}{24}{section*.16}%
+\contentsline {subsubsection}{\numberline {2.5.1}Das Erkennen der Laserlinie}{11}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Nachbearbeitung der Linien-Pixel}{13}{subsubsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.6}Kalibrierung}{14}{subsection.2.6}%
+\contentsline {subsubsection}{\numberline {2.6.1}Intrinsische}{14}{subsubsection.2.6.1}%
+\contentsline {subsubsection}{\numberline {2.6.2}Extrinsische}{14}{subsubsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.7}Aufbau / Hardware}{14}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Aufbau / Software}{14}{subsection.2.8}%
+\contentsline {subsubsection}{\numberline {2.8.1}Python (Bibliothek)}{14}{subsubsection.2.8.1}%
+\contentsline {subsubsection}{\numberline {2.8.2}ROS2}{14}{subsubsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.9}Qualitative Ergebnisse}{14}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Evaluation}{14}{subsection.2.10}%
+\contentsline {subsubsection}{\numberline {2.10.1}Testen von Genauigkeit}{14}{subsubsection.2.10.1}%
+\contentsline {subsubsection}{\numberline {2.10.2}Fehler}{14}{subsubsection.2.10.2}%
+\contentsline {subsubsection}{\numberline {2.10.3}Probleme und Schwierigkeiten}{14}{subsubsection.2.10.3}%
+\contentsline {section}{\numberline {3}Fazit}{15}{section.3}%
+\contentsline {section}{\numberline {4}Ausblick}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Erweiterung}{17}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Anpassungen}{19}{subsection.4.2}%
+\contentsline {section}{\numberline {A}Anhang}{21}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Anhang A}{21}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Anhang B}{22}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Anhang C}{23}{subsection.A.3}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{25}{section*.13}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{26}{section*.14}%
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{27}{section*.15}%
+\contentsline {section}{Abkürzungsverzeichnis}{28}{section*.16}%

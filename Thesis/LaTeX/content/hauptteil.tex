@@ -9,7 +9,7 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 	ROS2 kümmert sich um die Automatisierung und den generellen Ablauf eines Scanvorgangs. In der Forschung und Entwicklungs-Projekt mit RINNTECH wird zusätzlich auch ROS2 als übergeordnetes System genutzt. Deshalb war ROS2 auch eine Anforderung an das Projekt. Die vorher benutzte RGB-D-Kamera Intel RealSense ist ebenfalls in der Lage über ROS2 angesprochen zu werden. Da der OpenSource-Lasertriangulationssensor diese ersetzten soll, ist die Verwendung von ROS2 ein logischer Schritt.
 	
 	\subsection{Der Grundlegende Aufbau}
-	Der grundlegende Aufbau orientiert sich an den Lösungsansatz. Notwendig sind dafür nur ein Linienlaser und eine Kamera. Zuerst wurde für einen Prototyp zum Testen eine Webcam verwenden, später eine Industriekamera. Auschlaggebend zum Funktionieren des theoretischen Lösungsansatz ist, dass die Kamera einen Linienversatz aufnehmen kann. Um das zu erreichen werden Kamera und Laser in einem gewissen Winkel zueinander gesetzt. Durch die Perspektive der Kamera entsteht der Linienversatz. Dabei ist egal, ob die Kamera von oben auf das Objekt zeigt und der Laser schräg sitzt oder andersrum. Die Lasertriangulationssensoren aus der Industrie weisen zumeist den Aufbau aus Abb. 1 auf.
+	Der grundlegende Aufbau orientiert sich an den Lösungsansatz. Notwendig sind dafür nur ein Linienlaser und eine Kamera. Zuerst wurde für einen Prototyp zum Testen eine Webcam verwenden, später eine Industriekamera. Ausschlaggebend zum Funktionieren des theoretischen Lösungsansatz ist, dass die Kamera einen Linienversatz aufnehmen kann. Um das zu erreichen werden Kamera und Laser in einem gewissen Winkel zueinander gesetzt. Durch die Perspektive der Kamera entsteht der Linienversatz. Dabei ist egal, ob die Kamera von oben auf das Objekt zeigt und der Laser schräg sitzt oder andersrum. Die Lasertriangulationssensoren aus der Industrie weisen zumeist den Aufbau aus Abb. 1 auf.
 	
 	\begin{figure}[h]
 		\centering
@@ -18,7 +18,8 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		\label{lasertriangulation}
 	\end{figure}
 	
-	Der erste Schritt in der Erarbeitung des Sensors war es, die Möglichkeit zu entwickeln, eine aufgenommene Laserlinie in eine korrekte Punktewolke umzusetzen. Danach muss es ermöglicht werden den Sensor über bzw. das Objekt unter dem Sensor bewegen zu können. Mehr zu dem genauen Aufbau des fertigen 3D-Scanner wird im Kapitel \ref{chap:aufbau_hardware} Aufbau / Hardware erläutert. Für die folgenden Erklärungen zur mathematischen Grundlage, Bildverarbeitung und Kalibrierung ist nur wichtig zu wissen, dass die Kamera und Laser in einem Winkel zueinander über dem Objekt angebracht sind. 
+	Der erste Schritt in der Erarbeitung des Sensors war es, die Möglichkeit zu entwickeln, eine aufgenommene Laserlinie in eine korrekte Punktewolke umzusetzen. Danach muss es ermöglicht werden den Sensor über bzw. das Objekt unter dem Sensor bewegen zu können. Mehr zu dem genauen Aufbau des fertigen 3D-Scanner wird im Kapitel \ref{chap:aufbau_hardware} Aufbau / Hardware erläutert. Für die folgenden Erklärungen zur mathematischen Grundlage, Bildverarbeitung und Kalibrierung ist nur wichtig zu wissen, dass die Kamera und Laser in einem Winkel zueinander über dem Objekt angebracht sind. Ebenfalls ist wichtig, dass Kamera und Laser fest angebracht sind und sich zueinander nicht bewegen. Nur der ganze Sensor ist bewegbar, dabei bleiben dann aber Kamera und Laser zueinander in der gleichen Position.
+	\label{chap:grundlegender_aufbau}
 	
 	\subsection{OpenCv Pinhole Camera Model}
 	Der Anfang aller Berechnungen des Lasertriangulationssensors ist immer ein Bild. Die Kamera als optischer Sensor ist die einzige Informations-Quelle. Ein Bild besteht aus Pixeln. Diese sind 2-Dimensional. Es muss also eine Möglichkeit gebunden werden, die dritte Dimension zu finden. Für die gesuchten 3D-Punkte des Objektes ist dafür eine Ebenen-Gleichung für die Laser-Ebene notwendig. Diese ist nicht von Anfang an bekannt und es gilt, diese herauszufinden. Trotzdem wird nach einem Vorgehen gesucht, welches nur aus dem Bild und mithilfe der Kamera 3D-Informationen liefern kann. Genau diese Informationen sind zugänglich mit den Pinhole Camera Model von OpenCv. In OpenCv ist eine Kamera genauso, wie eine Lochkamera begriffen.
@@ -168,10 +169,81 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		Die erste Idee war es, nach der offensichtlichen Erscheinung des Lasers im Bild zu suchen. Die Laserlinie ist Rot. Somit war die Methode das Bild nach roten Pixeln zu filtern und diese auszuwählen. Das schien zuerst auch gut zu Funktionieren. Über OpenCv kann man eine Maske auf die RGB-Werte der Pixel anwenden. Man kennzeichnet also einen zulässigen Bereich für alle drei Werte. Dieser Bereich soll logischerweise die roten Farben abbilden. Diese Methode wird allerdings sofort problematisch, sobald sich andere rote Gegenstände im Bild befinden. Diese werden dann als Teil der Laserlinie angesehen. Ein anderes Teil so hell war, dass die Mittleren Pixel der Linie schon eher Weiß waren und nicht mehr zu dem gewählten roten Bereich gehörten. Da diese Probleme zu hohem Rauschen führen und auch durch geeignetes Anpassen der RGB-Maske nicht zu beheben gehen, wurde diese Methode verworfen. Es gab noch kurze Überlegungen die Maske statt auf den RGB-Farbraum auf den HSV-Farbraum anzuwenden, diese führten aber nicht zu auffallend besseren Ergebnissen. \newline
 		Im Zuge einer Umfangreichen Recherche zum Thema Lasertriangulation und Opensource-Produzierten Laserlinienscannern bin ich auf ein Paper von Bajpai und Perelman, die auch einen Laserlinienscanner entwickelt haben. Nicht nur hier, auch in diversen anderen Schritten der Errechnung von 3D-Punkten aus den Laserlinien-Pixeln ist dieses Paper die Gundlage und Hilfestellung. Durch das Paper kam die Idee, zwei Bilder zu machen. In einem ist der Laser angeschaltet, in dem anderen nicht. Wenn diese Bilder voneinander abgezogen werden, kommen im Grunde genau die Veränderungen hervor. Da sich nichts anders im Bild verändern sollte, außer das Erscheinen der Laserlinie, wird genau diese perfekt aufgezeigt. Voraussetzung dafür ist, dass die Umgebung der zu scannenden Fläche gleich bleibt. Einwirkungen wären zum Beispiel Änderungen bei den Lichtverhältnissen, bzw. bei der Beleuchtung oder auch eine Bewegung von Objekten zwischen der Aufnahme der zwei Bilder. Solche Einwirkungen würden auch in Rauschen enden oder sogar die Laserlinie falsch positionieren. Weitere Informationen hierzu befinden sich ebenfalls im Kapitel \ref{chap:probleme_schwierigkeiten} Probleme und Schwierigkeiten. Diese Anforderungen werden für den zu entwickelnden Laserlinien-Scanner akzeptiert. Ebenfalls sind es Anforderungen, die nicht direkt von der Software beeinflusst werden können. Sie sollten somit beim Aufbau des Scanners genauer beachtet werden und auf die Bildverarbeitung keinen Einfluss mehr haben dürfen. Das proben dieser Methode führte auch mit dem Testen über das Binärbild zu sehr guten Ergebnissen. Zusätzlich ist diese Methode sehr einfach über OpenCv umzusetzen. Festzuhalten ist damit, dass die Kamera zwei Bilder aufnehmen muss, eins Bild mit Laserlinie und ein Bild ohne. Das Bild ohne Laserlinie wird dann von dem mit Laserlinie angezogen. Der Algorithmus zum finden der Laserlinien-Pixel arbeitet dann mit der Differenz.
 		
-		\subsubsection{Nachbearbeitung der Linien-Pixel}
-		Das Ergebnis der Differenz von zwei Bilden ist, wie bei einer Maske für den roten Farbbereich, jedoch kein Binärbild. Es ist also nun erkennbar, wo sich die Laserlinie befindet, jedoch müssen eindeutig die Pixel die weiterverarbeitet werden sollen ausgewählt werden. Aber nicht nur die Laserlinie, sondern auch die Pixel, die nicht dazu gehören sind nicht eindeutig schwarz mit einem RGB-Wert von (R=0, G=0, B=0). Einen kleinen für den Menschen zumeist nicht sichtbaren Unterschied in zwei nacheinander aufgenommenen Bildern wird es immer geben. Es muss also immer noch genau festgelegt werden, welche Pixel für die Laserlinie ausgewählt werden. Die Differenz von den zwei Bilden macht dies allerdings einfacher. Gleichbleibende Stellen zwischen den beiden Bildern wie zum Beispiel auch sehr helle Stellen oder auch andere rote Stellen sind in dem Differenz-Bild nicht mehr erkennbar, wobei sie in der vorherigen Methode zu Problemen führten, da man sie nicht genau von der Laserlinie unterscheiden konnte. Gleichzeitig ist die Laserlinie in einem gut aufgelösten Bild mehrere Pixel dick. Ideal wäre allerdings eine dicke von genau einem Pixel. Das Differenz-Bild muss also noch nachbearbeitet werden \newline
-		Als erste Schritt wird dabei das Bild zu einem Grauwert-Bild konvertiert. Vorteil davon ist, das jetzt nicht mehr der RGB-Wert mit drei eigenen Werten ausschlaggebend ist, sondern nur noch die Intensität, bzw. der Grauwert eines Pixels. Je höher die Intensität eines Pixels ist, um so mehr Farbinformationen hatte er. das bedeutet, dass die Laserlinie  die Pixel mit den höchsten Intensitäten hat.
+		\subsubsection{Grauwert-Bild}
+		Das Ergebnis der Differenz von zwei Bilden ist, wie bei einer Maske für den roten Farbbereich, jedoch kein Binärbild. Es ist also nun erkennbar, wo sich die Laserlinie befindet, jedoch müssen eindeutig die Pixel die weiterverarbeitet werden sollen ausgewählt werden. Aber nicht nur die Laserlinie, sondern auch die Pixel, die nicht dazu gehören sind nicht eindeutig schwarz mit einem RGB-Wert von (R=0, G=0, B=0). Einen kleinen für den Menschen zumeist nicht sichtbaren Unterschied in zwei nacheinander aufgenommenen Bildern wird es immer geben. Es muss also immer noch genau festgelegt werden, welche Pixel für die Laserlinie ausgewählt werden. Die Differenz von den zwei Bilden macht dies allerdings einfacher. Gleichbleibende Stellen zwischen den beiden Bildern wie zum Beispiel auch sehr helle Stellen oder auch andere rote Stellen sind in dem Differenz-Bild nicht mehr erkennbar, wobei sie in der vorherigen Methode zu Problemen führten, da man sie nicht genau von der Laserlinie unterscheiden konnte. Gleichzeitig ist die Laserlinie in einem gut aufgelösten Bild mehrere Pixel dick. Ideal wäre allerdings eine dicke von genau einem Pixel. Das Differenz-Bild muss demnach noch nachbearbeitet werden \newline
+		Als erste Schritt wird dabei das Bild zu einem Grauwert-Bild konvertiert. Vorteil davon ist, das jetzt nicht mehr der RGB-Wert mit drei eigenen Werten ausschlaggebend ist, sondern nur noch die Intensität, bzw. der Grauwert eines Pixels. Die jeweilige Intensität für einen Pixel berechnet OpenCv nach der folgenden Formel [Vgl: OpencvDoc]:
+		\begin{equation}
+			Y = 0.299 \cdot R + 0.587 \cdot G + 0.114 \cdot B
+			\label{eq:rgb_to_grey}
+		\end{equation}
+		Damit hält OpenCv sich an die ITU-R BT 601 [vgl.: CCIR 601] und dem darin festgelegten Farbmodell \( YC_bC_r \). Dabei handelt es sich um eine Konvention, wie digitale Video-Signale zu kodieren sind. \newline
+		Die Formel (\ref{eq:rgb_to_grey}) zeigt ebenfalls, dass aus den drei Farbwerten nun ein einzelner Grauwert errechnet wird. Allgemein kann man dabei festhalten, dass je höher die einzelnen Farbinformationen waren. um so höher wird auch der Grauwert bzw. die Intensität sein. Das betrifft die Pixel der Laserlinie. Die anderen Pixel besitzen Farbwerte von ungefähr 0-5 und fallen nicht weiter auf. \newline
+		Die Entwicklung der folgenden Methodik, die Laserlinie auf eine Breite von einem Pixel zu reduzieren zeigte eine neue Anforderung auf. Bekannt sind nun die Intensitäten der Pixel. Die Laserlinie kann lokalisiert werden, indem man die höchsten Intensitäten im ganzen Bild sucht. Dabei brauch man ein Schema, wie das Bild abgesucht wird. Zum Beispiel sucht man in jeder Zeile im Bild die höchste Intensität. Das ist jedoch nur sinnvoll, wenn die Laserlinie im Bild von oben nach unten geht. Das ist wieder eine Anforderung an den Aufbau. Im Kapitel \ref{chap:grundlegender_aufbau} wurde beschrieben, dass Kamera und Laser zueinander in der gleichen Position bleiben. Demnach kann der Laser entsprechend angebracht werden. 
+		
+		\subsubsection{Gauss-Filter}
+		Die einfachste Methode wäre also jede Zeile nach der höchsten Intensität zu suchen und den betreffenden Pixel auszuwählen. Dieser Pixel befindet sich je nach Aufnahme jedoch nicht genau in der Mitte der Laserlinie. Die erarbeiteten Linien können so sehr "wellig" werden, da Pixel untereinander zum teil stark in ihrer Position in der Zeile abweichen. Den Pixel mit der höchsten Intensität als Ausgangspunkt zu nehmen ist gut, jedoch sollen die umliegenden Pixel einen Einfluss machen können, um die Genauigkeit der Laserlinie zu erhöhen. Dazu wurden zwei Vorgänge entwickelt. \newline
+		Die erste Methode ist es, einen Gauss-Filter über das Grauwert-Bild zu legen. Die genaue Beschreibung dieser Operation würde in diesem Zusammenhang zu weit gehen. Nähere Informationen befinden sich in [?, ?, ?]. Der Gauß-Filter wird auf jeden Pixel im Bild angewandt. Dabei ändert er den Wert des ausgewählten Pixels in Abhängigkeit der umliegenden Pixel. Die Auswirkung auf das ganze Bild ist dabei, dass die Strukturen etwas ineinander verschwimmen. Das ist eine Standard-Bildverarbeitungsoperation, die auch mögliches Rauschen im Bild verringert.
+		
+		\subsubsection{Das Erstellen von Subpixeln}
+		Nachdem der Filter verwendet wurde, kommt die Operation, in der jede Zeile des Bildes nach dem Laserlinien-Pixel abgesucht wird. Hier wird zuerst der Pixel mit der höchsten Intensität gesucht. Dabei kann immer noch mehr  Genauigkeit erzielt werden, wenn man die Pixel links und recht neben dem Ausgewählten untersucht. So fliest nicht nur die Intensität als Auswahlkriterium ein, sondern auch die restlichen Pixel der Laserlinie in dieser Zeile. Da die erschlossenen Pixel in 3D-Koordinaten umgewandelt werden und somit vom Bild und der Pixel-Darstellung getrennt werden, ist es nicht mehr notwendig nur ganze Zahlen zur zu verwenden. Die Werte können also auch Nachkommastellen haben und sogenannte Subpixel ergeben. Für dieses errechnen des passenden Subpixel wurde ien Algorithmus erstellt, der wie folgt funktioniert:
+		
+		$\underline{1. \; Threshold}$
+		
+		Zuerst wird ein passender Threshold gesucht um eine Grenze festzulegen, ab welchen Wert überhaupt ein Pixel gefunden werden soll. Wenn die maximale Intensität in einer Zeile unter dem gewählten Threshold liegt, wird diese übersprungen. Damit wird auch ungewolltes Rauschen entfernt, da eine Intensität, die so niedrig ist, nicht zur Laserlinie gehören kann. Zuerst wurde dabei ein fester Threshold gewählt. Damit wäre dieser nicht an das Bild angepasst. Bilder können allerdings unterschiedlich ausfallen und nicht wie gewollt auf den Threshold reagieren. Der Threshold soll genau auf das aktuelle Bild angepasst sein. Die Otsu-Methode ist ein Schwellenwertverfahren, welches genau den gewollten Threshold liefern kann. Dabei wird ...
+		
+		So wird ein angepasster Threshold gefunden und die höchste Intensität der aktuellen Zeile wird auf diesen geprüft.
+		
+		$\underline{2. \; Einbeziehen \; der \; benachbarten \; Pixel}$
+		
+		Der Ausgangspunkt ist jetzt der Pixel mit der höchsten Intensität und dieser liegt über dem Threshold. Die benachbarten Pixel sollen jetzt in einen endgültigen Wert mit einbezogen werden. Um das zu erreichen wird eine Parabel genutzt. Es gilt eine quadratische Funktion in der Form \( ax^2 + bx + c = I_x \), wobei \( I \) die Intensität und \( x \) die Position in der jeweiligen Zeile ist. Bei einem Bild, das beispielsweise 1920 Pixel breit ist, ist das ein Wert zwischen 0 und 1919. Die quadratische Funktion wird auf den ausgewählten Pixel und seine Nachbarn angewandt. Somit gilt:
+		
+		\begin{equation}
+			\begin{aligned}
+				ax^2 + bx + c &= I_x \\
+				a(x+1)^2 + b(x+1) + c &= I_{x+1} \\
+				a(x-1)^2 + b(x-1) + c &= I_{x-1} \\
+				daraus folgt: \\
+				\underbrace{\begin{pmatrix}
+					x^2 & x & 1 \\
+					(x+1)^2 & (x+1) & 1 \\
+					(x-1)^2 & (x-1) & 1 
+				\end{pmatrix}}_{\substack{X}} \underbrace{ \begin{pmatrix}
+					a \\
+					b \\
+					c
+				\end{pmatrix}}_{\substack{\vec{abc}}} &= \begin{pmatrix}
+					I_x \\
+					I_{x+1} \\
+					I_{x-1}
+				\end{pmatrix}
+			\end{aligned}
+			\label{eq:subpixel_x}
+		\end{equation}
+		
+		Das Ziel ist es den Vektor \( \vec{abc} \) herauszufinden. Da die Intensitäten und die x-Werte bekannt sind, ist \( \vec{abc} \) die einzige Unbekannte und kann errechnet werden. Der nächste Schritt ist es die Nullstelle der Parabel herauszufinden. Sie befindet sich dort, wo die tatsächliche Intensität am höchsten ist. Dieser x-Wert befindet sich dann in den meisten Fällen zwischen zwei Pixeln. Dafür gilt:
+		
+		\begin{equation}
+			\begin{aligned}
+				2a \cdot x + b &= 0 \\
+				x &= \frac{-b}{2a}
+			\end{aligned}
+		\end{equation}
 	
+		\( b \) und \( a \) sind durch das Errechnen von \( \vec{abc} \) bekannt und ein Wert für \( x \) kann gefunden werden.
+		
+		In der Rechnung fällt auf, dass x für jede Zeile individuell ausgerechnet wird. Dabei ändert sich in (\ref{eq:subpixel_x}) die Werte für \( x \) und die Intensitäten. Hier kann man die Berechnung vereinfachen. wählt man für \( x \) 0, entsteht die folgende Matrix:
+		
+		\begin{equation}
+			X = \begin{pmatrix}
+				0 & 0 & 1 \\
+				1 & 1 & 1 \\
+				1 & -1 & 1
+			\end{pmatrix}
+		\end{equation}
+		
+		Wenn \( \vec{abc} \) mit dieser Matrix und den individuellen Intensitäten berechnet wird, errechnet man immer die Abweichung zu Mitte. Dabei ist die Mitte 0 und das entspricht den ausgewählten Pixel mit der höchsten Intensität. Man erhält eine Zahl zwischen 0 und 1. Diese wird mit der x-Position des Ausgangspixel in der Zeile verrechnet. Der Algorithmus wurde somit vereinfacht, da sich in jeder Rechnung nur der Intensitäten-Vektor ändert und immer die gleiche Matrix \( X \) gewählt werden kann.
+		
+		Mit dem Finden des x-Wert ist die Bearbeitung einer Zeile fertig. Es gibt nun eine eindeutige 2D-Koordinate für einen Punkt der Laserlinie. Der Algorithmus geht über jede Zeile (y) und findet einen x-Wert. Dabei fügt er den gefundene Subpixel (x, y) in ein Array ein. Die Menge dieser Subpixel ist die Abbildung der Laserlinie in einen 2-dimensionalen Raum. Diese wurde als Output gefordert.
 	\subsection{Kalibrierung}
 		\label{chap:kalibierung}
 		\subsubsection{Intrinsische}

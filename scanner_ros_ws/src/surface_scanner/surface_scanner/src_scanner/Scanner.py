@@ -71,6 +71,7 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
+        # Include the x-displacement
         points_surface[0] = points_surface[0] - (self.__x_step * 0.001)
 
         points_surface_cam = world2cam(
@@ -189,7 +190,7 @@ class Scanner:
             print("WARNING: Something went wrong with detecting the ChArUco-Board!")
             return False
 
-        # Fill in Laser-Line parameter in Laser
+        # fill in laser-line parameter in laser
         self.__laser.set_up(
             LaserLine(
                 rvec=rvec_primary,

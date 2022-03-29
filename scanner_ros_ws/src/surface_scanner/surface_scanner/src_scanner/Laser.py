@@ -105,6 +105,7 @@ class Laser:
         self.__fit_plane()
 
     def __calculate_plane_points(self, camera_matrix):
+
         pts_up = bild2world(
             pts=self.__up.get_laser_points(),
             cam_matrix=camera_matrix,
@@ -124,6 +125,8 @@ class Laser:
         #     trans=self.__up.get_tvec(),
         #     rot_matrix=self.__up.get_rvec()
         # )
+
+        # switch down coordinates into up-coordinatsystem
 
         pts_down_cam = world2cam(
             pts=pts_down,

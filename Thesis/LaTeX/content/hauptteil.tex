@@ -38,15 +38,17 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 	
 	Zum Vergleich ist in Abb. \ref{fig:pinhole-camera-model} das Modell einer Lochkamera zu sehen. Wenn man die beiden Darstellungen vergleicht, fällt auf, dass der „Schirm“, auf dem das Bild als Reflektion dargestellt wird bei der Lochkamera hinter der Lochblende ist und bei dem Modell von OpenCv davor. Die physikalisch korrekte Darstellung ist die der Lochkamera. Jedoch ist OpenCv nicht auf die richtige physikalische Darstellung angewiesen. Mathematisch macht es keinen Unterschied, ob die Bild-Ebene vor oder hinter dem optischen Zentrum ist. So kann ein Punkt in der Szene als Vektor begriffen werden, der durch die Bild-Ebene einen Pixel definiert und zum optischen Zentrum führt. Zu sehen in Abb.2 als die rote Linie. In unserem Fall kennen wir das Bild und die genaue Position eines Pixels mit u und v. Das Ziel ist es 3D-Koordinate zu erhalten.
 	
+	\newpage
+	
 	\subsection{Mathematische Grundlage}
-	Grundlegend für die Umrechnung des Pixels in der Bild-Ebene als Vektor mit u und v zu der 3D-Koordinate ist die folgende Formel:
+	Grundlegend für die Umrechnung des Pixels in der Bild-Ebene ist die folgende Formel:
 	
 	\begin{equation}
 		s \; p_{pix} = A \begin{bmatrix} R|t \end{bmatrix} p_w
 		\label{eq:basic_trans}
 	\end{equation}
 	
-	Hierbei ist \( p \) der Pixel im Bild. \( Pw \) ist die 3D-Koordinate, welche gesucht wird. \( A \) ist die Kamera-Matrix und \( \begin{bmatrix} R|t \end{bmatrix} \) die Rotation und Translation vom Kamerakoordinatensystem zum Weltkoordinatensystem. Kamera-Matrix, Rotation und Translation sind hierbei neu. Die genaue Bedeutung wird in dem Kapitel \ref{chap:kalibierung} Kalibrierung genannt. Zum Verstehen der Formel ist hier nur wichtig, dass diese durch eine Kamerakalibrierung herausgefunden werden können. Die Variablen sind also bekannt. Kamera-Matrix und Rotation sind beide jeweils 3x3 Matrizen. Die Translation wird durch einen Vektor (3x1) beschrieben. 
+	Sie beschreibt die Transformation Projektion eines 3D-Punktes in eine Szene zu einem Punkt in der Bild-Ebene. Hierbei ist \( p_{pix} \) der Pixel im Bild. \( Pw \) ist die 3D-Koordinate, welche gesucht wird. \( A \) ist die Kamera-Matrix und \( \begin{bmatrix} R|t \end{bmatrix} \) die Rotation und Translation vom Kamerakoordinatensystem zum Weltkoordinatensystem. Die genau Entstehung der Formel beschreibt OpenCv in [OpenCv-CamCalib]. Kamera-Matrix, Rotation und Translation sind hierbei neu. Die genaue Bedeutung wird in dem Kapitel \ref{chap:kalibierung} Kalibrierung genannt. Zum Verstehen der Formel ist hier nur wichtig, dass diese durch eine Kamerakalibrierung herausgefunden werden können. Die Variablen sind also bekannt. Kamera-Matrix und Rotation sind beide jeweils 3x3 Matrizen. Die Translation wird durch einen Vektor (3x1) beschrieben. 
 	
 	\begin{equation}
 		s \; \begin{bmatrix}
@@ -81,13 +83,13 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		\begin{equation}
 			\begin{aligned}
 				v' &= R \; v + t \\
-				&= \begin{pmatrix}
+				&= \begin{bmatrix}
 				r_{11} & r_{12} & r_{13} \\ 
 				r_{21} & r_{22} & r_{23} \\ 
 				r_{31} & r_{32} & r_{33}
-				\end{pmatrix} v + \begin{pmatrix}
+				\end{bmatrix} v + \begin{bmatrix}
 				t_1 \\ t_2 \\ t_3
-				\end{pmatrix}
+				\end{bmatrix}
 			\end{aligned}
 		\label{eq:rot_trans}
 		\end{equation}
@@ -98,17 +100,17 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		
 		\begin{equation}
 			\begin{aligned}
-				v'_{homogen} &= \begin{pmatrix}
+				v'_{homogen} &= \begin{bmatrix}
 				r_{11} & r_{12} & r_{13} & t_1 \\
 				r_{21} & r_{22} & r_{23} & t_2 \\
 				r_{31} & r_{32} & r_{33} & t_3 \\
 				0 & 0 & 0 & 1
-				\end{pmatrix} \times \begin{pmatrix}
+				\end{bmatrix} \times \begin{bmatrix}
 				v_1 \\
 				v_2 \\
 				v_3 \\
 				1
-				\end{pmatrix} \\
+				\end{bmatrix} \\
 				&= \begin{bmatrix}
 				R|t
 				\end{bmatrix} v_{homogen}
@@ -117,7 +119,7 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		\end{equation}
 		
 		\subsubsection{Transformationen}
-		Die Grundlegende Formel soll jetzt umgestellt werden, um den 3D-Punkt im Weltkoordinatensystem anhand eines Pixels zu errechnen. Die angewandten Transformationen werden durch die folgende Abbildung noch einmal verdeutlicht.
+		Die Grundlegende Formel soll jetzt umgestellt werden, um den 3D-Punkt im Weltkoordinatensystem anhand eines Pixels zu errechnen. Die folgende Abbildung zeigt nochmal das Pinhole Camera Model und verdeutlicht dabei die angewandten Transformationen.
 		
 		\begin{figure}[h]
 			\centering
@@ -127,7 +129,9 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 			\label{fig:pinhole-camera-model_transformations}
 		\end{figure}
 		
-		Das Ziel ist es den 3D-Punkt im Weltkoordinatensystem zu errechnen. Die Rotation (R) und Translation (t) werde für die Umrechnung in das Kamerakoordinatensystem benötigt. Das sind die sogenannten extrinsischen Parameter. Die Kamera-Matrix beschreibt die Transformation zur Bild-Ebene bzw. den Pixel-Koordinaten-System. Die Matrix enthält die sogenannten intrinsischen Parameter. Wir können einen Pixel im Bild auswählen und mithilfe dieser Parameter den entsprechenden Punkt im Weltkoordinatensystem errechnen.
+		Das Ziel ist es den 3D-Punkt im Weltkoordinatensystem zu errechnen. Die Rotation (R) und Translation (t) werde für die Umrechnung in das Kamerakoordinatensystem benötigt. Das sind die sogenannten extrinsischen Parameter. In Abb.: (\ref{fig:pinhole-camera-model_transformations}) wird diese Transformation unter \( P \) der \textbf{Camera Pose Matrix} dargestellt. \newline
+		Die Kamera-Matrix beschreibt die Transformation zur Bild-Ebene bzw. den Pixelkoordinatensystem. Die Matrix enthält die sogenannten intrinsischen Parameter. Das ist die in Abb.: (\ref{fig:pinhole-camera-model_transformations}) gezeigte \textbf{Focal Length} \( f \), welche den Abstand vom Kamera-Koordinatensystem zur Bild-Ebene beschreibt. Hinzu kommt der \textbf{Principal Point}. Dieser befindet sich normalerweise in dem Zentrum der Bild-Ebene. Beides zusammen ergibt die gezeigte Matrix aus (\ref{eq:basic_trans_complete}). Letztendlich wird damit die Umrechnung vom Kamerakoordinatensystem (in Abb.: (\ref{fig:pinhole-camera-model_transformations}) \textbf{Camera coordinate frame}) zur Bild-Ebene (in Abb.: (\ref{fig:pinhole-camera-model_transformations}) \textbf{Image Plane}) dargestellt [OpenCv-CamCalib]. \newline 
+		Wir können einen Pixel im Bild auswählen und mithilfe dieser Parameter den entsprechenden Punkt im Weltkoordinatensystem errechnen. Dazu muss die Formel (\ref{eq:basic_trans}) nach dem Punkt im Weltkoordinatensystem umgestellt werden.
 		
 		\begin{equation}
 			\begin{aligned}
@@ -142,7 +146,7 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 			\label{eq:pixel_zu_welt}
 		\end{equation}
 		
-		Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen. \( \vec{a} \) und \( \vec{b} \) dienen zur Vereinfachung. Wenn \( \begin{bmatrix} R \end{bmatrix} \), \( \begin{bmatrix} A \end{bmatrix}^{-1} \) und \( p_{pix} \) miteinander verrechnet werden entsteht ein Vektor (\( \vec{a} \)). Dasselbe gilt für \( \begin{bmatrix} R \end{bmatrix}^{-1} \) und \( t \) (\( \vec{b} \)). \newline
+		Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen. \( \vec{a} \) und \( \vec{b} \) dienen zur Vereinfachung. Wenn \( \begin{bmatrix} R \end{bmatrix} \), \( \begin{bmatrix} A \end{bmatrix}^{-1} \) und \( p_{pix} \) miteinander verrechnet werden entsteht ein Vektor (\( \vec{a} \)). Genauso entsteht aus\( \begin{bmatrix} R \end{bmatrix}^{-1} \) und \( t \) der Vektor (\( \vec{b} \)). \newline
 		Der neue Ausgangspunkt ist die errechnete Weltkoordinate. Nach Aufgabenstellung sollen errechnete Koordinaten immer aus Sicht der Kamera dargestellt werden. Dazu wird die folgende Transformation benötigt. 
 		
 		Weltkoordinate zu Kamerakoordinate:
@@ -241,12 +245,64 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 			\end{pmatrix}
 		\end{equation}
 		
-		Wenn \( \vec{abc} \) mit dieser Matrix und den individuellen Intensitäten berechnet wird, errechnet man immer die Abweichung zu Mitte. Dabei ist die Mitte 0 und das entspricht den ausgewählten Pixel mit der höchsten Intensität. Man erhält eine Zahl zwischen 0 und 1. Diese wird mit der x-Position des Ausgangspixel in der Zeile verrechnet. Der Algorithmus wurde somit vereinfacht, da sich in jeder Rechnung nur der Intensitäten-Vektor ändert und immer die gleiche Matrix \( X \) gewählt werden kann.
+		Wenn \( \vec{abc} \) mit dieser Matrix und den individuellen Intensitäten berechnet wird, errechnet man immer die Abweichung zu Mitte. Dabei ist die Mitte 0 und das entspricht den ausgewählten Pixel mit der höchsten Intensität. Man erhält eine Zahl zwischen -1 und 1. Diese wird mit der x-Position des Ausgangspixel in der Zeile verrechnet. Der Algorithmus wurde somit vereinfacht, da sich in jeder Rechnung nur der Intensitäten-Vektor ändert und immer die gleiche Matrix \( X \) gewählt werden kann.
 		
 		Mit dem Finden des x-Wert ist die Bearbeitung einer Zeile fertig. Es gibt nun eine eindeutige 2D-Koordinate für einen Punkt der Laserlinie. Der Algorithmus geht über jede Zeile (y) und findet einen x-Wert. Dabei fügt er den gefundene Subpixel (x, y) in ein Array ein. Die Menge dieser Subpixel ist die Abbildung der Laserlinie in einen 2-dimensionalen Raum. Diese wurde als Output gefordert.
+		
+	\newpage
+		
 	\subsection{Kalibrierung}
+		Die Kamerakalibrierung ist ausschlaggebend, um die Formel (\ref{eq:basic_trans_complete}) benutzen zu können. Durch sie wird die Kamera-, Rotationsmatrix und der Translationsvektor gefunden. Dabei unterscheidet man zwischen intrinsische und extrinsischer Kalibrierung, bei denen auch ein unterschiedliches Kalibrierverfahren angewandt wird.
+		
 		\label{chap:kalibierung}
-		\subsubsection{Intrinsische}
+		\subsubsection{Intrinsische Kalibrierung}
+		Die intrinsische Kalibrierung beschäftigt sich mit dem \textit{Inneren} der Kamera. Ergebnis der Kalibrierung ist die Kameramatrix \( A \). Die Kamerakalibrierung ist in OpenCv implementiert und wurde in diesem Projekt genutzt [OpenCv-CamCalib]. Die Implementierung richtet sich nach der Kamerakalibrierung nach Zhang [Zhang] und nach Bouguet [Bouguet]. \newline
+		Der grundlegende Vorgang ist es, ein bekanntes Muster in verschiedenen Positionen mit der Kamera aufzunehmen. So ein Muster ist beispielsweise ein Schachbrett, welches auch in dieser Arbeit für das Kalibrieren benutzt wurde. Die Maßen von den Kacheln sind dementsprechend dann bekannt und der Druck muss genau sein. Dabei muss es sich nicht um ein herkömmliches Schachbrett handeln. Die Größe und die Menge an Kachel kann zum kalibrieren angegeben werden. Man muss OpenCv also sagen, nach welchem Schachbrett der Algorithmus suchen muss.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.39\linewidth]{img/hauptteil/calibration/chessboard_corner_0.png}
+			\includegraphics[width=0.39\linewidth]{img/hauptteil/calibration/chessboard_corner_1.png}
+			\includegraphics[width=0.39\linewidth]{img/hauptteil/calibration/chessboard_corner_2.png}
+			\includegraphics[width=0.39\linewidth]{img/hauptteil/calibration/chessboard_corner_3.png}
+			\caption[Schachbrett-Kalibrierung]{Schachbrett-Kalibrierung}
+			\label{fig:chessboards}
+		\end{figure}
+	
+		Die benutzte Methode heißt \textbf{calibrateCamera()}. Sie nimmt beliebig viele Bilder entgegen. In der eigenen Implementierung wurde gemäß [OpenCv-Cam] vorgegangen. Dabei handelt es sich um die offizielle Einführung zur Kamerakalibrierung von OpenCv.In dem Beispiel in Abb.: (\ref{fig:chessboards}) wurden der Einführung folgend auch die Ecken des definierten Schachbrettes eingezeichnet. Damit kann man im Grunde sichbar machen, dass der Algorithmus das Schachbrett richtig erkannt hat. Gemäß [OpenCv-Cam] werden mindestens 10 Bilder benötigt, um gute Ergebnisse zu liefern. Daran wurde sich ebenfalls gehalten. Die Methode gibt die folgenden Werte zurück:
+		
+		$\underline{Kameramatrix}$
+		
+		Die \textbf{Kameramatrix} wird errechnet und ausgegeben. Dabei handelt es sich um die vollwertige Matrix \( A \) aus den Formeln (\ref{eq:basic_trans}) und (\ref{eq:basic_trans_complete}).
+		
+		$\underline{Distortion-Koeffizienten}$
+		
+		Die Distortion-Koeffizienten werden gemäß [OpenCv-Cam] geliefert. Distortion bedeutet Verzerrung und bezieht sich auf das aufgenommene Bild. Dies Auswirkungen sind, dass aufgenommene gerade Linien in der Szene im Bild nicht mehr gerade dargestellt werden. Sie biegen sich bzw. sind verzerrt. Es gibt zwei verschiedene Verzerrungen, beschrieben in [Dist] und von OpenCv selbst in [OpenCv-CamCalib].
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.7\linewidth]{img/hauptteil/distortion.png}
+			\caption[Verzerrung bei Bildern]{Verzerrung bei Bildern}
+			\captionsource{https://www.learningwithexperts.com/photography/blog/look-out-for-lens-distortion}
+			\label{fig:distortion}
+		\end{figure}
+	
+		Barrel Distortion bedeutet zu deutsch Faß-Verzerrung und Pincushion Distortion zu deutsch Nadelkissen-Verzerrung. Um dieser Verzerrung entgegenzuwirken gibt es in OpenCv die Methode \textbf{undistort()}. Diese bringt ein Bild wieder in den normalen Zustand und benutzt dabei die gefunden Koeffizienten [OpenCv-Cam]. Das benutzen dieser Methode ist unumgänglich. Die Laserlinie ist bei einem ebenen Untergrund gerade. Wenn diese allerdings gebogen ist, führt das beim Aufspannen auf die Ebene zu Höhenunterschieden zwischen den Punkten. Die Verzerrung ist nicht Teil des Pinhole Camera Models und somit auch kein Teil der Formel (\ref{eq:basic_trans}). Bevor mit aufgenommenen Bildern gearbeitet wird, werden die jedoch mit der Methode \textbf{undistort()} entzerrt. Ein Beispiel direkt mit den aktuellen Aufbau soll das verdeutlichen:
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/calibration/distorted.png}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/calibration/undistorted.png}
+			\caption[Beispiel für die Verzerrung in Bildern]{Bildbeispiel}
+			\label{fig:distortion_bsp}
+		\end{figure}
+	
+		Ebenso ist erkennbar, dass es sich bei den verwendeten Kameramodell um eine \textit{Barrel Distortion} handelt.
+		
+		$\underline{Rotationen \; und \; Translationen}$
+		
+		Die Methode gibt ebenfalls eine Rotationsmatrix und einen Translationsvektor für jedes übergebene Schachbrett zurück. Das sind extrinsische Parameter. In jedes Schachbrett wird ein Koordinatensystem gelegt. Die Rotation und Translation beschreiben dann die Transformation von der Kamera zu diesem Koordinatensystem. Es werden also auch schon extrinsische Parameter geliefert. Diese sind allerdings für den Lasertriangulationssensor selbst nicht ausschlaggebend. Damit dieser mit dem Laser kalibriert werden kann, also eine Ebenen-Gleichung für den Laser gefunden wird, muss der Laser mit auf den Bildern abgebildet sein. Dann kann man die Linie in Bezug auf das gefundene Weltkoordinatensystem weiterverwenden. Für die extrinsische Kalibrierung wurde eine extra Methode entwickelt, welche im nächsten Kapitel beschrieben wird. \newline
+		Die intrinsische Kalibrierung ist nur dazu da, die Kameramatrix zu finden und die Distortion-Koeffizienten zu bestimmen, damit die verwendeten Bilder nicht verzerrt sind. Die Rotation und Translation zu den verschiedenen Positionen des Schachbrettes sind nicht von Interesse. 
 			\label{chap:kalibrierung_intrinsisch}
 		\subsubsection{Extrinsische}
 			\label{chap:kalibrierung_extrinsisch}

@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import cv2 as cv
 import open3d as o3d
@@ -157,6 +158,12 @@ class Scanner:
         charuco_board = cv.undistort(charuco_board, self.__camera.get_mtx(), self.__camera.get_dist(), None)
         charuco_board_laser = cv.undistort(charuco_board_laser, self.__camera.get_mtx(), self.__camera.get_dist(), None)
 
+        # generate output images
+        #--------------------------------------------------------------------------------------        
+        cv.imwrite('./out/extrinsic_calibration/charuco_board.png', charuco_board)
+        cv.imwrite('./out/extrinsic_calibration/charuco_board_laser.png', charuco_board_laser)
+        #--------------------------------------------------------------------------------------  
+
         # Create parameter for detecting the boards
         aruco_dict_primary = aruco.Dictionary_get(aruco.DICT_4X4_50)
         aruco_dict_secondary = aruco.Dictionary_get(aruco.DICT_5X5_50)
@@ -171,7 +178,8 @@ class Scanner:
             aruco_params=aruco_params,
             board=board_primary,
             dictionary=aruco_dict_primary,
-            img=charuco_board
+            img=charuco_board,
+            primary=True
         )
 
         if control is False:
@@ -183,12 +191,37 @@ class Scanner:
             aruco_params=aruco_params,
             board=board_secondary,
             dictionary=aruco_dict_secondary,
-            img=charuco_board
+            img=charuco_board,
+            primary=False
         )
 
         if control is False:
             print("WARNING: Something went wrong with detecting the ChArUco-Board!")
             return False
+
+        # generade output images
+        #--------------------------------------------------------------------------------------------------------------------------------------------
+        charuco_drawn_primary = charuco_board.copy()
+        aruco.drawAxis(charuco_drawn_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        charuco_drawn_secondary = charuco_board.copy()
+        aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        cv.imwrite('./out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
+        cv.imwrite('./out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
+
+        charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
+        copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        cv.imwrite('./out/extrinsic_calibration/charuco_cut_primary.png', copy)
+        laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
+        aruco.drawAxis(laserline_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        cv.imwrite('./out/extrinsic_calibration/laserline_primary.png', laserline_primary)
+
+        charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
+        copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        cv.imwrite('./out/extrinsic_calibration/charuco_cut_secondary.png', copy)
+        laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
+        aruco.drawAxis(laserline_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        cv.imwrite('./out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
+        #--------------------------------------------------------------------------------------------------------------------------------------------
 
         # fill in laser-line parameter in laser
         self.__laser.set_up(
@@ -218,7 +251,7 @@ class Scanner:
         print(f"INFO: Laser-plane calibrated with equation: \n '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
         return True
 
-    def __get_pose_in_charuco_board(self, aruco_params, board, dictionary, img):
+    def __get_pose_in_charuco_board(self, aruco_params, board, dictionary, img, primary: bool):
         # Control-Flag to ensure everything went right
         control_flag: bool = False
 
@@ -238,6 +271,21 @@ class Scanner:
                 # Create as mask that only shows the board
                 hull = cv.convexHull(charuco_corners)
                 cv.fillPoly(charuco_mask, np.int32([hull]), 255)
+
+                # generate output images
+                #-----------------------------------------------------------------------------------------------
+                charuco_drawn = img.copy()
+                cv.polylines(charuco_drawn, np.int32([hull]), True, (0, 255, 255), 5)
+                aruco.drawDetectedCornersCharuco(charuco_drawn, charuco_corners , charuco_ids ,(0, 255, 0))
+                
+                if primary:
+                    cv.imwrite('./out/extrinsic_calibration/charuco_convex_hull_primary.png', charuco_drawn)
+                else:
+                    cv.imwrite('./out/extrinsic_calibration/charuco_convex_hull_secondary.png', charuco_drawn)
+                #-----------------------------------------------------------------------------------------------
+
+
+
 
             rvec = np.array([])
             tvec = np.array([])

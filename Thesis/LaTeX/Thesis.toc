@@ -21,24 +21,24 @@
 \contentsline {subsection}{\numberline {2.6}Kalibrierung}{18}{subsection.2.6}%
 \contentsline {subsubsection}{\numberline {2.6.1}Intrinsische Kalibrierung}{18}{subsubsection.2.6.1}%
 \contentsline {subsubsection}{\numberline {2.6.2}Extrinsische}{21}{subsubsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.7}Aufbau / Hardware}{21}{subsection.2.7}%
-\contentsline {subsection}{\numberline {2.8}Aufbau / Software}{21}{subsection.2.8}%
-\contentsline {subsubsection}{\numberline {2.8.1}Python (Bibliothek)}{21}{subsubsection.2.8.1}%
-\contentsline {subsubsection}{\numberline {2.8.2}ROS2}{21}{subsubsection.2.8.2}%
-\contentsline {subsection}{\numberline {2.9}Qualitative Ergebnisse}{21}{subsection.2.9}%
-\contentsline {subsection}{\numberline {2.10}Evaluation}{21}{subsection.2.10}%
-\contentsline {subsubsection}{\numberline {2.10.1}Testen von Genauigkeit}{21}{subsubsection.2.10.1}%
-\contentsline {subsubsection}{\numberline {2.10.2}Fehler}{21}{subsubsection.2.10.2}%
-\contentsline {subsubsection}{\numberline {2.10.3}Probleme und Schwierigkeiten}{21}{subsubsection.2.10.3}%
-\contentsline {section}{\numberline {3}Fazit}{22}{section.3}%
-\contentsline {section}{\numberline {4}Ausblick}{24}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Erweiterung}{24}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Anpassungen}{26}{subsection.4.2}%
-\contentsline {section}{\numberline {A}Anhang}{27}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{27}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{28}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{29}{subsection.A.3}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{31}{section*.16}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{32}{section*.17}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{33}{section*.18}%
-\contentsline {section}{Abkürzungsverzeichnis}{34}{section*.19}%
+\contentsline {subsection}{\numberline {2.7}Aufbau / Hardware}{22}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Aufbau / Software}{22}{subsection.2.8}%
+\contentsline {subsubsection}{\numberline {2.8.1}Python (Bibliothek)}{22}{subsubsection.2.8.1}%
+\contentsline {subsubsection}{\numberline {2.8.2}ROS2}{22}{subsubsection.2.8.2}%
+\contentsline {subsection}{\numberline {2.9}Qualitative Ergebnisse}{22}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Evaluation}{22}{subsection.2.10}%
+\contentsline {subsubsection}{\numberline {2.10.1}Testen von Genauigkeit}{22}{subsubsection.2.10.1}%
+\contentsline {subsubsection}{\numberline {2.10.2}Fehler}{22}{subsubsection.2.10.2}%
+\contentsline {subsubsection}{\numberline {2.10.3}Probleme und Schwierigkeiten}{22}{subsubsection.2.10.3}%
+\contentsline {section}{\numberline {3}Fazit}{23}{section.3}%
+\contentsline {section}{\numberline {4}Ausblick}{25}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Erweiterung}{25}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Anpassungen}{27}{subsection.4.2}%
+\contentsline {section}{\numberline {A}Anhang}{29}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Anhang A}{29}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Anhang B}{30}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Anhang C}{31}{subsection.A.3}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{33}{section*.16}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{34}{section*.17}%
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{35}{section*.18}%
+\contentsline {section}{Abkürzungsverzeichnis}{36}{section*.19}%

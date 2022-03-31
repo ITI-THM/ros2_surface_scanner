@@ -304,11 +304,80 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		
 		Die Methode gibt ebenfalls eine Rotationsmatrix und einen Translationsvektor für jedes übergebene Schachbrett zurück. Das sind extrinsische Parameter. In jedes Schachbrett wird ein Koordinatensystem gelegt. Die Rotation und Translation beschreiben dann die Transformation von der Kamera zu diesem Koordinatensystem. Es werden also auch schon extrinsische Parameter geliefert. Diese sind allerdings für den Lasertriangulationssensor selbst nicht ausschlaggebend. Damit dieser mit dem Laser kalibriert werden kann, also eine Ebenen-Gleichung für den Laser gefunden wird, muss der Laser mit auf den Bildern abgebildet sein. Dann kann man die Linie in Bezug auf das gefundene Weltkoordinatensystem weiterverwenden. Für die extrinsische Kalibrierung wurde eine extra Methode entwickelt, welche im nächsten Kapitel beschrieben wird. Die Rotation und Translation zu den verschiedenen Positionen des Schachbrettes sind nicht von Interesse. 
 		
-		Die intrinsische Kalibrierung ist nur dazu da, die Kameramatrix zu finden und die Distortion-Koeffizienten zu bestimmen, damit die verwendeten Bilder nicht verzerrt sind. Die Kameramatrix ist explizit für die Kamera gültig, mit welcher das Schachbrettmuster aufgenommen wurde. Sie kann also bestimmt werden und ist dann für alle folgenden Rechnungen gültig und unverändert. Genauso verhält es sich mit den Distortion-Koeffizienten. Das bedeutet, dann der Lasertriangulationssensor initial einmal mit dieser Methode kalibriert werden muss, um die intrinsischen Parameter zu bestimmen. Danach werden die Kameramatrix undie Distortion-Koeffizienten abgespeichert und die extrinsische Kalibrierung kann beginnen. 
+		Die intrinsische Kalibrierung ist nur dazu da, die Kameramatrix zu finden und die Distortion-Koeffizienten zu bestimmen, damit die verwendeten Bilder nicht verzerrt sind. Die Kameramatrix ist explizit für die Kamera gültig, mit welcher das Schachbrettmuster aufgenommen wurde. Sie kann also bestimmt werden und ist dann für alle folgenden Rechnungen gültig und unverändert. Genauso verhält es sich mit den Distortion-Koeffizienten. Das bedeutet, dann der Lasertriangulationssensor initial einmal mit dieser Methode kalibriert werden muss, um die intrinsischen Parameter zu bestimmen. Danach werden die Kameramatrix und die Distortion-Koeffizienten abgespeichert und die extrinsische Kalibrierung kann beginnen. 
 			\label{chap:kalibrierung_intrinsisch}
 		\subsubsection{Extrinsische}
-		Die extrinsische Kalibrierung beschäftigt sich allgemein damit die Kamera zu den eingebauten Linienlaser zu kalibrieren. Genauer gesagt geht es nicht konkret um den Laser, sondern die Laserlinie. Ziel dabei ist es, eine Ebenengleichung zu erhalten, die sich im Kamerakoordinatensystem befindet den Laser repräsentiert. Um sich das besser vorzustellen, kann nochmal Abb.: (\ref{fig:lasertriangulation}) eingesehen werden. Hier ist die symbolische Ebene des Lasers rot markiert. Die dazugehörige Gleichung beschreibt dann die Position des Laserlinienstrahls. Grundlegend richtet sich die Methode, um die Ebenen-Gleichung zu finden erneut nach Bajpai und Perelman [baj-per]. Es werden zwei Schachbretter in einem Winkel zueinander aufgestellt. Nach dem im Kapitel \ref{chap:bildverarbeitung} wird dann eine auf den Schachbrettern reflektierte Laserlinie aufgenommen. Durch eine Kamerakalibrierung sind die Transformationen von der Kamera zu den jeweiligen Schachbrett bekannt. Mit der Formel (\ref{eq:basic_trans_complete}) können dann die jeweiligen Koordinaten der Laserlinie auf den Verschiedenen Schachbrettern bestimmt werden. Ausgangspunkt ist jetzt, dass man zwei Laserlinien in zwei unterschiedlichen Koordinatensystemen hat. Wenn man diese dann in ein einheitliches Koordinatensystem zusammen setzt, kann man in den Punkten eine Ebene fitten und erhält die Ebenengleichung. In [baj-per] wird dann bei jedem Durchgang, bei dem eine Laserlinie in eine Punktewolke übersetzt wird, eine aktuelle neue Ebenengleichung erstellt und die Oberflächenpunkte errechnet. Die Ausgangslage ist hier jedoch etwas anders. Die Idee ist es nach der intrinsischen Kalibrierung eine einmalige extrinsische Kalibrierung vorzunehmen. Es wurde schon erwähnt, dass sich Kamera und Laser in ihrer Position zueinander nicht verändern. Damit bleibt auch die Ebenen-Gleichung in bezug zur Kamera immer gleich. Die einmal  gefundene Ebenengleichung ist also allgemeingültig für den folgenden Scann. 
+		Die extrinsische Kalibrierung beschäftigt sich allgemein damit die Kamera zu den eingebauten Linienlaser zu kalibrieren. Genauer gesagt geht es nicht konkret um den Laser, sondern die Laserlinie. Ziel dabei ist es, eine Ebenengleichung zu erhalten, die sich im Kamerakoordinatensystem befindet den Laser repräsentiert. Um sich das besser vorzustellen, kann nochmal Abb.: (\ref{fig:lasertriangulation}) eingesehen werden. Hier ist die symbolische Ebene des Lasers rot markiert. Die dazugehörige Gleichung beschreibt dann die Position des Laserlinienstrahls. Grundlegend richtet sich die Methode, um die Ebenen-Gleichung zu finden erneut nach Bajpai und Perelman [baj-per]. \newline
+		Bekannt ist, dass durch eine Kamerakalibrierung die Rotation und Translation herausgefunden werden können. Durch die intrinsische Kalibrierung ist die Kameramatrix bekannt. Dabei wurde ein Schachbrett aus verschiedenen Positionen aufgenommen. Ziel ist es nun ein Schachbrett mit einer Laserlinie aufzunehmen. Die allgemeine Transformationsformel (\ref{eq:basic_trans_complete}) kann gelöst werden. Mit dem im Kapitel \ref{chap:bildverarbeitung} vorgestellten Verfahren werden die Pixel, die die Laserlinie abbilden gefunden. Nur diese werden in die Formel (\ref{eq:basic_trans_complete}) eingesetzt. Dabei können jetzt die 3D-Punkte errechnet werden, welche sich in dem Weltkoordinatensystem befinden. Das Weltkoordinatensystem liegt dabei auf dem Schachbrett und ist durch die Rotationsmatrix und den Translationsvektor bestimmt. Aus einer Linie kann jedoch keine Ebene abgeleitet werden. Was ist aber, wenn sich im selben Bild ein zweites Schachbrett befindet, welches nicht eben, sondern in einem gewissen Winkel zu dem ersten befindet. Das zweite Schachbrett hat dabei dann ein eigenes Weltkoordinatensystem. Da jedoch alle Transformationen bekannt sind, ist es möglich die Laserlinien-Punkte des einen Koordinatensystem in das andere zu transformieren. Betrachtet werden nun zwei Laserlinien, die in einem Winkel zueinander in einem einheitlichen Koordinatensystem stehen. Mit dieser Ausgangslage ist es möglich eine Ebene in die Punkte zu legen. Dabei gibt es diverse Möglichkeiten eine Ebene an Punkte zu fitten und alle liefern eine Ebenengleichung. Rein logisch sind sogar nur mindestens drei Punkte notwendig, um in einem dreidimensionalen Raum eine Ebene zu beschreiben. In diesem Fall sind es weitaus mehr Punkte, die zum finden der Ebene berücksichtigt werden können. \newline
+		In [baj-per] wird dann bei jedem Durchgang, bei dem eine Laserlinie in eine Punktewolke übersetzt wird, eine aktuelle neue Ebenengleichung erstellt und die Oberflächenpunkte errechnet. Die Ausgangslage ist hier jedoch etwas anders. Die Idee ist es nach der intrinsischen Kalibrierung eine einmalige extrinsische Kalibrierung vorzunehmen. Es wurde schon erwähnt, dass sich Kamera und Laser in ihrer Position zueinander nicht verändern. Damit bleibt auch die Ebenen-Gleichung in Bezug zur Kamera immer gleich. Die einmal  gefundene Ebenengleichung ist also allgemeingültig für den folgenden Scann. Dieser Vorgang der extrinsischen Kalibrierung soll hier nochmal genau beschrieben werden.
+		
+		$\underline{Zwei \; Schachbretter \; in \; einem \; Bild}$
+		
+		Um die extrinsische Kalibrierung auszuführen soll also ein Bild von zwei Schachbrettern gemacht werden. Dabei ist es nötig, das sie in einem Winkel zueinander stehen. Das hat den Grund, dass die verschiedenen Laserlinien einen Winkel bilden müssen, um darin eine Ebene zu finden. Der Winkel ist dabei grundsätzlich egal. Jedoch sollte kein zu hoher oder zu niedriger Winkel gewählt werden, damit dieser nicht zu eng bzw. zu flach ausfällt. Zu diesem Zweck wurde eine eigene Unterlage designt.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/pattern_0.jpg}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/pattern_1.jpg}
+			\caption{Unterlage zum Kalibrieren}
+			\label{fig:ext-calib-pattern}
+		\end{figure} 
+	
+		In diesem Fall wurde ein 90°-Winkel benutzt. Das Kalibrier-Brett ist über ein 3D-Drucker gedruckt wurden. Diese Bilder sind Beispielbilder. Der entwickelte Lasertriangulationssensor liefert während dem Kalibriervorgang Output-Bilder, die verschiedenen Arbeitsschritte untermalen. 
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_board.png}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_board_laser.png}
+			\caption{Ausgangsbilder}
+			\label{fig:ext-calib-raw}
+		\end{figure} 
+	
+		Gemäß Kapitel \ref{chap:bildverarbeitung} wird ein Bild-Paar aufgenommen. In einem ist die Laserlinie sichtbar und in dem anderen nicht.
+		
+		$\underline{Unterscheidung \; der \; Schachbretter}$
+		
+		In den Vorherigen Abbildungen fällt auf, dass es sich bei den verwendeten Kalibriermuster nicht um ein herkömmliches Schachbrett handelt. Das verwendete Muster ist ein ChArUco-Board. Das Problem bei einem herkömmlichen Schachbrett ist, dass der Algorithmus für die Kamera-Kalibrierung in einem einzigen Bild nicht zwischen zwei Schachbrettern unterscheiden kann. Ein ChArUco-Board besitzt in den normal weißen Flächen eines Schachbretts sogenannte ArUco-Marker. Diese Marker können von der Kamera erkannt und eindeutig unterschieden werden. Das finden und unterscheiden der ChArUco-Board ist in OpenCv implementiert. Dabei definiert man, ähnlich zu dem Schachbrett aus der intrinsischen Kalibrierung \ref{chap:kalibrierung_intrinsisch}, im Vorhinein die Parameter des Boards. Dazu gehören nicht nur die Kachel, sondern auch eine gewisse ArUco-Bibliothek, welche die Marker beschreibt. Der Algorithmus kann nun in einem Bild die beiden Boards unterscheiden und platziert ein Koordinatensystem darauf. Vorausgesetzt wird dabei, das die Kameramatrix und die Distortion-Koeffizienten bereits bekannt sind. Da die intrinsische Kalibrierung initial durchgeführt wird, ist diese Voraussetzung erfüllt.  
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_primary.png}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_secondary.png}
+			\caption{Weltkoordinatensysteme im ChArUco-Board}
+			\label{fig:ext-calib-poses}
+		\end{figure}
+	
+		Bekannt sind jetzt die Rotation und Translation von dem Kamerakoordinatensystem zu den zwei Weltkoordinatensystemen, die aus den ChArUco-Boards folgen.
+		
+		$\underline{Finden \; der \; richtigen \; Laserlinie}$
+		
+		Der nächste Schritt muss es sein, die Laserlinie im Bild herauszuarbeiten. Wir wollen die 2D-Punkte der Laserlinie wissen und sie in die 3D-Repräsentation in dem Weltkoordinatensystem umwandeln. Kapitel \ref{chap:bildverarbeitung} beschreibt die Methodik. Das Problem ist, dass nur der Teil der Laserlinie benutzt werden darf, der sich auch tatsächlich auf den jeweiligen Schachbrett befindet. Das bedeutet, dass nur ein gewisser Ausschnitt aus dem Bild wichtig ist. Und zwar genau das zu untersuchende ChArUco-Board. \newline
+		Das ChArUco-Board selbst ist dabei die Lösung des Problems. OpenCv erkennt die sowohl die ArUco-Marker als auch die Ecken der Kachel. Dabei besitzen alle eine eindeutige ID. Über die Ecken kann also ein Bereich abgesteckt werden.
+		
+		\newpage
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=1\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_primary.png}
+			\includegraphics[width=1\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_secondary.png}
+			\caption{Point of Interest im Bild}
+			\label{fig:ext-calib-hull}
+		\end{figure}
+	
+		Um den wichtigen Bereich abzustecken sind die Eckpunkte des Bereiches mit den IDs 0, 5, 18 und 23 ausschlaggebend. Wegen Fehleranfälligkeit wurde jedoch davon abgesehen, genau diese Ecken anzusprechen. Falls in einem Bild eine der äußeren Ecken nicht erkannt wurde, könnten man so den Bereich nicht abstecken. Deswegen wird eine Konvexe Hülle benutzt. Damit werden immer die äußersten Punkte berücksichtigt. Fall gewisse Ecken wegen einer Unschärfe im Bild nicht erkannt werden, führt das nun nicht zu Fehlern. In Abb. (\ref{fig:ext-calib-hull}) ist die abgesteckte Fläche in Gelb eingezeichnet. Falls keine Ecke bzw. keine ID gefunden wurden, ist kein ChArUco-Board erkennbar und die Kalibrierung bricht ab. \newline
+		Mit den Bekannten Bereich kann eine Maske entwickelt werden, die auf das Bild angewandt werden kann. Die Maske besteht dabei aus einem schwarzen Bild, in dem der wichtige Bereich aus weißen Pixeln besteht. Wenn man das Ziel-Bild bitweise mit der Maske verundet, bleibt nur der markierte Bereich im bestehen. Alle andern Pixel sind schwarz.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_cut_primary.png}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_cut_secondary.png}
+			\caption{Ausgeschnitten Laserlinien}
+			\label{fig:ext-calib-cut}
+		\end{figure}
+		
 			\label{chap:kalibrierung_extrinsisch}
+			
+	\newpage
 		
 	\subsection{Aufbau / Hardware}
 		\label{chap:aufbau_hardware}

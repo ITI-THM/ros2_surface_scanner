@@ -164,6 +164,8 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 		\end{equation}
 		
 		Anzumerken ist noch, das \( s \) der Scale-Factor immer noch eine Unbekannte ist. Es scheint also, als ob die Gleichung (\ref{eq:pixel_zu_welt}) noch nicht lösbar sei. Sobald konkrete Werte ausgerechnet werden sollen, muss \( s \) bekannt sein. Das passiert zum ersten Mal beim Erstellen der Ebenengleichung für die Laser-Ebene bei der extrinsischen Kalibrierung. Dabei wird auch darauf eingegangen, wie \( s \) errechnet werden kann.  
+		
+		\label{chap:transformationen}
 	\subsection{Bildverarbeitung}
 	Bekannt sind nun gewisse Grundlagen, wie wir mit einem ausgewählten Pixel im Bild umgehen können. Die Rechnungen und Transformationen sollen aber nicht auf zufällige oder sogar alle Pixel im Bild angewandt werden. Sie sollen auf ganz bestimmte ausgewählte Pixel erfolgen. Und zwar ganz genau diese, die zur abgebildeten Laserlinie gehören. Die Laserlinie ist immer unser Ausgangspunkt für die 3D-Informationen. Alle anderen Pixel interessieren uns im Grunde nicht. Oder anders; die Pixel, die wir brauchen, sind die, die die Laserlinie abbilden. \newline
 	Pixel können einfach und eindeutig als Tupel benannt werden. Sie können als Punkt in einem zweidimensionalen Koordinatensystem begriffen und dann mit einem horizontalen und vertikalen Wert genau gekennzeichnet werden. Benötigte wird eine Menge an diesen Tupeln, für die gilt, dass sie teil der Laserlinie im Bild sind. Mit diversen Methoden der Bildverarbeitung also jene Pixel herausgefunden und abgespeichert, um mit ihnen weiterarbeiten zu können. Das folgende Kapitel bildet somit einen Algorithmus ab, dessen Ziel es ist ein Bild entgegen zu nehmen und die Pixel der Laserlinie zurückzugeben. 
@@ -207,7 +209,7 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 				ax^2 + bx + c &= I_x \\
 				a(x+1)^2 + b(x+1) + c &= I_{x+1} \\
 				a(x-1)^2 + b(x-1) + c &= I_{x-1} \\
-				daraus folgt: \\
+				daraus \; folgt: \\
 				\underbrace{\begin{pmatrix}
 					x^2 & x & 1 \\
 					(x+1)^2 & (x+1) & 1 \\
@@ -349,23 +351,23 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 	
 		Bekannt sind jetzt die Rotation und Translation von dem Kamerakoordinatensystem zu den zwei Weltkoordinatensystemen, die aus den ChArUco-Boards folgen.
 		
+		\newpage
+		
 		$\underline{Finden \; der \; richtigen \; Laserlinie}$
 		
 		Der nächste Schritt muss es sein, die Laserlinie im Bild herauszuarbeiten. Wir wollen die 2D-Punkte der Laserlinie wissen und sie in die 3D-Repräsentation in dem Weltkoordinatensystem umwandeln. Kapitel \ref{chap:bildverarbeitung} beschreibt die Methodik. Das Problem ist, dass nur der Teil der Laserlinie benutzt werden darf, der sich auch tatsächlich auf den jeweiligen Schachbrett befindet. Das bedeutet, dass nur ein gewisser Ausschnitt aus dem Bild wichtig ist. Und zwar genau das zu untersuchende ChArUco-Board. \newline
 		Das ChArUco-Board selbst ist dabei die Lösung des Problems. OpenCv erkennt die sowohl die ArUco-Marker als auch die Ecken der Kachel. Dabei besitzen alle eine eindeutige ID. Über die Ecken kann also ein Bereich abgesteckt werden.
 		
-		\newpage
-		
 		\begin{figure}[h]
 			\centering
-			\includegraphics[width=1\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_primary.png}
-			\includegraphics[width=1\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_secondary.png}
+			\includegraphics[width=0.7\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_primary.png}
+			\includegraphics[width=0.7\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_secondary.png}
 			\caption{Point of Interest im Bild}
 			\label{fig:ext-calib-hull}
 		\end{figure}
 	
 		Um den wichtigen Bereich abzustecken sind die Eckpunkte des Bereiches mit den IDs 0, 5, 18 und 23 ausschlaggebend. Wegen Fehleranfälligkeit wurde jedoch davon abgesehen, genau diese Ecken anzusprechen. Falls in einem Bild eine der äußeren Ecken nicht erkannt wurde, könnten man so den Bereich nicht abstecken. Deswegen wird eine Konvexe Hülle benutzt. Damit werden immer die äußersten Punkte berücksichtigt. Fall gewisse Ecken wegen einer Unschärfe im Bild nicht erkannt werden, führt das nun nicht zu Fehlern. In Abb. (\ref{fig:ext-calib-hull}) ist die abgesteckte Fläche in Gelb eingezeichnet. Falls keine Ecke bzw. keine ID gefunden wurden, ist kein ChArUco-Board erkennbar und die Kalibrierung bricht ab. \newline
-		Mit den Bekannten Bereich kann eine Maske entwickelt werden, die auf das Bild angewandt werden kann. Die Maske besteht dabei aus einem schwarzen Bild, in dem der wichtige Bereich aus weißen Pixeln besteht. Wenn man das Ziel-Bild bitweise mit der Maske verundet, bleibt nur der markierte Bereich im bestehen. Alle andern Pixel sind schwarz.
+		Mit den Bekannten Bereich kann eine Maske entwickelt werden, die auf das Bild angewandt werden kann. Die Maske besteht dabei aus einem schwarzen Bild, in dem der ausschlaggebende Bereich aus weißen Pixeln besteht. Wenn man das Ziel-Bild bitweise mit der Maske verundet, bleibt nur der markierte Bereich im bestehen. Alle andern Pixel sind schwarz. Ausgehend von den Ursprungsbildern (Abb. \ref{fig:ext-calib-raw}) werden für die verschiedenen ChArUco-Boards eine Maske entwickelt und angewandt. Das Ergebnis ist die folgende Abbildung.
 		
 		\begin{figure}[h]
 			\centering
@@ -374,10 +376,47 @@ Der Hauptteil soll damit beginnen, die Grundlagen des Lösungsansatzes zu erläu
 			\caption{Ausgeschnitten Laserlinien}
 			\label{fig:ext-calib-cut}
 		\end{figure}
+	
+		Die Achsen des jeweiligen Koordinatensystems sind dabei nur zu Übersicht eingezeichnet und nicht Teil der Bildverarbeitung. Verdeutlicht werden soll jedoch, dass das Weltkoordinatensystem bekannt ist. \newline
+		Die erstellte Maske kann auch auf das Ursprungsbild ohne Laser angewandt werden. Die beiden ausgeschnittenen Bilder werden an den Algorithmus zum Finden der Laserlinie (Kapitel \ref{chap:bildverarbeitung}) weitergegeben. Die nächste Abbildung zeigt das Ergebnis des Subtrahierens der Bilder. Zur Übersicht sind wieder die Koordinatenachsen eingetragen. Tatsächlich sind an diesem Punkt als Ergebnis der Bildverarbeitung schon die Subpixel der Laserlinie bekannt. Subpixel sind schwierig in einem Bild darzustellen, deshalb wurde sich für das Zeigen des Zwischenschritts entschieden.
+	
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/laserline_primary.png}
+			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/laserline_secondary.png}
+			\caption{Herausgearbeitete Laserlinien}
+			\label{fig:ext-calib-laserlines}
+		\end{figure}
+	
+		$\underline{Der \; Scale-Factor}$
+		
+		An diesem Punkt kommt es zum Einsatz der Formel für die 3D-Weltkoordinaten (\ref{eq:basic_trans}). Wie in den Kapitel \ref{chap:transformationen} angemerkt, ist der Scale-Factor noch eine Unbekannte, die gefunden werden muss. Ohne sie wäre die Gleichung noch nicht lösbar. Dieses Problem kann wie folgt umgangen werden. Das Weltkoordinatensystem wird auf das ChArUco-Board gelegt. Die Laserlinie liegt ebenfalls genau auf dem Board. Das bedeutet, dass die Z-Koordinate der Laserlinien-Punkte 0 ist. Zu sehen ist das auch in Abb. \ref{fig:ext-calib-laserlines}. Die Laserlinie liegt in der XY-Ebene. Die Z-Koordinaten der Weltkoordinatenpunkte müssen 0 sein. Mit dem Ausgangspunkt von Gleichung (\ref{eq:pixel_zu_welt}) folgt daraus diese Umstellung:
+		
+		\begin{equation}
+			\begin{aligned}
+				p_w &= s \; \vec{a} - \vec{b} \\
+				das \; entspricht \\
+				x &= s \; a_x - b_x \\
+				y &= s \; a_y - b_y \\
+				z &= s \; a_z - b_z \\
+				mit \; z &= 0: \\
+				0 &= s \; a_z - b_z \\
+				s &= \frac{b_z}{a_z}
+			\end{aligned}
+		\end{equation}
+		
+		Damit ist die Basistransformationsgleichung lösbar und die 3D-Punkte können errechnet werden. Damit nun eine Ebene in die Punkte gelegt werden kann, müssen alle Punkte in ein einheitliches Koordinatensystem gelegt werden. Durch die bekannten Transformationen ist dies jedoch kein Problem. Zuerst Transformieren wir mit (\ref{eq:welt_zu_kamera}) und der eigene Rotation und Translation die Weltpunkte der unteren Laserlinie in das Kamerakoordinatensystem. Danach wird (\ref{eq:kamera_zu_welt}) genutzt, um mit der Rotation und Translation der oberen Laserlinie die Punkte in das obere Koordinatensystem zu bringen. Die folgende Abbildung gilt als Symbolbild.
+	
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.85\linewidth]{img/hauptteil/ext-calib/laserline_together.png}
+			\caption{Laserlinien in einem Koordinatensystem}
+			\label{fig:ext-calib-laserlines-together}
+		\end{figure}
+	
+		$\underline{Das \; Bestimmen \; der \; Ebenengleichung}$
 		
 			\label{chap:kalibrierung_extrinsisch}
-			
-	\newpage
 		
 	\subsection{Aufbau / Hardware}
 		\label{chap:aufbau_hardware}

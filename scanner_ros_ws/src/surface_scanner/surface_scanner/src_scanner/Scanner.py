@@ -127,21 +127,21 @@ class Scanner:
         plt.plot(points[0, :], points[1, :], points[2, :],
                  '.', label='Laser')
 
-        plt.plot(surface_points[0, :], surface_points[1, :], surface_points[2, :],
-                 '.', label='Surface')
+        # plt.plot(surface_points[0, :], surface_points[1, :], surface_points[2, :],
+        #          '.', label='Surface')
 
-        plane = self.__laser.get_plane_eq()
-        x, y = np.meshgrid(range(-100, 101), range(-100, 101))
-        z = ((-1 * plane[3]) - (plane[0] * x) - (plane[1] * y)) / plane[2]
+        # plane = self.__laser.get_plane_eq()
+        # x, y = np.meshgrid(range(-100, 101), range(-100, 101))
+        # z = ((-1 * plane[3]) - (plane[0] * x) - (plane[1] * y)) / plane[2]
 
         # plot the plane
-        ax.plot_surface(x, y, z, alpha=0.5)
+        # ax.plot_surface(x, y, z, alpha=0.5)
 
         # rotate the axes and update.
         ax.view_init(20, 70)
 
         plt.legend()
-        plt.show()
+        plt.savefig('./out/plots/laserlines.png')
 
     def __calibrate_laser(self,
                           calibration_img,
@@ -202,25 +202,25 @@ class Scanner:
         # generade output images
         #--------------------------------------------------------------------------------------------------------------------------------------------
         charuco_drawn_primary = charuco_board.copy()
-        aruco.drawAxis(charuco_drawn_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1, 5)
+        aruco.drawAxis(charuco_drawn_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
         charuco_drawn_secondary = charuco_board.copy()
-        aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1, 5)
+        aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
         cv.imwrite('./out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
 
         charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
-        copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1, 5)
+        copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_cut_primary.png', copy)
         laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
-        aruco.drawAxis(laserline_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1, 5)
+        aruco.drawAxis(laserline_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/laserline_primary.png', laserline_primary)
 
         charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
-        copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1, 5)
+        copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_cut_secondary.png', copy)
         laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
         laserline_together = laserline_primary + laserline_secondary
-        aruco.drawAxis(laserline_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1, 5)
+        aruco.drawAxis(laserline_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
         cv.imwrite('./out/extrinsic_calibration/laserline_together.png', laserline_together)
         #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -249,6 +249,9 @@ class Scanner:
         # print("INFO: 'down' ready!")
 
         self.__laser.make_plane_eq(camera_matrix=self.__camera.get_mtx())
+
+        self.__generate_plot(surface_points=self.__laser.get_plane_points())
+
         plane_eq = self.__laser.get_plane_eq()
         print(f"INFO: Laser-plane calibrated with equation: \n '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
         return True

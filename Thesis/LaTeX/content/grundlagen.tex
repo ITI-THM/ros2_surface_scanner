@@ -2,11 +2,291 @@
 % Die Grundlagen
 % ----------------------------------------------------------------------------------------------------------
 \section{Grundlagen}\label{grundlagen}
-	\subsection{Grundlagen 1}
-	\blindtext[10]	
-	\subsection{Grundlagen 2}
-	\blindtext[10]	
-	\subsection{Grundlagen 3}
-	\blindtext[10]	
-	\subsection{Grundlagen 4}
-	\blindtext[10]	
+	Um die Vorgänge und die Funktionsweise des Lasertriangulationssensors genau zu verstehen, sollen zuvor einige Grundlagen für den Lösungsansatz erläutert werden. Angefangen wird mit der mathematischen Grundlage, um die internen Berechnungen nachzuvollziehen. Danach werden die verwendeten selbst erstellten Algorithmen besprochen. Da dabei gewisse Bibliotheken mit Python zum Einsatz gekommen sind, sollen diese im ersten Schritt kurz erwähnt werden.
+	
+	\subsection{Bibliotheken}
+	Der Lasertriangulationssensor wurde vor Allem mit OpenCv und ROS2 entwickelt. OpenCv bietet die perfekte Unterstützung für die benötigte Bildverarbeitung. Diverse Funktionen, um Bilder zu bearbeiten, zur Kamerakalibrierung und zum Errechnen der Ebenengleichung sind in OpenCv implementiert.
+	ROS2 kümmert sich um die Automatisierung und den generellen Ablauf eines Scanvorgangs. In der Forschung und Entwicklungs-Projekt mit RINNTECH wird zusätzlich auch ROS2 als übergeordnetes System genutzt. Deshalb war ROS2 auch eine Anforderung an das Projekt. Die vorher benutzte RGB-D-Kamera Intel RealSense ist ebenfalls in der Lage über ROS2 angesprochen zu werden. Da der OpenSource-Lasertriangulationssensor diese ersetzten soll, ist die Verwendung von ROS2 ein logischer Schritt. Erwähnenswert  ist ebenfalls die junge Bilbiothek Open3D. Sie wird benötigt mit Punktewolken zu arbeiten.
+	
+	\subsection{Der Grundlegende Aufbau}
+	Der grundlegende Aufbau orientiert sich an den Lösungsansatz. Notwendig sind dafür nur ein Linienlaser und eine Kamera. Zuerst wurde für einen Prototyp zum Testen eine Webcam verwenden, später eine Industriekamera. Ausschlaggebend zum Funktionieren des theoretischen Lösungsansatz ist, dass die Kamera einen Linienversatz aufnehmen kann. Um das zu erreichen werden Kamera und Laser in einem gewissen Winkel zueinander gesetzt. Durch die Perspektive der Kamera entsteht der Linienversatz. Dabei ist egal, ob die Kamera von oben auf das Objekt zeigt und der Laser schräg sitzt oder andersrum. Die Lasertriangulationssensoren aus der Industrie weisen zumeist den Aufbau aus Abbildung \ref{fig:lasertriangulation} auf.
+	
+	\newpage
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/grundlagen/lasertriangulation_2}
+		\caption{Positionen bei der Lasertriangulation}
+		\label{fig:lasertriangulation_position}
+	\end{figure}
+	
+	Der erste Schritt in der Erarbeitung des Sensors war es, die Möglichkeit zu entwickeln, eine aufgenommene Laserlinie in eine korrekte Punktewolke umzusetzen. Danach muss es ermöglicht werden den Sensor über bzw. das Objekt unter dem Sensor bewegen zu können. Für die folgenden Erklärungen zur mathematischen Grundlage, Bildverarbeitung und Kalibrierung ist nur wichtig zu wissen, dass die Kamera und Laser in einem Winkel zueinander über dem Objekt angebracht sind (Abbildung \ref{fig:lasertriangulation_position}). Ebenfalls ist wichtig, dass Kamera und Laser fest angebracht sind und sich zueinander nicht bewegen. Nur der ganze Sensor ist bewegbar, dabei bleiben dann aber Kamera und Laser zueinander in der gleichen Position.
+	\label{chap:grundlegender_aufbau}
+	
+	\subsection{OpenCv Pinhole Camera Model}
+	Der Anfang aller Berechnungen des Lasertriangulationssensors ist immer ein Bild. Die Kamera als optischer Sensor ist die einzige Informations-Quelle. Ein Bild besteht aus Pixeln. Diese sind 2-Dimensional. Ziel ist es die dritte Dimension zu finden. Für die gesuchten 3D-Punkte des Objektes ist dafür eine Ebenen-Gleichung für die Laser-Ebene notwendig. Diese ist nicht von Anfang an bekannt und es gilt diese herauszufinden. Es wird trotzdem nach einem Verfahren gesucht, welches unabhängig von einem Laser oder einer Ebene, sondern nur mithilfe der Kamera, 3D-Informationen liefern kann. Genau diese Informationen sind zugänglich mit den Pinhole Camera Model von OpenCv. In OpenCv wird eine Kamera genauso, wie eine Lochkamera begriffen.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/grundlagen/pinhole_camera_model.png}
+		\caption[test]{Pinhole Camera Model}
+		\captionsource{tesaugdsakif sd}
+		\label{fig:pinhole-camera-model}
+	\end{figure}
+	
+	In Abbildung \ref{fig:pinhole-camera-model} ist dieses Modell dargestellt. Dabei gilt  als optisches Zentrum, welches bei einer Lochkamera das Lochblende ist. Daran orientiert sich das Kamera-Koordinatensystem. Bei einer Lochkamera ist es üblich, dass eine Szene aus der Echten Welt aufgenommen wird. Diese wird über die Öffnung auf dem Kopf gespiegelt auf einem Schirm abgebildet.
+	
+	
+	
+	Zum Vergleich ist in Abb. \ref{fig:pinhole-camera-model} das Modell einer Lochkamera zu sehen. Wenn man die beiden Darstellungen vergleicht, fällt auf, dass der „Schirm“, auf dem das Bild als Reflektion dargestellt wird bei der Lochkamera hinter der Lochblende ist und bei dem Modell von OpenCv davor. Die physikalisch korrekte Darstellung ist die der Lochkamera. Jedoch ist OpenCv nicht auf die richtige physikalische Darstellung angewiesen. Mathematisch macht es keinen Unterschied, ob die Bild-Ebene vor oder hinter dem optischen Zentrum ist. So kann ein Punkt in der Szene als Vektor begriffen werden, der durch die Bild-Ebene einen Pixel definiert und zum optischen Zentrum führt. Zu sehen in Abb.2 als die rote Linie. In unserem Fall kennen wir das Bild und die genaue Position eines Pixels mit u und v. Das Ziel ist es 3D-Koordinate zu erhalten.
+	
+	\newpage
+	
+	\subsection{Mathematische Grundlage}
+	Grundlegend für die Umrechnung des Pixels in der Bild-Ebene ist die folgende Formel:
+	
+	\begin{equation}
+	s \; p_{pix} = A \begin{bmatrix} R|t \end{bmatrix} p_w
+	\label{eq:basic_trans}
+	\end{equation}
+	
+	Sie beschreibt die Projektion eines 3D-Punktes in eine Szene zu einem Punkt in der Bild-Ebene. Hierbei ist \( p_{pix} \) der Pixel im Bild. \( Pw \) ist die Welt-Koordinate, welche gesucht wird. \( A \) ist die Kamera-Matrix.\( \begin{bmatrix} R|t \end{bmatrix} \) ist eine Rotation und Translation udn beschreibt eine Transformation vom Kamerakoordinatensystem zum Weltkoordinatensystem. Die genau Entstehung der Formel beschreibt OpenCv in [OpenCv-CamCalib]. Kamera-Matrix, Rotation und Translation sind hierbei neu. Die genaue Bedeutung wird in dem Kapitel \ref{chap:kalibierung} Kalibrierung genannt. Zum Verstehen der Formel ist hier nur wichtig, dass diese durch eine Kamerakalibrierung herausgefunden werden können. Die Variablen sind also bekannt. Kamera-Matrix und Rotation sind beide jeweils 3x3 Matrizen. Die Translation wird durch einen Vektor (3x1) beschrieben. 
+	
+	\begin{equation}
+	s \; \begin{bmatrix}
+	u \\ 
+	v \\ 
+	1
+	\end{bmatrix} = \begin{bmatrix}
+	f_x & 0 & c_x \\
+	0 & f_y & c_y \\
+	0 & 0 & 1
+	\end{bmatrix} \begin{bmatrix}
+	r_{11} & r_{12} & r_{13} & t_1 \\ 
+	r_{21} & r_{22} & r_{23} & t_2 \\ 
+	r_{31} & r_{32} & r_{33} & t_3 \\
+	0 & 0 & 0 & 1
+	\end{bmatrix} \times \begin{bmatrix}
+	X \\ 
+	Y \\ 
+	Z \\
+	1
+	\end{bmatrix}
+	\label{eq:basic_trans_complete}
+	\end{equation}
+	
+	In der Formel (\ref{eq:basic_trans_complete}) wird dies noch einmal genauer gezeigt. Bekannt sind also \( p \), \( A \) und \( \begin{bmatrix} R|t \end{bmatrix} \). Unbekannte Variablen sind \( s \) der Scale-Factor und \( p_w \) die Weltkoordinate.
+	
+	\subsubsection{Homogene Koordinaten}
+	In der Formel (\ref{eq:basic_trans_complete}) sind die Rotation (\( R \)), die Translation (\( t \)) als homogenen Matrix und  der Punkt im Weltkoordinatensystem (\( p_w \)) als homogener Vektor dargestellt. Der Vorteil vom Verwenden einer homogenen Matrix ist, dass beliebig viele Transformationen im dreidimensionalen Raum in dieser zusammengefasst werden können. Die Matrix kann dann auf einen Punkt im dreidimensionalen Raum, dargestellt als homogener Vektor, angewandt werden. In diesem Fall sind die Transformationen eine Rotation und eine Translation von dem Punkt im Kamerakoordinatensystem zu dem Weltkoordinatensystem. Das Zusammenführen von Rotation und Translation ergibt Sinn. Die Transformation von dem einen Koordinatensystem in das andere ist nur abgeschlossen, wenn sowohl die Rotation als auch die Translation auf den Zielvektor angewandt wurden. Die Formel (\ref{eq:basic_trans}) soll aber im Folgendem nach dem Punkt im Weltkoordinatensystem umgestellt werden (siehe (\ref{eq:pixel_zu_welt})). Für diese Umstellung wird die homogene Matrix wieder aufgeteilt. Damit dieser Vorgang nachvollziehbar ist, wird kurz die Entstehung der homogenen Matrix für dieses Beispiel erläutert.
+	
+	Die grundsätzliche Transformation (Rotation + Translation), die angewandt werden soll ist:
+	
+	\begin{equation}
+	\begin{aligned}
+	v' &= R \; v + t \\
+	&= \begin{bmatrix}
+	r_{11} & r_{12} & r_{13} \\ 
+	r_{21} & r_{22} & r_{23} \\ 
+	r_{31} & r_{32} & r_{33}
+	\end{bmatrix} v + \begin{bmatrix}
+	t_1 \\ t_2 \\ t_3
+	\end{bmatrix}
+	\end{aligned}
+	\label{eq:rot_trans}
+	\end{equation}
+	
+	Dabei ist v ein Beispielvektor.
+	
+	Eine homogene Matrix ist eine 4x4-Matrix. Die unterste Zeile ist immer (0, 0, 0, 1). Beide Transformationen können in ihr eingebunden werden. Die Matrix wird dann mit den homogenen Vektor verrechnet:
+	
+	\begin{equation}
+	\begin{aligned}
+	v'_{homogen} &= \begin{bmatrix}
+	r_{11} & r_{12} & r_{13} & t_1 \\
+	r_{21} & r_{22} & r_{23} & t_2 \\
+	r_{31} & r_{32} & r_{33} & t_3 \\
+	0 & 0 & 0 & 1
+	\end{bmatrix} \times \begin{bmatrix}
+	v_1 \\
+	v_2 \\
+	v_3 \\
+	1
+	\end{bmatrix} \\
+	&= \begin{bmatrix}
+	R|t
+	\end{bmatrix} v_{homogen}
+	\end{aligned}
+	\label{eq:rot_trans_homgen}
+	\end{equation}
+	
+	\newpage
+	
+	\subsubsection{Koordinaten-Transformationen}
+	Um den 3D-Punkt im Weltkoordinatensystem anhand eines Pixels zu errechnen, wird die grundlegende Formel umgestellt. Die folgende Abbildung zeigt nochmal das Pinhole Camera Model und verdeutlicht dabei die angewandten Transformationen.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.9\linewidth]{img/grundlagen/pinhole_camera_model_2.png}
+		\caption[Transformationen]{Transformationen im Pinhole Camera Model}
+		\captionsource{https://www.oreilly.com/library/view/mastering-opencv-4/9781789533576/848e4e77-32ec-499d-9945-cb0352e28236.xhtml}
+		\label{fig:pinhole-camera-model_transformations}
+	\end{figure}
+	
+	Das Ziel ist es den 3D-Punkt (In Abbild \ref{fig:pinhole-camera-model_transformations} \( W \)) im Weltkoordinatensystem zu errechnen. Die Rotation (R) und Translation (t) werde für die Umrechnung in das Kamerakoordinatensystem benötigt. Das sind die sogenannten extrinsischen Parameter. In Abb.: (\ref{fig:pinhole-camera-model_transformations}) wird diese Transformation unter \( P \) der \textbf{Camera Pose Matrix} dargestellt. \newline
+	Die Kamera-Matrix beschreibt die Transformation zur Bild-Ebene bzw. den Pixelkoordinatensystem. Die Matrix enthält die sogenannten intrinsischen Parameter. Das ist die in Abb.: (\ref{fig:pinhole-camera-model_transformations}) gezeigte \textbf{Focal Length} \( f \), welche den Abstand vom Kamera-Koordinatensystem zur Bild-Ebene beschreibt. Hinzu kommt der \textbf{Principal Point}. Dieser befindet sich normalerweise in dem Zentrum der Bild-Ebene. Beides zusammen ergibt die gezeigte Matrix aus (\ref{eq:basic_trans_complete}). Letztendlich wird damit die Umrechnung vom Kamerakoordinatensystem (in Abb.: (\ref{fig:pinhole-camera-model_transformations}) \textbf{Camera coordinate frame}) zur Bild-Ebene (in Abb.: (\ref{fig:pinhole-camera-model_transformations}) \textbf{Image Plane}) dargestellt [OpenCv-CamCalib]. \newline 
+	Wir können einen Pixel im Bild auswählen und mithilfe dieser Parameter den entsprechenden Punkt im Weltkoordinatensystem errechnen. Dazu muss die Formel (\ref{eq:basic_trans}) nach dem Punkt im Weltkoordinatensystem umgestellt werden.
+	
+	\begin{equation}
+	\begin{aligned}
+	\begin{bmatrix} A \end{bmatrix} \begin{bmatrix} R|t \end{bmatrix} p_w &= s \; p_{pix} \\
+	\begin{bmatrix} R|t \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
+	\begin{bmatrix} R \end{bmatrix} p_w &= s \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - t \\
+	p_w &= s \begin{bmatrix} R \end{bmatrix}^{-1} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} - \begin{bmatrix} R \end{bmatrix}^{-1} t \\
+	p_w &= s \; \vec{a} - \vec{b} \\
+	wobei: \quad \vec{a} & = \begin{bmatrix} R \end{bmatrix}^{-1} \begin{bmatrix} A \end{bmatrix}^{-1} p_{pix} \\
+	\vec{b} &= \begin{bmatrix} R \end{bmatrix}^{-1} t
+	\end{aligned}
+	\label{eq:pixel_zu_welt}
+	\end{equation}
+	
+	Diese Gleichung ist die Grundlage der Errechnung von 3D-Informationen. \( \vec{a} \) und \( \vec{b} \) dienen zur Vereinfachung. Wenn \( \begin{bmatrix} R \end{bmatrix} \), \( \begin{bmatrix} A \end{bmatrix}^{-1} \) und \( p_{pix} \) miteinander verrechnet werden entsteht ein Vektor (\( \vec{a} \)). Genauso entsteht aus\( \begin{bmatrix} R \end{bmatrix}^{-1} \) und \( t \) der Vektor (\( \vec{b} \)). \newline
+	Der neue Ausgangspunkt ist die errechnete Weltkoordinate. Nach Aufgabenstellung sollen errechnete Koordinaten immer aus Sicht der Kamera dargestellt werden. Dazu wird die folgende Transformation benötigt. 
+	
+	Weltkoordinate zu Kamerakoordinate:
+	\begin{equation}
+	p_{cam} = \begin{bmatrix} R \end{bmatrix} \; p_w + t
+	\label{eq:welt_zu_kamera}
+	\end{equation}
+	
+	Kamerakoordinate zur Weltkoordinate:
+	\begin{equation}
+	p_w = \begin{bmatrix} R \end{bmatrix}^{-1} \; (p_{cam} - t)
+	\label{eq:kamera_zu_welt}
+	\end{equation}
+	
+	Anzumerken ist noch, das \( s \) der Scale-Factor immer noch eine Unbekannte ist. Es scheint also, als ob die Gleichung (\ref{eq:pixel_zu_welt}) noch nicht lösbar sei. Sobald konkrete Werte ausgerechnet werden sollen, muss \( s \) bekannt sein. Das passiert zum ersten Mal beim Erstellen der Ebenengleichung für die Laser-Ebene bei der extrinsischen Kalibrierung. Dabei wird auch darauf eingegangen, wie \( s \) errechnet werden kann.  
+	
+	\newpage
+	
+	\label{chap:transformationen}
+	\subsection{Bildverarbeitung}
+	Bekannt sind nun gewisse Grundlagen, wie wir mit einem ausgewählten Pixel im Bild umgehen können. Die Rechnungen und Transformationen sollen aber nicht auf zufällige oder sogar alle Pixel im Bild angewandt werden. Sie sollen auf ganz bestimmte ausgewählte Pixel erfolgen. Und zwar ganz genau diese, die zur abgebildeten Laserlinie gehören. Die Laserlinie ist immer unser Ausgangspunkt für die 3D-Informationen. Alle anderen Pixel interessieren uns im Grunde nicht. \newline
+	Pixel können einfach und eindeutig als Tupel benannt werden. Sie können als Punkt in einem zweidimensionalen Koordinatensystem begriffen und dann mit einem horizontalen und vertikalen Wert genau gekennzeichnet werden. Benötigte wird eine Menge an diesen Tupeln, für die gilt, dass sie Teil der Laserlinie im Bild sind. Mit diversen Methoden der Bildverarbeitung können diese Pixel herausgefunden und abgespeichert werden, um mit ihnen weiterarbeiten zu können. Das folgende Kapitel bildet somit einen Algorithmus ab, dessen Ziel es ist ein Bild entgegen zu nehmen und die Pixel der Laserlinie zurückzugeben. 
+	
+	\label{chap:bildverarbeitung}
+	\subsubsection{Das Erkennen der Laserlinie}
+	Der erste Schritt des Algorithmus muss sein, die Laserlinie im Bild zu erkennen. Ein wichtiges Kriterium dabei war die Genauigkeit der ausgewählten Pixel. Jeder Pixel, der vom Algorithmus markiert wird, aber nicht zur eigentlichen Laserlinie gehört, wird in einem Fehler in der am Ende erstellten Punktewolke enden. Es wird also ein Punkt im Raum gezeigt, der nicht zur eingescannten Oberfläche passt. Dieser hängt dann beispielsweise in der Luft bzw. ist an einer Stelle im Koordinatensystem, wo sich eigentlich nichts befindet. Dieses sogenannte Rauschen soll möglichst gering sein. \newline
+	Im Zuge einer umfangreichen Recherche zum Thema Lasertriangulation und OpenSource-Produzierten Laserlinienscannern wurde ein Paper von Bajpai und Perelman [baj-per], die auch einen Laserlinienscanner entwickelt haben, als Grundlage gewählt. Nicht nur bei dem Finden der Laserlinie, auch in diversen anderen Schritten der Errechnung von 3D-Punkten aus den Laserlinien-Pixeln ist dieses Paper eine Grundlage und Hilfestellung. Gemäß der dort verwendeten Methodik kam die Idee, zwei Bilder zu machen. In einem ist der Laser angeschaltet, in dem anderen nicht. Wenn diese Bilder voneinander abgezogen werden, kommen im Grunde genau die Veränderungen hervor. Da sich nichts anderes im Bild verändern sollte, außer das Erscheinen der Laserlinie, wird genau diese perfekt aufgezeigt.
+	Voraussetzung dafür ist, dass die Umgebung der zu scannenden Fläche gleich bleibt. Einwirkungen wären zum Beispiel Änderungen bei den Lichtverhältnissen, bzw. bei der Beleuchtung oder auch eine Bewegung von Objekten zwischen der Aufnahme der zwei Bilder. Solche Einwirkungen würden in ungewolltem Rauschen enden oder sogar die Laserlinie falsch positionieren. Weitere Informationen hierzu befinden sich ebenfalls im Kapitel \ref{chap:probleme_schwierigkeiten} Probleme und Schwierigkeiten. Diese Anforderungen werden für den zu entwickelnden Laserlinien-Scanner akzeptiert. Ebenfalls sind es Anforderungen, die nicht direkt von der Software beeinflusst werden können. Sie sollten somit beim Aufbau des Scanners genauer beachtet werden und auf die Bildverarbeitung keinen Einfluss mehr haben dürfen. Das proben dieser Methode führte auch mit dem Testen über das Binärbild zu sehr guten Ergebnissen. Zusätzlich ist diese Methode sehr einfach über OpenCv umzusetzen.
+	
+	\begin{figure}[h]
+		\centering
+		\subfloat[]{\includegraphics[width=0.325\linewidth]{img/hauptteil/bildverarbeitung/surface_img_1.png} \label{subfig:surface_laser}}
+		\subfloat[]{\includegraphics[width=0.325\linewidth]{img/hauptteil/bildverarbeitung/surface_img_0.png} \label{subfig:surface}}
+		\subfloat[]{\includegraphics[width=0.325\linewidth]{img/hauptteil/bildverarbeitung/surface_diff.png} \label{subfig:surface_diff}}
+		\caption{Subtraktion der Bilder}
+		\label{fig:sub_imgs}
+	\end{figure} 
+	
+	Festzuhalten ist damit, dass die Kamera zwei Bilder aufnehmen muss, eins Bild mit Laserlinie und ein Bild ohne. Das Bild ohne Laserlinie (\ref{subfig:surface}) wird dann von dem mit Laserlinie (\ref{subfig:surface_laser}) abgezogen. Der Algorithmus zum Finden der Laserlinien-Pixel arbeitet dann mit der Differenz (\ref{subfig:surface_diff}).
+	
+	\newpage
+	
+	\subsubsection{Grauwert-Bild}
+	Für einen Menschen ist die Laserlinie jetzt schon auf einem Blick gut erkennbar. Ein Algorithmus braucht allerdings spezifische Informationen, um die Pixel auszuwählen. Auch die Pixel, die nicht eindeutig zur Laserlinie gehören sind nicht komplett schwarz mit einem RGB-Wert von (R=0, G=0, B=0). Einen kleinen für den Menschen zumeist nicht sichtbaren Unterschied in zwei nacheinander aufgenommenen Bildern wird es immer geben. 
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.75\linewidth]{img/hauptteil/bildverarbeitung/pixel_values.png}
+		\caption{Pixel-Werte in einem Ausschnitt aus \ref{subfig:surface_diff} am Rand der Laserlinie}
+		\label{fig:pix_values}
+	\end{figure} 
+	
+	Die Abbildung zeigt gut die Pixel der Laserlinie unten links. Die verschiedenen Farbbereiche sind stark vertreten, vor allem der Rote. Die Pixel, die kein Teil der Laserlinie sind, besitzen nur sehr schwache Werte in den drei Farbbereichen. Nach einer Regelung muss hier immer noch genau festgelegt werden, welche Pixel für die Laserlinie ausgewählt werden. Die Differenz von den zwei Bilden macht dies allerdings einfacher. Gleichbleibende Stellen zwischen den beiden Bildern wie zum Beispiel sehr helle Stellen oder auch andere rote Stellen sind in dem Differenz-Bild nicht mehr erkennbar. Ohne diesen Schritt wären solche Stellen womöglich nicht genau von der Laserlinie zu unterscheiden. \newline
+	Als zweiter Schritt wird das Bild zu einem Grauwert-Bild konvertiert. Vorteil davon ist, das jetzt nicht mehr der RGB-Wert mit drei eigenen Werten ausschlaggebend ist, sondern nur noch die Intensität, bzw. der Grauwert eines Pixels. Die jeweilige Intensität für einen Pixel berechnet OpenCv nach der folgenden Formel [Vgl: OpencvDoc]:
+	\begin{equation}
+	Y = 0.299 \cdot R + 0.587 \cdot G + 0.114 \cdot B
+	\label{eq:rgb_to_grey}
+	\end{equation}
+	Damit hält OpenCv sich an die ITU-R BT 601 [vgl.: CCIR 601] und dem darin festgelegten Farbmodell \( YC_bC_r \). Dabei handelt es sich um eine Konvention, wie digitale Video-Signale zu kodieren sind. \newline
+	Die Formel (\ref{eq:rgb_to_grey}) zeigt ebenfalls, dass aus den drei Farbwerten nun ein einzelner Grauwert errechnet wird. Allgemein kann dabei festhalten werden, dass je höher die einzelnen Farbinformationen waren, um so höher wird auch der Grauwert bzw. die Intensität sein. Das betrifft die Pixel der Laserlinie. Die anderen Pixel besitzen sehr geringe Farbwerte und werden deshalb auch eine geringe Intensität aufweisen. 
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.75\linewidth]{img/hauptteil/bildverarbeitung/pixel_values_gray.png}
+		\caption{Der selbe Ausschnitt wie in Abbildung \ref{fig:pix_values}, nur als Grauwertbild konvertiert.}
+		\label{fig:pix_values_gray}
+	\end{figure} 
+	
+	Die Abbildungen \ref{fig:pix_values} und \ref{fig:pix_values_gray} zeigen auch, dass eine Laserlinie bis zu 4 oder 5 Pixel breit sein kann. Für die Weiterverarbeitung soll sie allerding nur eine Breite von einem Pixel haben. Dazu wird in jeder Pixel-Zeile in einem Bild nach der höchsten Intensität gesucht. Das ist jedoch nur sinnvoll, wenn die Laserlinie im Bild von oben nach unten geht. Dies Anforderung kann schon im Aufbau des Sensors beachtet werden. Im Kapitel \ref{chap:grundlegender_aufbau} wurde beschrieben, dass Kamera und Laser zueinander in der gleichen Position bleiben. Demnach kann der Laser entsprechend angebracht werden, dass er im Kamerabild entsprechend aufgenommen wird.
+	
+	\subsubsection{Gauß-Filter}
+	Die einfachste Methode wäre also jede Zeile nach der höchsten Intensität zu suchen und den betreffenden Pixel auszuwählen. Dieser Pixel befindet sich je nach Aufnahme jedoch nicht genau in der Mitte der Laserlinie. Die erarbeiteten Linien können so sehr \glqq wellig\grqq{} werden, da Pixel untereinander zum teil stark in ihrer Position in der Zeile abweichen. Den Pixel mit der höchsten Intensität als Ausgangspunkt zu nehmen ist gut, jedoch sollen die umliegenden Pixel einen Einfluss machen können, um die Genauigkeit der Laserlinie zu erhöhen. Dazu wurden zwei Vorgänge entwickelt. \newline
+	Die erste Methode ist es, einen Gauß-Filter über das Grauwert-Bild zu legen. Ein Gauß-Filter ist ein Weichzeichner, der umgangssprachlich ein Bild verwischt bzw. unscharf macht. Der Gauß-Filter wird auf jeden Pixel im Bild angewandt. Dabei ändert er den Wert des ausgewählten Pixels in Abhängigkeit der umliegenden Pixel. In diesem Projekt wird er dabei in einer Reichweite von einem 5x5-Feld definiert. Das bedeutet, das ausgehend von dem ausgewählten Pixel ein 5x5-Feld betrachtet wird. Der Gauß-Filter ist eine Standard-Bildverarbeitungsoperation, die vor allem mögliches Rauschen im Bild verringert. Wenn ein einzelner Pixel ein hohen Wert aufweist, jedoch alle anderen um diesen herum im Vergleich niedriger sind, wird der Pixel-Wert nach der Filter-Operation niedriger ausfallen. So werden demnach vereinzelte Pixel dunkler gemacht.
+	
+	\subsubsection{Das Erstellen von Subpixeln}
+	Nachdem der Filter verwendet wurde, kommt die Operation, in der jede Zeile des Bildes nach dem Laserlinien-Pixel abgesucht wird. Hier wird zuerst der Pixel mit der höchsten Intensität gesucht. Dabei kann immer noch mehr  Genauigkeit erzielt werden, wenn man die Pixel links und recht neben dem Ausgewählten mit beachtet. So fliest nicht nur die Intensität als Auswahlkriterium ein, sondern auch die benachbarten Pixel der Laserlinie in dieser Zeile. Da die erschlossenen Pixel in 3D-Koordinaten umgewandelt werden und somit vom Bild und der Pixel-Darstellung getrennt werden, ist es nicht mehr notwendig nur ganze Zahlen zur zu verwenden. Die Werte können also auch Nachkommastellen haben und sogenannte Subpixel ergeben. Für dieses Errechnen des passenden Subpixel wurde ein Algorithmus erstellt, der wie folgt funktioniert:
+	
+	$\underline{1. \; Threshold}$
+	
+	Zuerst wird ein passender Threshold gesucht um eine Grenze festzulegen, ab welchen Wert überhaupt ein Pixel gefunden werden soll. Wenn die maximale Intensität in einer Zeile unter dem gewählten Threshold liegt, wird diese übersprungen. Damit wird auch ungewolltes Rauschen entfernt, da eine Intensität, die so niedrig ist, nicht zur Laserlinie gehören kann. Ein im Vorhinein festgelegter Threshold ist dabei nicht ausreichend, da dieser nicht an das aktuelle Bild angepasst wäre. Bilder können unterschiedlich ausfallen und nicht wie gewollt auf den Threshold reagieren. Der Threshold soll genau auf das aktuelle Bild angepasst sein. Die Otsu-Methode ist ein Schwellenwertverfahren, welches genau den gewollten Threshold liefern kann [otsu]. Dabei wird von einem Grauwertbild ein Histogramm erstellt. Dieses wird analysiert und ein passender individueller Threshold ausgegeben. Die höchste Intensität der aktuellen Zeile wird auf diesen geprüft. Wenn sie zu niedrig ist, ist auch die ganze Zeile zu dunkel und wird nicht als Teil der Laserlinie angesehen.
+	
+	$\underline{2. \; Einbeziehen \; der \; benachbarten \; Pixel}$
+	
+	Der Ausgangspunkt ist jetzt der Pixel mit der höchsten Intensität und dieser liegt über dem Threshold. Die benachbarten Pixel sollen jetzt in einen endgültigen Wert mit einbezogen werden. Um das zu erreichen wird eine Parabel genutzt. Es gilt eine quadratische Funktion in der Form \( ax^2 + bx + c = I_x \), wobei \( I \) die Intensität und \( x \) die Position in der jeweiligen Zeile ist. Bei einem Bild, das beispielsweise 1920 Pixel breit ist, ist das ein Wert zwischen 0 und 1919. Die quadratische Funktion wird auf den ausgewählten Pixel und seine Nachbarn angewandt. Somit gilt:
+	
+	\begin{equation}
+	\begin{aligned}
+	ax^2 + bx + c &= I_x \\
+	a(x+1)^2 + b(x+1) + c &= I_{x+1} \\
+	a(x-1)^2 + b(x-1) + c &= I_{x-1} \\
+	daraus \; folgt: \\
+	\underbrace{\begin{pmatrix}
+		x^2 & x & 1 \\
+		(x+1)^2 & (x+1) & 1 \\
+		(x-1)^2 & (x-1) & 1 
+		\end{pmatrix}}_{\substack{X}} \underbrace{ \begin{pmatrix}
+		a \\
+		b \\
+		c
+		\end{pmatrix}}_{\substack{\vec{abc}}} &= \begin{pmatrix}
+	I_x \\
+	I_{x+1} \\
+	I_{x-1}
+	\end{pmatrix}
+	\end{aligned}
+	\label{eq:subpixel_x}
+	\end{equation}
+	
+	Das Ziel ist es den Vektor \( \vec{abc} \) herauszufinden. Da die Intensitäten und die x-Werte bekannt sind, ist \( \vec{abc} \) die einzige Unbekannte und kann errechnet werden. Der nächste Schritt ist es die Nullstelle der Parabel herauszufinden. Sie befindet sich dort, wo die tatsächliche Intensität am höchsten ist. Dieser x-Wert befindet sich dann in den meisten Fällen zwischen zwei Pixeln. Dafür gilt:
+	
+	\begin{equation}
+	\begin{aligned}
+	2a \cdot x + b &= 0 \\
+	x &= \frac{-b}{2a}
+	\end{aligned}
+	\end{equation}
+	
+	\( b \) und \( a \) sind durch das Errechnen von \( \vec{abc} \) bekannt und ein Wert für \( x \) kann gefunden werden.
+	
+	In der Rechnung fällt auf, dass x für jede Zeile individuell ausgerechnet wird. Dabei ändert sich in (\ref{eq:subpixel_x}) die Werte für \( x \) und die Intensitäten. Hier kann man die Berechnung vereinfachen. wählt man für \( x = 0\), entsteht die folgende Matrix:
+	
+	\begin{equation}
+	X = \begin{pmatrix}
+	0 & 0 & 1 \\
+	1 & 1 & 1 \\
+	1 & -1 & 1
+	\end{pmatrix}
+	\end{equation}
+	
+	Wenn \( \vec{abc} \) mit dieser Matrix und den individuellen Intensitäten berechnet wird, errechnet man immer die Abweichung zu Mitte. Dabei ist die Mitte 0 und das entspricht den ausgewählten Pixel mit der höchsten Intensität. Man erhält eine Zahl zwischen -1 und 1. Diese wird mit der x-Position des Ausgangspixel in der Zeile verrechnet. Der Algorithmus wurde somit vereinfacht, da sich in jeder Rechnung nur der Intensitäten-Vektor ändert und immer die gleiche Matrix \( X \) gewählt werden kann.
+	
+	Mit dem Finden des x-Wert ist die Bearbeitung einer Zeile fertig. Es gibt nun eine eindeutige 2D-Koordinate für einen Punkt der Laserlinie. Der Algorithmus geht über jede Zeile (y) und findet einen x-Wert. Dabei fügt er den gefundene Subpixel (x, y) in ein Array ein. Die Menge dieser Subpixel ist die Abbildung der Laserlinie in einen 2-dimensionalen Raum. Diese wurde als Output gefordert.
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.75\linewidth]{img/hauptteil/bildverarbeitung/pixel_koord.png}
+		\caption{Die Subpixel können nun in einem Koordinatensystem dargestellt werden.}
+		\label{fig:pix_koord}
+	\end{figure} 

@@ -167,8 +167,26 @@
 	
 		$\underline{Das \; Bestimmen \; der \; Ebenengleichung}$
 		
+		Mit dem letzten Schritt wird die gesuchte Ebenengleichung gefunden. Alle Vorbereitungen sind abgeschlossen. Die richtigen Punkte der zwei nicht parallelen Laserlinien sind in einem einheitlichen Koordinatensystem. Im letzten Schritt muss in diese Punkte eine Ebene gefittet werden. Für einen Ebenen-Fit gibt es diverse Möglichkeiten. Hier wurde sich für die Singular Value Decomposition (SVD) entschieden [svd-t]. Sie ist über die Numpy-Bibliothek in Python implementiert und nutzbar. Wenn man über Numpy den SVD-Algorithmus anwendet, gibt dieser, wie in [svd-t] beschrieben drei Matrizen zurück. Diese heißen U, S und V. Nach [svd-fit] ist die dritte Zeile von U der Normalen-Vektor (\( \vec{n} \)) der passenden Ebene. Ziel ist es eine Ebenengleichung als Koordinatenform zu erhalten. 
+		
+		\begin{equation}
+			\begin{aligned}
+				Ax + By +Cz +D &= 0 \\
+				\vec{n} &= \begin{pmatrix}
+				A \\
+				B \\
+				C
+				\end{pmatrix}
+			\end{aligned}
+		\end{equation}
+		
+		Um D zu erhalten kann ein zufälliger Punkt aus den Laserlinien-Punkten ausgewählt werden. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das finden der Laser-Ebene abgeschlossen. 
+		
+		Mit Beendigung von diesem Schritt ist die komplette Kalibrierung des Lasertriangulationssensors beendet. Bekannt ist nun die Laserebene. Mit Aufnahme der Laserlinie von einer Oberfläche kann nun eine Punktewolke erzeugt werden.
+		
 			\label{chap:kalibrierung_extrinsisch}
 		
+	\subsection{Das Erzeugen einer Punktewolke}
 	\subsection{Aufbau / Hardware}
 		\label{chap:aufbau_hardware}
 	

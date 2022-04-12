@@ -48,7 +48,39 @@ class Scanner:
         self.__calibrated = control_flag
         self.__x_step = 0
 
-    def generate_pcd(self, surface_img, surface_img_laser, threshold=50, print_in_plot=False):
+    def generate_pcd(self, surface_img, surface_img_laser, single_line:bool):
+
+        if single_line:
+            # only one image pair will be transformed to a pointcloud. The pointcloud is saved in 'out'.
+            surface_koords, point_colors = self.generate_surface_line_koordinates(
+                surface_img=surface_img,
+                surface_img_laser=surface_img_laser,
+                displacement=False
+            )
+
+            surface_pcd = o3d.geometry.PointCloud()
+            surface_pcd.points = o3d.utility.Vector3dVector(surface_koords.T)
+            surface_pcd.colors = o3d.utility.Vector3dVector(point_colors)
+
+            o3d.io.write_point_cloud("./out/single_lines/surface_line.ply",surface_pcd)
+        else:
+            # part of the scan-process. A point cloud will be created out of the image pair. The point cloud is added to the 
+            # to the whole point cloud that represents the surface
+            surface_koords, point_colors = self.generate_surface_line_koordinates(
+                surface_img=surface_img,
+                surface_img_laser=surface_img_laser,
+                displacement=True
+            )
+
+            self.__surface_points = np.append(self.__surface_points, surface_koords, axis=1)
+            self.__surface_colors = np.append(self.__surface_colors, point_colors, axis=0)
+
+            self.refresh_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
+
+            self.__x_step += 1
+            print("INFO: Finished point cloud generation!")
+
+    def generate_surface_line_koordinates(self, surface_img, surface_img_laser, displacement: bool):
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
 
@@ -60,8 +92,7 @@ class Scanner:
             original_img=surface_img,
             img_with_laser=surface_img_laser,
             rvec=self.__laser.get_up().get_rvec(),
-            tvec=self.__laser.get_up().get_tvec(),
-            threshold=threshold
+            tvec=self.__laser.get_up().get_tvec()
         )
 
         points_surface = bild2world(
@@ -72,8 +103,9 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
-        # Include the x-displacement
-        points_surface[0] = points_surface[0] - (self.__x_step * 0.001)
+        if displacement:
+            # Include the x-displacement
+            points_surface[0] = points_surface[0] - (self.__x_step * 0.001)
 
         points_surface_cam = world2cam(
             pts=points_surface,
@@ -81,23 +113,9 @@ class Scanner:
             trans=surface_line.get_tvec()
         )
 
-        self.__surface_points = np.append(self.__surface_points, points_surface_cam, axis=1)
-        self.__surface_colors = np.append(self.__surface_colors, self.__get_pixel_colors(
-            pts_laser=surface_line.get_laser_points().T, 
-            img_original=surface_img), axis=0
-        )
+        point_colors = self.__get_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
 
-        if print_in_plot:
-            self.__generate_plot(surface_points=points_surface_cam)
-
-        self.refresh_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
-
-        # self.__surface.points = o3d.utility.Vector3dVector(points_surface_cam.T)
-
-        # self.__get_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
-
-        self.__x_step += 1
-        print("INFO: Finished point cloud generation!")
+        return points_surface_cam, point_colors
 
     def display_pcd(self, with_laser: bool = False):
         if len(self.__surface.points) != 0:

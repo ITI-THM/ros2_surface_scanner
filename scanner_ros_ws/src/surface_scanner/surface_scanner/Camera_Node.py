@@ -49,18 +49,18 @@ class Camera_Node(Node):
         self.__converter.OutputPixelFormat = pylon.PixelType_BGR8packed
         self.__converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
 
-        # SERVICE: send images to calibrate laser
+        # SERVICE: send image pair to calibrate laser
         self.send_laser_calibration_imgs_srv = self.create_service(
             Trigger, 
             'send_laser_calib_imgs',
             self.send_img_pair
         )
 
-        # SERVICE: send stream of image pairs
-        self.send_img_pair_stream_srv = self.create_service(
+        # SERVICE: sending image pair for surface reconstruction
+        self.send_img_pair_surface_srv = self.create_service(
             Trigger,
-            'send_img_pair_stream',
-            self.img_pair_stream
+            'send_img_pair_surface',
+            self.img_pair_surface
         )
 
         # SERVICE: send images for intrinsic camera calibration
@@ -137,7 +137,7 @@ class Camera_Node(Node):
         response.message = "Successfully send images!"
         return response
 
-    def img_pair_stream(self, request, response):
+    def img_pair_surface(self, request, response):
         images = self.__getLaserImages()
 
         origin_img = self.bridge.cv2_to_imgmsg(images[0])

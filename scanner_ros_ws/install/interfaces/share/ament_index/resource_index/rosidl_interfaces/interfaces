@@ -2,8 +2,8 @@ msg/CameraCalibrationImgs.idl
 msg/CameraCalibrationImgs.msg
 msg/ImagePair.idl
 msg/ImagePair.msg
-msg/PlaneEquation.idl
-msg/PlaneEquation.msg
+msg/ScannerStatus.idl
+msg/ScannerStatus.msg
 srv/CalibrateLaser.idl
 srv/CalibrateLaser.srv
 srv/CalibrateLaserImport.idl

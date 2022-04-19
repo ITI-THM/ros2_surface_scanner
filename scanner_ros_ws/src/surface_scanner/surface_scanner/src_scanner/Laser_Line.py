@@ -3,28 +3,13 @@ import numpy as np
 import cv2 as cv
 
 
-def extracting_laser_line(laser_img, threshold: int):
-    # create red mask to mark laser pixel
-    red_mask = np.zeros((laser_img.shape[0], laser_img.shape[1], laser_img.shape[2]), np.uint8)
-    red_mask[:] = (0, 0, 255)
-    # smoothen the difference image
-    img_blur = cv.GaussianBlur(laser_img, (5, 5), 0)
-    # applying threshold
-    img_gray = cv.cvtColor(img_blur, cv.COLOR_BGR2GRAY)
-    ret, thresh = cv.threshold(img_gray, threshold, 255, cv.THRESH_BINARY)
-    # -> other solutions to extract red pixel
-    # blue, green, red = cv.split(thresh)
-    # red_binary = cv.inRange(red, 20, 255)
-
-    # filter pixel
-    filtered_laser_line = cv.bitwise_and(red_mask, red_mask, mask=thresh)
-
-    cv.destroyAllWindows()
-
-    return filtered_laser_line
-
-
 def get_line_pixels(diff_img_laser):
+
+    '''
+    Extracting the laser points out of the difference image (surface_with_laser - surface).
+    Creates and returns a list of subpixel.
+    '''    
+
     img_diff = cv.cvtColor(diff_img_laser, cv.COLOR_BGR2GRAY)
     img_diff = cv.GaussianBlur(img_diff, (5, 5), 0)
 
@@ -92,9 +77,13 @@ def get_line_pixels(diff_img_laser):
 
 class LaserLine:
 
-    def __init__(self, rvec=np.array([]), tvec=np.array([]), original_img=None, img_with_laser=None, threshold=15,
-                 mask=None):
-        assert type(threshold) == int, "Threshold should be an integer!"
+    '''
+    Representation of a laser line.
+    Needs two pictures of the same scene. One with laser and one without.
+    Class can be initialized with a mask to use only a section of the images.
+    '''
+
+    def __init__(self, rvec=np.array([]), tvec=np.array([]), original_img=None, img_with_laser=None, mask=None):
 
         if original_img is not None:
             assert img_with_laser is not None, "Both images should be passed!"
@@ -137,6 +126,11 @@ class LaserLine:
         return self.__tvec
 
     def display_laser_line(self):
+
+        '''
+        Only for debugging purposes.
+        '''
+
         assert len(self.__img_laser) is not None, "Warning! Laser_Line is empty!"
 
         cv.imshow("Laser Line", self.__img_laser)

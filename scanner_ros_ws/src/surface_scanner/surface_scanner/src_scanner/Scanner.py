@@ -14,6 +14,12 @@ from mpl_toolkits.mplot3d import Axes3D
 
 class Scanner:
 
+    '''
+    Representation of the whole Scanner in one object.
+    Needs camera and laser.
+    Holds a point cloud as scan result.
+    '''
+
     def __init__(self):
 
         self.__camera: Camera = Camera()
@@ -30,6 +36,11 @@ class Scanner:
                           calibration_img,
                           calibration_img_laser):
 
+        '''
+        Method to calibrate the whole scanner.
+        Starting with intrinsic camera calibration. After that the laser will be calibrated.
+        '''
+
         self.__camera.calibrate_camera(pictures=pictures, save_data_in_npz=safe_data_in_npz)
         control_flag = self.__calibrate_laser(calibration_img=calibration_img,
                                calibration_img_with_laser=calibration_img_laser)
@@ -41,6 +52,11 @@ class Scanner:
                                       src: str,
                                       calibration_img,
                                       calibration_img_laser):
+
+        '''
+        Method to calibrate the whole scanner by importing the camera data and scipping the intrinsic calibration.
+        '''
+
         self.__camera.import_camera_params(src=src)
         control_flag = self.__calibrate_laser(calibration_img=calibration_img,
                                calibration_img_with_laser=calibration_img_laser)
@@ -49,6 +65,10 @@ class Scanner:
         self.__x_step = 0
 
     def generate_pcd(self, surface_img, surface_img_laser, single_line:bool):
+
+        '''
+        Method to generate a point cloud out of the surface image pair given that the scanner is calibrated.
+        '''
 
         if single_line:
             # only one image pair will be transformed to a pointcloud. The pointcloud is saved in 'out'.
@@ -81,8 +101,14 @@ class Scanner:
             print("INFO: Finished point cloud generation!")
 
     def generate_surface_line_koordinates(self, surface_img, surface_img_laser, displacement: bool):
+
+        '''
+        Generates the surface koordinates using the plane equation.
+        '''
+
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
+        assert len(self.__laser.get_plane_eq() is not 0, "WARNING: Laser is not calibrated!")
 
         # undistort surface images
         surface_img = cv.undistort(surface_img, self.__camera.get_mtx(), self.__camera.get_dist(), None)
@@ -118,6 +144,11 @@ class Scanner:
         return points_surface_cam, point_colors
 
     def display_pcd(self, with_laser: bool = False):
+
+        '''
+        Only for debugging purposes
+        '''
+
         if len(self.__surface.points) != 0:
             coordinate_axis = o3d.geometry.TriangleMesh.create_coordinate_frame(
                 size=30,
@@ -132,6 +163,11 @@ class Scanner:
             print("WARNING: Point cloud is empty!")
 
     def __generate_plot(self, surface_points):
+
+        '''
+        Only for debugging purposes
+        '''
+
         # 3D Bild ausgeben
         plt.figure(figsize=(10, 10))
         plt.subplot(111, projection='3d')
@@ -164,6 +200,12 @@ class Scanner:
     def __calibrate_laser(self,
                           calibration_img,
                           calibration_img_with_laser):
+
+        '''
+        Method to calibrate the laser by finding the plane equation.
+        Method assumes that the calibration images display the calibration charuco board.
+        When no charuco board can be found the method will fail and returns false.
+        '''
 
         # Read in the pictures of ChArUco_Board with and without laser
         charuco_board = calibration_img
@@ -333,12 +375,10 @@ class Scanner:
 
     def __get_pixel_colors(self, pts_laser, img_original):
 
-        """
+        '''
         Method generates weighted color-values for every point of the Laser-Line by checking the original image (image
         without laser).
-        :param pts_laser: the Laser-Points
-        :param img_original: the original image read in with opencv
-        """
+        '''
 
         color_values = np.empty((0, 3))
 
@@ -370,6 +410,12 @@ class Scanner:
         # self.__surface.colors = o3d.utility.Vector3dVector(color_values)
 
     def make_laser_lines_pcd(self):
+
+        '''
+        Only for debugging purposes.
+        Method generades a pointcloud that shows the laserlines and the fitted plane.
+        The pointcloud is used to show the result of the laser calibration in rviz.
+        '''
 
         # generate sample laser plane 200 x 200
         x_values = np.array(range(-100, 100, 2)) / 1000
@@ -412,3 +458,5 @@ class Scanner:
     def reset_pcd(self):
         self.__x_step = 0
         self.__surface = o3d.geometry.PointCloud()
+        self.__surface_points = np.empty((3, 0))
+        self.__surface_colors = np.empty((0, 3))

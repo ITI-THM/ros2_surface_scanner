@@ -3,7 +3,10 @@ import cv2 as cv
 
 
 class Camera:
-    """This class holds and calculates all camera data."""
+    """
+    This class holds and calculates all camera data.
+    Camera data are the camera matrix, the distortion coefficients, the rotation vectors and translation vectors
+    """
 
     def __init__(self, src=None):
 
@@ -36,6 +39,12 @@ class Camera:
         return self.__tvecs[index]
 
     def import_camera_params(self, src: str):
+
+        '''
+        Gets a source file (src) and imports the camera data.
+        Source file should be an .npz-file
+        '''
+
         # unpack file with camera params
         loaded_file = np.load(src)
 
@@ -47,7 +56,14 @@ class Camera:
 
         print("INFO: Import camera params finished!")
 
-    def calibrate_camera(self, pictures, save_data_in_npz: bool):
+    def calibrate_camera(self, pictures, save_data_in_npz: bool = False):
+
+        '''
+        Method to calibrate the camera. Gets a list of calibration images and calculates
+        the camera data.
+        Camera calibration method is acorrding to https://docs.opencv.org/4.5.5/dc/dbb/tutorial_py_calibration.html
+        Boolean flag 'save_data_in_npz' can be set to save the camera data in .npz-file
+        '''
 
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 

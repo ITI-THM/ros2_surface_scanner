@@ -181,12 +181,51 @@
 		\end{equation}
 		
 		Um D zu erhalten kann ein zufälliger Punkt aus den Laserlinien-Punkten ausgewählt werden. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das finden der Laser-Ebene abgeschlossen. 
-		
-		Mit Beendigung von diesem Schritt ist die komplette Kalibrierung des Lasertriangulationssensors beendet. Bekannt ist nun die Laserebene. Mit Aufnahme der Laserlinie von einer Oberfläche kann nun eine Punktewolke erzeugt werden.
-		
-			\label{chap:kalibrierung_extrinsisch}
+		\label{chap:kalibrierung_extrinsisch}
 		
 	\subsection{Das Erzeugen einer Punktewolke}
+	Mit Beendigung von diesem Schritt ist die komplette Kalibrierung des Lasertriangulationssensors beendet. Bekannt ist nun die Laserebene. Mit Aufnahme der Laserlinie von einer Oberfläche kann nun eine Punktewolke erzeugt werden.
+		\subsubsection{Die 3D-Koordinaten}
+	Das Erzeugen der Punktewolke fängt ähnlich an, wie die extrinsische Kalibrierung. Die Grundlage sind wieder zwei Bilder. Aus diesen zwei Bildern werden die Laserlinien-Subpixel nach Kapitel \ref{chap:erkennen_der_laserlinie} errechnet. Diese Pixel werden mithilfe der Ebenengleichung in die tatsächlichen 3D-Punkte aus Sicht des Kamerakoordinatensystem umgewandelt. Grundlage sind wieder die Transformationen aus Kapitel \ref{chap:transformationen}. Bei der extrinsischen Kalibrierung konnte der Scale-Faktor (\( s \)) nur mit der Annahme errechnet werden, dass in der X-Y-Ebene mit einer Z-Koordinate gleich 0 liegen. Diese Annahme gilt hier nicht mehr. Sicher ist jedoch jetzt, dass die Punkte in der gefundenen Ebenen-Gleichung liegen. Damit gibt es eine vierte geltende Gleichung und alle Unbekannten können errechnet werden. Die folgende Umstellung erläutert die geltenden Gleichungen. Die Ausgangsbasis ist erneut:
+	
+	\begin{equation}
+		\begin{aligned}
+			p_w &= s \; \vec{a} - \vec{b} \\
+			das \; entspricht: \\
+			x &= s \; a_x - b_x \\
+			y &= s \; a_y - b_y \\
+			z &= s \; a_z - b_z \\
+			f\ddot{u}r \; die \; Ebenengleichung \; gilt: \\
+			0 &= Ax + By + Cz + D \\
+		\end{aligned}
+	\end{equation}
+	
+	Der ausschlaggebende Wert ist der Scale-Faktor. Dieser kann über ein einsetzten der Koordinaten in die Ebenengleichung bestimmt werden:
+	
+	\begin{equation}
+		\begin{aligned}
+			0 &= A(s \; a_x - b_x) + B(s \; a_y - b_y) + C(s \; a_z - b_z) + D \\
+			0 &= s \; A \; a_x - A \; b_x + s \; B \; a_y - B \; b_y + s \; C \; a_z - C \; b_z + D \\
+			0 &= s \; A \; a_x + s \; B \; a_y + s \; C \; a_z - A \; b_x - B \; b_y - C \; b_z + D \\
+			0 &= s(A \; a_x + B \; a_y + C \; a_z) - (A \; b_x + B \; b_y + C \; b_z) + D \\
+			\vec{n} &= \begin{pmatrix}
+			A \\
+			B \\
+			C
+			\end{pmatrix} \\
+			0 &= s(\vec{n} \cdot \vec{a}) - (\vec{n} \cdot \vec{b}) + D \\
+			s &= \frac{\vec{n} \cdot \vec{b} - D}{\vec{n} \cdot \vec{a}}
+		\end{aligned}
+	\end{equation}
+	
+	Der Scale-Faktor ist damit bekannt und die Koordinaten x, y und z können bestimmt werden. Wichtig hierbei ist, dass die Ebenengleichung in einem Weltkoordinatensystem liegt. Dementsprechend müssen die errechneten 3D-Punkte mit der bekannten Transformation (\ref{eq:welt_zu_kamera}) von dem Weltkoordinatensystem zum Kamerakoordinatensystem transformiert werden.
+	
+	\subsubsection{Das Finden der Farbinformationen}
+	
+	Zusätzlich gefordert zu den reinen 3D-Informationen waren auch Farbinformationen. Diese können ebenfalls über das grundlegende Bild-Paar gefunden werden. Das Bild welches ohne das Einschalten des Lasers aufgenommen wird beinhaltet die gesuchten Farbinformationen. Gesucht wird nur nach der Farbe an der richtigen Stelle. Die Pixel-Werte der Laserlinie sind bekannt. In dem Ursprungsbild muss an genau der Stelle, an der sich ein Laserpixel befindet die Farbe ausgelesen werden und für den Jeweiligen Punkt abgespeichert werden. Problem hierbei ist, dass die Laserpixel Subpixel sind und sich demnach zwischen zwei Pixeln befinden. Für die endgültige Farbe werden dann die zwei umrandenden Pixel gewichtet zusammengerechnet.
+	
+	Diese Vorgang transformiert genau eine aufgenommene Laserlinie in eine Punktewolke. Um eine ganze Oberfläche zu rekonstruieren muss sich die Position der des Sensors um eine bekannte Länge und Richtung verschieben. Die neu Punktewolke, die aus der neu aufgenommenen Laserlinie resultiert, muss dann entsprechend zu einer Gesamt-Punktewolke ergänzt werden. Um die neuen Punkte korrekt einzufügen muss die Bewegung genau bekannt sein. Damit das Scannen einer kompletten Oberfläche getestet werden kann, wurde ein Versuchsaufbau angefertigt.
+	
 	\subsection{Aufbau / Hardware}
 		\label{chap:aufbau_hardware}
 	

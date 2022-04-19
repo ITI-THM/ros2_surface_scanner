@@ -23,24 +23,26 @@
 \contentsline {subsubsection}{\numberline {3.1.1}Intrinsische Kalibrierung}{20}{subsubsection.3.1.1}%
 \contentsline {subsubsection}{\numberline {3.1.2}Extrinsische Kalibrierung}{24}{subsubsection.3.1.2}%
 \contentsline {subsection}{\numberline {3.2}Das Erzeugen einer Punktewolke}{30}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{30}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{30}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{30}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{30}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{30}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Evaluation}{30}{subsection.3.6}%
-\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{30}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Fehler}{30}{subsubsection.3.6.2}%
-\contentsline {subsubsection}{\numberline {3.6.3}Probleme und Schwierigkeiten}{30}{subsubsection.3.6.3}%
-\contentsline {section}{\numberline {4}Fazit}{31}{section.4}%
-\contentsline {section}{\numberline {5}Ausblick}{33}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Erweiterung}{33}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Anpassungen}{35}{subsection.5.2}%
-\contentsline {section}{\numberline {A}Anhang}{37}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{37}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{38}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{39}{subsection.A.3}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{41}{section*.27}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{42}{section*.28}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{43}{section*.29}%
-\contentsline {section}{Abkürzungsverzeichnis}{44}{section*.30}%
+\contentsline {subsubsection}{\numberline {3.2.1}Die 3D-Koordinaten}{30}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Das Finden der Farbinformationen}{31}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{32}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{32}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{32}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{32}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{32}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Evaluation}{32}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{32}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Fehler}{32}{subsubsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.3}Probleme und Schwierigkeiten}{32}{subsubsection.3.6.3}%
+\contentsline {section}{\numberline {4}Fazit}{33}{section.4}%
+\contentsline {section}{\numberline {5}Ausblick}{35}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Erweiterung}{35}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Anpassungen}{37}{subsection.5.2}%
+\contentsline {section}{\numberline {A}Anhang}{39}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Anhang A}{39}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Anhang B}{40}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Anhang C}{41}{subsection.A.3}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{43}{section*.27}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{44}{section*.28}%
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{45}{section*.29}%
+\contentsline {section}{Abkürzungsverzeichnis}{46}{section*.30}%

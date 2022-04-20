@@ -155,13 +155,13 @@
 	
 	Weltkoordinate zu Kamerakoordinate:
 	\begin{equation}
-	p_{cam} = \begin{bmatrix} R \end{bmatrix} \; p_w + t
+	p_{cam} = \begin{bmatrix} R \end{bmatrix} \; p_{welt} + t
 	\label{eq:welt_zu_kamera}
 	\end{equation}
 	
 	Kamerakoordinate zur Weltkoordinate:
 	\begin{equation}
-	p_w = \begin{bmatrix} R \end{bmatrix}^{-1} \; (p_{cam} - t)
+	p_{welt} = \begin{bmatrix} R \end{bmatrix}^{-1} \; (p_{cam} - t)
 	\label{eq:kamera_zu_welt}
 	\end{equation}
 	

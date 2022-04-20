@@ -3,7 +3,7 @@ import numpy as np
 import cv2 as cv
 
 
-def get_line_pixels(diff_img_laser):
+def get_line_pixel(diff_img_laser):
 
     '''
     Extracting the laser points out of the difference image (surface_with_laser - surface).
@@ -83,7 +83,7 @@ class LaserLine:
     Class can be initialized with a mask to use only a section of the images.
     '''
 
-    def __init__(self, rvec=np.array([]), tvec=np.array([]), original_img=None, img_with_laser=None, mask=None):
+    def __init__(self, rot_matrix=np.array([]), tvec=np.array([]), original_img=None, img_with_laser=None, mask=None):
 
         if original_img is not None:
             assert img_with_laser is not None, "Both images should be passed!"
@@ -99,7 +99,7 @@ class LaserLine:
                 img_with_laser = cv.bitwise_and(img_with_laser, img_with_laser, mask=mask)
 
             self.__img_laser = cv.subtract(img_with_laser, original_img)
-            self.__laser_points = get_line_pixels(self.__img_laser)
+            self.__laser_points = get_line_pixel(self.__img_laser)
 
             # only for debug-information
             # self.display_laser_line()
@@ -107,7 +107,7 @@ class LaserLine:
             self.__img_laser = None
             self.__laser_points = np.array([])
 
-        self.__rvec = rvec
+        self.__rot_matrix = rot_matrix
         self.__tvec = tvec
 
     def get_laser_points(self):
@@ -115,10 +115,10 @@ class LaserLine:
 
         return self.__laser_points
 
-    def get_rvec(self):
+    def get_rot_matrix(self):
         assert len(self.__rvec) != 0, "Warning! Laser_Line is empty!"
 
-        return self.__rvec
+        return self.__rot_matrix
 
     def get_tvec(self):
         assert len(self.__tvec) != 0, "Warning! Laser_Line is empty!"

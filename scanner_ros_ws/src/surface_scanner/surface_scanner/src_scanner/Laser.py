@@ -95,6 +95,11 @@ class Laser:
         return self.__plane_eq
 
     def get_plane_points(self):
+
+        '''
+        Only for debugging purposes.
+        '''
+
         return self.__points
 
     def get_up(self):

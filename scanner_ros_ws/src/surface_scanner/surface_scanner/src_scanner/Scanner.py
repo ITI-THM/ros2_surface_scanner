@@ -72,7 +72,7 @@ class Scanner:
 
         if single_line:
             # only one image pair will be transformed to a pointcloud. The pointcloud is saved in 'out'.
-            surface_koords, point_colors = self.generate_surface_line_koordinates(
+            surface_koords, point_colors = self.__generate_surface_line_koordinates(
                 surface_img=surface_img,
                 surface_img_laser=surface_img_laser,
                 displacement=False
@@ -86,7 +86,7 @@ class Scanner:
         else:
             # part of the scan-process. A point cloud will be created out of the image pair. The point cloud is added to the 
             # to the whole point cloud that represents the surface
-            surface_koords, point_colors = self.generate_surface_line_koordinates(
+            surface_koords, point_colors = self.__generate_surface_line_koordinates(
                 surface_img=surface_img,
                 surface_img_laser=surface_img_laser,
                 displacement=True
@@ -100,7 +100,7 @@ class Scanner:
             self.__x_step += 1
             print("INFO: Finished point cloud generation!")
 
-    def generate_surface_line_koordinates(self, surface_img, surface_img_laser, displacement: bool):
+    def __generate_surface_line_koordinates(self, surface_img, surface_img_laser, displacement: bool):
 
         '''
         Generates the surface koordinates using the plane equation.
@@ -111,21 +111,21 @@ class Scanner:
         assert len(self.__laser.get_plane_eq() is not 0, "WARNING: Laser is not calibrated!")
 
         # undistort surface images
-        surface_img = cv.undistort(surface_img, self.__camera.get_mtx(), self.__camera.get_dist(), None)
-        surface_img_laser = cv.undistort(surface_img_laser, self.__camera.get_mtx(), self.__camera.get_dist(), None)
+        surface_img = cv.undistort(surface_img, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
+        surface_img_laser = cv.undistort(surface_img_laser, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
 
         surface_line = LaserLine(
             original_img=surface_img,
             img_with_laser=surface_img_laser,
-            rvec=self.__laser.get_up().get_rvec(),
+            rot_matrix=self.__laser.get_up().get_rot_matrix(),
             tvec=self.__laser.get_up().get_tvec()
         )
 
         points_surface = bild2world(
             pts=surface_line.get_laser_points(),
-            rot_matrix=surface_line.get_rvec(),
+            rot_matrix=surface_line.get_rot_matrix(),
             trans=surface_line.get_tvec(),
-            cam_matrix=self.__camera.get_mtx(),
+            cam_matrix=self.__camera.get_cam_mtx(),
             plane=self.__laser.get_plane_eq()
         )
 
@@ -135,7 +135,7 @@ class Scanner:
 
         points_surface_cam = world2cam(
             pts=points_surface,
-            rot_matrix=surface_line.get_rvec(),
+            rot_matrix=surface_line.get_rot_matrix(),
             trans=surface_line.get_tvec()
         )
 
@@ -215,8 +215,8 @@ class Scanner:
         assert charuco_board_laser is not None, "Image at 'charuco_board_laser' could not ne loaded!"
 
         # undistort calibration images
-        charuco_board = cv.undistort(charuco_board, self.__camera.get_mtx(), self.__camera.get_dist(), None)
-        charuco_board_laser = cv.undistort(charuco_board_laser, self.__camera.get_mtx(), self.__camera.get_dist(), None)
+        charuco_board = cv.undistort(charuco_board, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
+        charuco_board_laser = cv.undistort(charuco_board_laser, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
 
         # generate output images
         #--------------------------------------------------------------------------------------        
@@ -234,7 +234,7 @@ class Scanner:
                                                     dictionary=aruco_dict_secondary)
 
         # Get pose of the first board
-        control, rvec_primary, tvec_primary, charuco_mask_primary = self.__get_pose_in_charuco_board(
+        control, rot_matrix_primary, tvec_primary, charuco_mask_primary = self.__get_pose_in_charuco_board(
             aruco_params=aruco_params,
             board=board_primary,
             dictionary=aruco_dict_primary,
@@ -247,7 +247,7 @@ class Scanner:
             return False
 
         # Get pose of the second board
-        control, rvec_secondary, tvec_secondary, charuco_mask_secondary = self.__get_pose_in_charuco_board(
+        control, rot_matrix_secondary, tvec_secondary, charuco_mask_secondary = self.__get_pose_in_charuco_board(
             aruco_params=aruco_params,
             board=board_secondary,
             dictionary=aruco_dict_secondary,
@@ -262,25 +262,25 @@ class Scanner:
         # generade output images
         #--------------------------------------------------------------------------------------------------------------------------------------------
         charuco_drawn_primary = charuco_board.copy()
-        aruco.drawAxis(charuco_drawn_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        aruco.drawAxis(charuco_drawn_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         charuco_drawn_secondary = charuco_board.copy()
-        aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
         cv.imwrite('./out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
 
         charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
-        copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_cut_primary.png', copy)
         laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
-        aruco.drawAxis(laserline_primary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_primary, tvec_primary, 0.1)
+        aruco.drawAxis(laserline_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/laserline_primary.png', laserline_primary)
 
         charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
-        copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/charuco_cut_secondary.png', copy)
         laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
         laserline_together = laserline_primary + laserline_secondary
-        aruco.drawAxis(laserline_secondary, self.__camera.get_mtx(), self.__camera.get_dist(), rvec_secondary, tvec_secondary, 0.1)
+        aruco.drawAxis(laserline_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
         cv.imwrite('./out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
         cv.imwrite('./out/extrinsic_calibration/laserline_together.png', laserline_together)
         #--------------------------------------------------------------------------------------------------------------------------------------------
@@ -288,7 +288,7 @@ class Scanner:
         # fill in laser-line parameter in laser
         self.__laser.set_up(
             LaserLine(
-                rvec=rvec_primary,
+                rot_matrix=rot_matrix_primary,
                 tvec=tvec_primary,
                 original_img=charuco_board,
                 img_with_laser=charuco_board_laser,
@@ -299,7 +299,7 @@ class Scanner:
 
         self.__laser.set_down(
             LaserLine(
-                rvec=rvec_secondary,
+                rot_matrix=rot_matrix_secondary,
                 tvec=tvec_secondary,
                 original_img=charuco_board,
                 img_with_laser=charuco_board_laser,
@@ -308,7 +308,7 @@ class Scanner:
         )
         # print("INFO: 'down' ready!")
 
-        self.__laser.make_plane_eq(camera_matrix=self.__camera.get_mtx())
+        self.__laser.make_plane_eq(camera_matrix=self.__camera.get_cam_mtx())
 
         self.__generate_plot(surface_points=self.__laser.get_plane_points())
 
@@ -359,15 +359,16 @@ class Scanner:
             retval, rvec, tvec = aruco.estimatePoseCharucoBoard(charucoCorners=charuco_corners,
                                                                 charucoIds=charuco_ids,
                                                                 board=board,
-                                                                cameraMatrix=self.__camera.get_mtx(),
+                                                                cameraMatrix=self.__camera.get_cam_mtx(),
                                                                 distCoeffs=self.__camera.get_dist(),
                                                                 rvec=rvec,
                                                                 tvec=tvec)
             if retval is True:
                 # return params
                 control_flag = True
-                rvec, _ = cv.Rodrigues(rvec)
-                return control_flag, rvec, tvec, charuco_mask
+                #turn rofrigues vector into the actual rotation matrix
+                rot_matrix, _ = cv.Rodrigues(rvec)
+                return control_flag, rot_matrix, tvec, charuco_mask
             else:
                 return control_flag, [], [], charuco_mask
         else:

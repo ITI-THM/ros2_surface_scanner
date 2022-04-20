@@ -15,27 +15,27 @@ class Camera:
             loaded_file = np.load(src)
 
             # fill camera params
-            self.__mtx = loaded_file['mtx']
+            self.__cam_mtx = loaded_file['mtx']
             self.__dist = loaded_file['dist']
             self.__rvecs = loaded_file['rvecs']
             self.__tvecs = loaded_file['tvecs']
         else:
-            self.__mtx = []
+            self.__cam_mtx = []
             self.__dist = []
             self.__rvecs = []
             self.__tvecs = []
 
-    def get_mtx(self):
-        return self.__mtx
+    def get_cam_mtx(self):
+        return self.__cam_mtx
 
     def get_dist(self):
         return self.__dist
 
-    def get_rot(self, index: int):
+    def get_rot_mtx_at(self, index: int):
         rot, _ = cv.Rodrigues(self.__rvecs[index])
         return rot
 
-    def get_trans(self, index: int):
+    def get_tvec_at(self, index: int):
         return self.__tvecs[index]
 
     def import_camera_params(self, src: str):
@@ -49,7 +49,7 @@ class Camera:
         loaded_file = np.load(src)
 
         # fill camera params
-        self.__mtx = loaded_file['mtx']
+        self.__cam_mtx = loaded_file['mtx']
         self.__dist = loaded_file['dist']
         self.__rvecs = loaded_file['rvecs']
         self.__tvecs = loaded_file['tvecs']
@@ -93,14 +93,14 @@ class Camera:
 
                 # Draw and display the corners
                 cv.drawChessboardCorners(pic, (8, 6), corners2, ret)
-                cv.imwrite(f"/home/tristan/Praktikum/git/ros2_surface_scanner/scanner_ros_ws/src/surface_scanner/data/images/calibration/chessboard_corners/chessboard_corner_{img_counter}.png", pic)
+                cv.imwrite(f"./out/intinsic_calibration/chessboard_corner_{img_counter}.png", pic)
                 img_counter += 1
 
         cv.destroyAllWindows()
 
         ret, mtx, dist, rvecs, tvecs = cv.calibrateCamera(obj_points, img_points, img0.shape[::-1], None, None)
 
-        self.__mtx = mtx
+        self.__cam_mtx = mtx
         self.__dist = dist
         self.__rvecs = rvecs
         self.__tvecs = tvecs
@@ -116,8 +116,8 @@ class Camera:
         # print(tvecs)
         # print(len(tvecs))
 
-        print(f"INFO: Camera calibration finished with camera matrix: \n {self.__mtx}!")
+        print(f"INFO: Camera calibration finished with camera matrix: \n {self.__cam_mtx}!")
 
         if save_data_in_npz:
-            np.savez_compressed('./out/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+            np.savez_compressed('./out/intinsic_calibration/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
             print("INFO: Camera-Params saved in 'camera_params.npz'!")

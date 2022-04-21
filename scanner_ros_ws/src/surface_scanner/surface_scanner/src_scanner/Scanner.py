@@ -95,7 +95,7 @@ class Scanner:
             self.__surface_points = np.append(self.__surface_points, surface_koords, axis=1)
             self.__surface_colors = np.append(self.__surface_colors, point_colors, axis=0)
 
-            self.refresh_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
+            self.update_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
 
             self.__x_step += 1
             print("INFO: Finished point cloud generation!")
@@ -108,7 +108,7 @@ class Scanner:
 
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
-        assert len(self.__laser.get_plane_eq() is not 0, "WARNING: Laser is not calibrated!")
+        assert len(self.__laser.get_plane_eq()) is not 0, "WARNING: Laser is not calibrated!"
 
         # undistort surface images
         surface_img = cv.undistort(surface_img, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
@@ -124,7 +124,7 @@ class Scanner:
         points_surface = bild2world(
             pts=surface_line.get_laser_points(),
             rot_matrix=surface_line.get_rot_matrix(),
-            trans=surface_line.get_tvec(),
+            trans_vec=surface_line.get_tvec(),
             cam_matrix=self.__camera.get_cam_mtx(),
             plane=self.__laser.get_plane_eq()
         )
@@ -136,7 +136,7 @@ class Scanner:
         points_surface_cam = world2cam(
             pts=points_surface,
             rot_matrix=surface_line.get_rot_matrix(),
-            trans=surface_line.get_tvec()
+            trans_vec=surface_line.get_tvec()
         )
 
         point_colors = self.__get_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
@@ -437,8 +437,8 @@ class Scanner:
 
         sample_plane_with_laser_lines = world2cam(
             pts=sample_plane_with_laser_lines.T,
-            rot_matrix=self.__laser.get_up().get_rvec(),
-            trans=self.__laser.get_up().get_tvec()
+            rot_matrix=self.__laser.get_up().get_rot_matrix(),
+            trans_vec=self.__laser.get_up().get_tvec()
         )
 
         pcd_laser = o3d.geometry.PointCloud()
@@ -452,7 +452,7 @@ class Scanner:
     def is_scanner_calibrated(self):
         return self.__calibrated
 
-    def refresh_pcd(self, points, colors):
+    def update_pcd(self, points, colors):
         self.__surface.points = o3d.utility.Vector3dVector(points)
         self.__surface.colors = o3d.utility.Vector3dVector(colors)
 

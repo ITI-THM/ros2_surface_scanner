@@ -155,15 +155,15 @@ class Laser:
         pts_up = bild2world(
             pts=self.__up.get_laser_points(),
             cam_matrix=camera_matrix,
-            rot_matrix=self.__up.get_rvec(),
-            trans=self.__up.get_tvec()
+            rot_matrix=self.__up.get_rot_matrix(),
+            trans_vec=self.__up.get_tvec()
         )
 
         pts_down = bild2world(
             pts=self.__down.get_laser_points(),
             cam_matrix=camera_matrix,
-            rot_matrix=self.__down.get_rvec(),
-            trans=self.__down.get_tvec()
+            rot_matrix=self.__down.get_rot_matrix(),
+            trans_vec=self.__down.get_tvec()
         )
 
         # pts_up_cam = world2cam(
@@ -176,14 +176,14 @@ class Laser:
 
         pts_down_cam = world2cam(
             pts=pts_down,
-            trans=self.__down.get_tvec(),
-            rot_matrix=self.__down.get_rvec()
+            trans_vec=self.__down.get_tvec(),
+            rot_matrix=self.__down.get_rot_matrix()
         )
 
         pts_down_up = cam2world(
             pts=pts_down_cam,
-            trans=self.__up.get_tvec(),
-            rot_matrix=self.__up.get_rvec()
+            trans_vec=self.__up.get_tvec(),
+            rot_matrix=self.__up.get_rot_matrix()
         )
 
         self.__points = np.append(pts_up, pts_down_up, axis=1)

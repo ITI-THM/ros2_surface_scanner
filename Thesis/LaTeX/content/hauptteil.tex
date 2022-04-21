@@ -229,18 +229,66 @@
 		\caption{Gewichtete Pixel für den x-Wert 11,4}
 		\label{fig:weighted_pixel}
 	\end{figure}
-	Die Abbildung \ref{fig:weighted_pixel} zeigt den Vorgang an einem simplen Beispiel. Für ein Subpixel in einer beliebigen Reihe (y-Wert) mit einem beispielhaften x-Wert von 11,4. Der nähere Pixel (11) fließt mit höheren Gewicht in die resultierende Farbe ein, als der Pixel weiter weg (12). Die y-Werte der Pixel können keinen ungeraden Wert beinhalten, da der Algorithmus zum Finden der Laser-Pixel (Kapitel \ref{chap:erkennen_der_laserlinie}) jede Pixel-Zeile im Bild durchläuft und dort einen neuen x-Wert errechnet.
+	Die Abbildung \ref{fig:weighted_pixel} zeigt den Vorgang an einem simplen Beispiel für ein Subpixel in einer beliebigen Reihe (y-Wert) mit einem beispielhaften x-Wert von 11,4. Der nähere Pixel (11) fließt mit höheren Gewicht in die resultierende Farbe ein, als der Pixel weiter weg (12). Die y-Werte der Pixel können keinen ungeraden Wert beinhalten, da der Algorithmus zum Finden der Laser-Pixel (Kapitel \ref{chap:erkennen_der_laserlinie}) jede Pixel-Zeile im Bild durchläuft und dort einen neuen x-Wert errechnet.
 	
 	Dieser komplette Vorgang transformiert genau eine aufgenommene Laserlinie in eine Punktewolke. Um eine ganze Oberfläche zu rekonstruieren muss sich die Position der des Sensors um eine bekannte Länge und Richtung verschieben. Die neu Punktewolke, die aus der neu aufgenommenen Laserlinie resultiert, muss dann entsprechend zu einer Gesamt-Punktewolke ergänzt werden. Um die neuen Punkte korrekt einzufügen , ist es zwingend erforderlich, dass die Bewegung genau bekannt ist. 
+	
+	\newpage
+	
 	\subsection{Aufbau / Hardware}
 	Damit das Scannen einer kompletten Oberfläche getestet werden kann, wurde ein Versuchsaufbau angefertigt.
 	
 	\label{chap:aufbau_hardware}
 	
+	\newpage
+	
 	\subsection{Aufbau / Software}
 	Die Software des Lasertriangulationssensor gliedert sich in zwei Bereiche. Zum einen wurde eine Python-Bibliothek entwickelt. Diese wurde Objektorientiert mit diversen Klassen, die den Lasertriangulationssensor repräsentieren entwickelt. Grundlegende Aufgabe der Python-Bibliothek sind die elementaren Berechnungen, um eine Punktewolke aus einem Bild-Paar zu erhalten. Das bedeutet, dass ein Konstrukt erstellt werden kann, welches Kalibriert werden kann und darauf folgend Punktewolken liefert. \newline
 	Der andere große Bereich ist die Umsetzung in ROS2. ROS2 liefert das Betriebssystem des Scanners. Alle verschiedenen Elemente sollen zu einem Gesamtprodukt zusammengefügt werden. Dazu gehört die Ansteuerung der Kamera und des Lasers. Schwerpunkt ist auch die Kommunikation zwischen einzelnen Elementen. Beispiele sind dabei das Aufnehmen der Bilder für die Kalibrierung oder das Erstellen der Punktewolke und die Weiterleitung an die entsprechenden Methoden aus den Klassen der Python-Bibliothek.
 		\subsubsection{Python (Bibliothek)}
+		Die Python-Bibliothek besteht grundlegend aus vier Klassen.
+		\begin{itemize}
+			\item Scanner
+			\item Laser
+			\item Kamera
+			\item LaserLine
+		\end{itemize}
+		Der Scanner ist fertige Klasse, die später von ROS2 benutzt wird.
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\linewidth]{img/hauptteil/software/Scanner_UML.png}
+			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\label{fig:scanner_uml}
+		\end{figure}
+		Der Scanner beschreibt den Lasertriangulationssensor. Er besitzt eine Kamera und einen Laser. Zusätzlich wird als Variable die Punktewolke der Oberfläche und auch direkt deren Punkte und Farben abgespeichert. Hinzu kommt ein Boolean-FLag um zu kennzeichnen, ob der Scanner kalibriert ist. Der xStep ist für den Versuchsaufbau wichtig. Über die Liniarführung wird das Objekt in x-Richung unter dem Sensor durch bewegt. Die jeweiligen Millimeter-Schritte müssen entsprechend einbezogen werden. Dazu wird diese Variable genutzt. 
+	
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{img/hauptteil/software/Kamera_UML.png}
+			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\label{fig:kamera_uml}
+		\end{figure}
+
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.35\linewidth]{img/hauptteil/software/LaserLine_UML.png}
+			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\label{fig:laser_line_uml}
+		\end{figure}
+
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.35\linewidth]{img/hauptteil/software/Laser_UML.png}
+			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\label{fig:laser_uml}
+		\end{figure}
+
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{img/hauptteil/software/Hilfsmethoden_UML.png}
+			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\label{fig:hilfsmethoden_uml}
+		\end{figure}
 		\subsubsection{ROS2}
 		
 	\subsection{Qualitative Ergebnisse}

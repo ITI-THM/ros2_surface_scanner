@@ -116,7 +116,7 @@ class LaserLine:
         return self.__laser_points
 
     def get_rot_matrix(self):
-        assert len(self.__rvec) != 0, "Warning! Laser_Line is empty!"
+        assert len(self.__rot_matrix) != 0, "Warning! Laser_Line is empty!"
 
         return self.__rot_matrix
 

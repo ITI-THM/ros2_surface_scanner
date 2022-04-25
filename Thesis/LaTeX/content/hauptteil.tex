@@ -246,50 +246,51 @@
 	Die Software des Lasertriangulationssensor gliedert sich in zwei Bereiche. Zum einen wurde eine Python-Bibliothek entwickelt. Diese wurde Objektorientiert mit diversen Klassen, die den Lasertriangulationssensor repräsentieren entwickelt. Grundlegende Aufgabe der Python-Bibliothek sind die elementaren Berechnungen, um eine Punktewolke aus einem Bild-Paar zu erhalten. Das bedeutet, dass ein Konstrukt erstellt werden kann, welches Kalibriert werden kann und darauf folgend Punktewolken liefert. \newline
 	Der andere große Bereich ist die Umsetzung in ROS2. ROS2 liefert das Betriebssystem des Scanners. Alle verschiedenen Elemente sollen zu einem Gesamtprodukt zusammengefügt werden. Dazu gehört die Ansteuerung der Kamera und des Lasers. Schwerpunkt ist auch die Kommunikation zwischen einzelnen Elementen. Beispiele sind dabei das Aufnehmen der Bilder für die Kalibrierung oder das Erstellen der Punktewolke und die Weiterleitung an die entsprechenden Methoden aus den Klassen der Python-Bibliothek.
 		\subsubsection{Python (Bibliothek)}
-		Die Python-Bibliothek besteht grundlegend aus vier Klassen.
-		\begin{itemize}
-			\item Scanner
-			\item Laser
-			\item Kamera
-			\item LaserLine
-		\end{itemize}
-		Der Scanner ist fertige Klasse, die später von ROS2 benutzt wird.
-		\begin{figure}
+		Die Python-Bibliothek besteht grundlegend aus vier Klassen. Die Scanner-, Kamera-, Laser-, und LaserLine-Klasse. Dabei ist die Scanner-Klasse die volle Representation des Lasertriangulationssensors, die in ROS2 eingebunden wird.
+		
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.85\linewidth]{img/hauptteil/software/Scanner_UML.png}
 			\caption{Die Scanner-Klasse als UML-Diagramm}
 			\label{fig:scanner_uml}
 		\end{figure}
-		Der Scanner beschreibt den Lasertriangulationssensor. Er besitzt eine Kamera und einen Laser. Zusätzlich wird als Variable die Punktewolke der Oberfläche und auch direkt deren Punkte und Farben abgespeichert. Hinzu kommt ein Boolean-FLag um zu kennzeichnen, ob der Scanner kalibriert ist. Der xStep ist für den Versuchsaufbau wichtig. Über die Liniarführung wird das Objekt in x-Richung unter dem Sensor durch bewegt. Die jeweiligen Millimeter-Schritte müssen entsprechend einbezogen werden. Dazu wird diese Variable genutzt. 
-	
-		\begin{figure}
+		Der Scanner beschreibt den Lasertriangulationssensor. Er besitzt eine Kamera und einen Laser. Zusätzlich wird als Variable die Punktewolke der Oberfläche und auch direkt deren Punkte und Farben abgespeichert. Hinzu kommt ein Boolean-Flag um zu kennzeichnen, ob der Scanner kalibriert ist. Der xStep ist für den Versuchsaufbau wichtig. Über die Liniarführung wird das Objekt in x-Richung unter dem Sensor durch bewegt. Die jeweiligen Millimeter-Schritte müssen entsprechend einbezogen werden. Dazu wird diese Variable genutzt. \newline
+		Zusätzlich stellt die Scanner-Klasse die grundlegenden Methoden, die die Funktionalität des Triangulationssensors wieder spiegel, zur Verfügung. Diese umfassen zum einen das komplette kalibrieren des Scanners. Dazu wird eine Liste von Bildern für die intrinsische Kalibrierung und ein Bildpaar des ChArUco-Boards für die extrinsische Kalibrierung benötigt. Hinzu kommt eine abgewandelte Version der Kalibrier-Methode, in der die intrinsische Kalibrierung durch das Importieren der Kameradaten ersetzt wird. Hinzu kommt die Methode zum Erstellen einer Punktewolke. Sie bekommt ein entsprechendes Bildpaar von der Oberfläche übergeben und errechnet die Punktewolke. Wenn der Scanner sich gerade in einem Scanvorgang befindet wird die neue Punktewolke entsprechend an die gesamte Punktewolke angehängt. Die Scanner-Klasse besitzt zusätzlich noch Hilfsmethoden die Zugriff von außen auf den Scanner Status und die Punktewolke geben oder die Punktewolke selbst erneuern oder aktualisieren.
+		
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.7\linewidth]{img/hauptteil/software/Kamera_UML.png}
-			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\caption{Die Kamera-Klasse als UML-Diagramm}
 			\label{fig:kamera_uml}
 		\end{figure}
-
-		\begin{figure}
+		Die Kamera selbst besitzt auch eine Repräsentation in Form einer Klasse. Diese Klasse fungiert als Speicher für die Kameradaten. Gespeichert werden die Kamera-Matrix die Distortion-Koeffizienten und die Rotationsmatrizen sowie die Translationsvektoren der Bilder von der intrinsischen Kalibrierung. Also alle Daten, die aus der intrinsische Kalibrierung hervorgehen. Hierbei ist wichtig hervorzuheben, dass die Klasse keine Bilder aufnehmen kann bzw kein Zugriff auf die tatsächliche Kamera im Triangulationssensor hat. Sie is lediglich für das Ablegen der Daten und die intrinsische Kalibrierung zuständig.
+		\newpage
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.35\linewidth]{img/hauptteil/software/LaserLine_UML.png}
-			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\caption{Die LaserLine-Klasse als UML-Diagramm}
 			\label{fig:laser_line_uml}
 		\end{figure}
-
-		\begin{figure}
+		Die Klasse LaserLine beschreibt eine aufgenommene Laserlinie. Information die dafür als Variablen gespeichert werden sind das Differenz-Bild, die errechneten 3D-Punkte der Linie und die entsprechende Rotation und Translation zu dem Weltkoordinatensystem, in dem sich die Laserlinie befindet. Zum initialisieren der LaserLine-Klasse wird das aufgenommene Bildpaar und die Rotation und Translation zu dem jeweiligen Weltkoordinatensystem benötigt. Die Klasse errechnet dann noch im Konstruktor die Bild-Differenz und die Laserlinienpunkte.
+		
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.35\linewidth]{img/hauptteil/software/Laser_UML.png}
-			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\caption{Die Laser-Klasse als UML-Diagramm}
 			\label{fig:laser_uml}
 		\end{figure}
-
-		\begin{figure}
+		So wie die Kamera-Klasse die Daten der intrinsischen Kalibrierung beinhaltet, beinhaltet die Laser-Klasse die Daten der extrinsischen Kalibrierung. Dazu benötigt sie zwei Laserlinien der Klasse LaserLine, die zur Unterscheidung als \glqq oben\grqq{} und \glqq unten\grqq{} definiert sind. Aus diesen kann die Ebenengleichung bestimmt werden. Dazu wird eine eigene Methode bereitgestellt in der erst die Punkte in ein einheitliches Koordinatensystem zusammengefasst und dann eine Ebene an die Punkte gefittet wird. Die vereinheitlichten Punkte und die Ebenengleichung werden von der Klasse gespeichert.
+		\newpage
+		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.7\linewidth]{img/hauptteil/software/Hilfsmethoden_UML.png}
-			\caption{Die Scanner-Klasse als UML-Diagramm}
+			\caption{Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse}
 			\label{fig:hilfsmethoden_uml}
 		\end{figure}
+		Zusätzlich zu den vier beschriebenen Klassen gibt es Hilfsmethoden, die nicht konkret zu einer Klasse gehören. Das bedeutet, dass sie nicht nur von einer Klasse benutzt werden, sondern von verschiedenen Klassen an verschiedenen Stellen aufgerufen werden. Diese Methoden umfassen die Transformationen zwischen den Koordinatensystemen, die Methoden für das Plane-Fitting und die Berechnung der Subpixel aus einem Differenz-Bild.
+		
 		\subsubsection{ROS2}
+		
 		
 	\subsection{Qualitative Ergebnisse}
 	

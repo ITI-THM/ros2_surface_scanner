@@ -50,7 +50,7 @@ class Camera_Node(Node):
         self.__converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
 
         # SERVICE: send image pair to calibrate laser
-        self.send_laser_calibration_imgs_srv = self.create_service(
+        self.send_laser_calib_imgs_srv = self.create_service(
             Trigger, 
             'send_laser_calib_imgs',
             self.send_img_pair

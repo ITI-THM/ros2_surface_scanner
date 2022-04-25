@@ -98,13 +98,13 @@ class LaserLine:
                 original_img = cv.bitwise_and(original_img, original_img, mask=mask)
                 img_with_laser = cv.bitwise_and(img_with_laser, img_with_laser, mask=mask)
 
-            self.__img_laser = cv.subtract(img_with_laser, original_img)
-            self.__laser_points = get_line_pixel(self.__img_laser)
+            self.__img_diff_laser = cv.subtract(img_with_laser, original_img)
+            self.__laser_points = get_line_pixel(self.__img_diff_laser)
 
             # only for debug-information
             # self.display_laser_line()
         else:
-            self.__img_laser = None
+            self.__img_diff_laser = None
             self.__laser_points = np.array([])
 
         self.__rot_matrix = rot_matrix
@@ -131,7 +131,7 @@ class LaserLine:
         Only for debugging purposes.
         '''
 
-        assert len(self.__img_laser) is not None, "Warning! Laser_Line is empty!"
+        assert len(self.__img_diff_laser) is not None, "Warning! Laser_Line is empty!"
 
-        cv.imshow("Laser Line", self.__img_laser)
+        cv.imshow("Laser Line", self.__img_diff_laser)
         cv.waitKey(0)

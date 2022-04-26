@@ -99,6 +99,7 @@
 \usepackage{nicefrac}
 %\usepackage{siunitx}  
 \usepackage{todonotes}
+\usepackage{pdflscape}
 
 %\usepackage{showframe}
 %\renewcommand*\ShowFrameColor{\color{red}}
@@ -388,7 +389,6 @@
 % Anhang
 % ----------------------------------------------------------------------------------------------------------
 \begin{appendix}
-	
 	\section{Anhang}
 		\subsection{Anhang A}\label{anhang-a}
 		\begin{figure}[h]
@@ -399,13 +399,28 @@
 		\end{figure}
 		\newpage
 		\subsection{Anhang B}\label{anhang-b}
-		
-		\clearpage
-		
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[width=0.9\linewidth]{img/anhang/ROS2_implementation.jpg}
+			\caption{ROS2-Implementierung des Lasertriangulationssensor}
+			\label{fig:ros2_all}
+		\end{figure}
+		\newpage
 		\subsection{Anhang C}\label{anhang-c}
-		
-		\clearpage
-		
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1\linewidth]{img/anhang/vorgang_kalibrierung.jpg}
+				\caption{ROS2-Implementierung des Lasertriangulationssensor}
+				\label{fig:vorgang_kalibrierung}
+			\end{figure}
+		\newpage
+		\subsection{Anhang D}\label{anhang-d}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[width=1\linewidth]{img/anhang/vorgang_scanablauf.jpg}
+				\caption{ROS2-Implementierung des Lasertriangulationssensor}
+				\label{fig:vorgang_scan}
+			\end{figure}
 \end{appendix}
 \cleardoublepage
 

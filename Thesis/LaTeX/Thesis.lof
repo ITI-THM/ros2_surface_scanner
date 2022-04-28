@@ -27,12 +27,15 @@
 \contentsline {figure}{\numberline {17}{\ignorespaces Herausgearbeitete Laserlinien\relax }}{28}{figure.caption.25}%
 \contentsline {figure}{\numberline {18}{\ignorespaces Laserlinien in einem Koordinatensystem\relax }}{29}{figure.caption.26}%
 \contentsline {figure}{\numberline {19}{\ignorespaces Gewichtete Pixel für den x-Wert 11,4\relax }}{32}{figure.caption.27}%
-\contentsline {figure}{\numberline {20}{\ignorespaces Die Scanner-Klasse als UML-Diagramm\relax }}{34}{figure.caption.28}%
-\contentsline {figure}{\numberline {21}{\ignorespaces Die Kamera-Klasse als UML-Diagramm\relax }}{35}{figure.caption.29}%
-\contentsline {figure}{\numberline {22}{\ignorespaces Die LaserLine-Klasse als UML-Diagramm\relax }}{36}{figure.caption.30}%
-\contentsline {figure}{\numberline {23}{\ignorespaces Die Laser-Klasse als UML-Diagramm\relax }}{36}{figure.caption.31}%
-\contentsline {figure}{\numberline {24}{\ignorespaces Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse\relax }}{37}{figure.caption.32}%
-\contentsline {figure}{\numberline {25}{\ignorespaces UML-Klassendiagramm des Lasertriangulationssensor\relax }}{47}{figure.caption.33}%
-\contentsline {figure}{\numberline {26}{\ignorespaces ROS2-Implementierung des Lasertriangulationssensor\relax }}{48}{figure.caption.34}%
-\contentsline {figure}{\numberline {27}{\ignorespaces Vorgang der Kalibrierung\relax }}{49}{figure.caption.35}%
-\contentsline {figure}{\numberline {28}{\ignorespaces Vorgang des Scanablaufs\relax }}{50}{figure.caption.36}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Der Lasertriangulationssensor\relax }}{33}{figure.caption.28}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Der Lasertriangulationssensor\relax }}{34}{figure.caption.29}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Arduino mit CNC-Shield\relax }}{35}{figure.caption.30}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Die Scanner-Klasse als UML-Diagramm\relax }}{36}{figure.caption.31}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Die Kamera-Klasse als UML-Diagramm\relax }}{37}{figure.caption.32}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Die LaserLine-Klasse als UML-Diagramm\relax }}{38}{figure.caption.33}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Die Laser-Klasse als UML-Diagramm\relax }}{38}{figure.caption.34}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse\relax }}{39}{figure.caption.35}%
+\contentsline {figure}{\numberline {28}{\ignorespaces UML-Klassendiagramm des Lasertriangulationssensor\relax }}{49}{figure.caption.36}%
+\contentsline {figure}{\numberline {29}{\ignorespaces ROS2-Implementierung des Lasertriangulationssensor\relax }}{50}{figure.caption.37}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Vorgang der Kalibrierung\relax }}{51}{figure.caption.38}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Vorgang des Scanablaufs\relax }}{52}{figure.caption.39}%

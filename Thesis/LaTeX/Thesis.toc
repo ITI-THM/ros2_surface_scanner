@@ -26,24 +26,26 @@
 \contentsline {subsubsection}{\numberline {3.2.1}Die 3D-Koordinaten}{30}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Das Finden der Farbinformationen}{31}{subsubsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{33}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{34}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{34}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{37}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{41}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Evaluation}{41}{subsection.3.6}%
-\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{41}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Fehler}{41}{subsubsection.3.6.2}%
-\contentsline {subsubsection}{\numberline {3.6.3}Probleme und Schwierigkeiten}{41}{subsubsection.3.6.3}%
-\contentsline {section}{\numberline {4}Fazit}{42}{section.4}%
-\contentsline {section}{\numberline {5}Ausblick}{44}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Erweiterung}{44}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Anpassungen}{46}{subsection.5.2}%
-\contentsline {section}{\numberline {A}Anhang}{47}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{47}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{48}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{49}{subsection.A.3}%
-\contentsline {subsection}{\numberline {A.4}Anhang D}{50}{subsection.A.4}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{51}{section*.37}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{52}{section*.38}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{53}{section*.39}%
-\contentsline {section}{Abkürzungsverzeichnis}{54}{section*.40}%
+\contentsline {subsubsection}{\numberline {3.3.1}Hardware-Aufbau des Lasertriangulationssensors}{33}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Der Versuchsaufbau}{34}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{36}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{36}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{39}{subsubsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{43}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Evaluation}{43}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{43}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Fehler}{43}{subsubsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.3}Probleme und Schwierigkeiten}{43}{subsubsection.3.6.3}%
+\contentsline {section}{\numberline {4}Fazit}{44}{section.4}%
+\contentsline {section}{\numberline {5}Ausblick}{46}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Erweiterung}{46}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Anpassungen}{48}{subsection.5.2}%
+\contentsline {section}{\numberline {A}Anhang}{49}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Anhang A}{49}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Anhang B}{50}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Anhang C}{51}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}Anhang D}{52}{subsection.A.4}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{53}{section*.40}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{54}{section*.41}%
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{55}{section*.42}%
+\contentsline {section}{Abkürzungsverzeichnis}{56}{section*.43}%

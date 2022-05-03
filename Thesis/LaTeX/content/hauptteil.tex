@@ -236,7 +236,7 @@
 	\newpage
 	
 	\subsection{Aufbau / Hardware}
-	FÜr den Lasertiangulationssensor wurde verschiedene Hardware und Bauteile benutzt. Diese sollen im folgendem beschrieben werden. Dabei gibt es zwei verschiedene Abschnitte zu betrachten. Zum einen der Lasertriangulationsensor an sich, der nur in der Lage ist eine Laserlinie in eine Punktewolke umzusetzen. Zum anderen wurde ein Versuchsaufbau angefertigt, um ein Objekt unter dem Sensor entlang zu bewegen. Dabei soll der Sensor regelmäßig eine Punktewolke erstellen. Die zusammengefügte Punktewolke ist dann die Aufnahme der Oberfläche. 
+	Für den Lasertiangulationssensor wurde verschiedene Hardware verwendet. Dies soll im Folgendem beschrieben werden. Dabei gibt es zwei verschiedene Abschnitte zu betrachten. Zum einen der Lasertriangulationsensor an sich, der nur in der Lage ist eine Laserlinie in eine Punktewolke umzusetzen. Zum anderen wurde ein Versuchsaufbau angefertigt, um ein Objekt unter dem Sensor entlang zu bewegen. Dabei soll der Sensor regelmäßig eine Punktewolke erstellen. Die zusammengefügte Punktewolke ist dann die Aufnahme der Oberfläche. 
 	
 		\subsubsection{Hardware-Aufbau des Lasertriangulationssensors}
 		Die Hardware des Lasertriangulationssensor besteht grundsätzlich aus einer Kamera und einem Laser.
@@ -247,9 +247,9 @@
 			\caption{Der Lasertriangulationssensor}
 			\label{fig:aufbau_sensor}
 		\end{figure}
-		Für die Kamera wurde die Basler a2A1920-160ucPRO verwendet. Dabei handelt es sich um eine Industriekamera mit einer Auflösung von 1920 x 1200 Pixeln. Sie ist eine Farbkamera und kann bis zu 164 Bilder pro Sekunde aufnehmen. Die Spezifikationen sind gemäß [basler-cam-spez] angeben. Wichtig ist, dass die Kamera über USB 3.0 angesprochen werden kann. So kann sie über Software auf einem PC oder ähnlichem angesteuert werden. Mit dem Software-Paket Pylon liefert Basler eine eigene Umgebung um die Kamer zu benutzen und einzustellen. Zusätzlich wird mit Pypylon eine Pythonbibliothek gestellt. Diese gilt als Schnittstelle zwischen Kamera und Python. So kann über direkten Pythoncode die Kamera eingebunden werden. \newline
-		Das zweite Bauteil ist der Laser. Dabei handelt es sich um einen herkömmlichen roten Laser. Der Lichtstrahl des Lasers wird durch diffraktive optische Elemente (DOE) zu einer Linie geformt. Wie ind Abb. \ref{fig:aufbau_sensor} gezeigt werden dann Kamera und Laser an eine Halterung in entsprechender Position befestigt. \newline
-		Die Kamera hat ein ansteuerbares Output-Signal. Dieses Signal kann genutzt werden, um von der Kamera direkt des Laser anzusprechen. Dabei wird ein MOSFET (Metal Oxide Semiconductor Field-Effect Transistors) verwendet. So kann das Output-Signal angesprochen werden, um über den MOSFET den Strom des Lasers an und aus zu stellen. So kann in der Kamera selbst ein Ablauf definiert werden, in dem sie zuerst ein Bild aufnimmt, dann den Laser anschaltet und ein zweites Bild aufnimmt. Zuletzt muss der Laser wieder ausgeschaltet werden. So werden von der Kamera die geforderten Bildpaare aufgenommen. Mit Pypylon können diese Bilden in Python und mit OpenCv weiterverwendet werden.
+		Für die Kamera wurde die Basler a2A1920-160ucPRO verwendet. Dabei handelt es sich um eine Industriekamera mit einer Auflösung von 1920 x 1200 Pixeln. Sie ist eine Farbkamera und kann bis zu 164 Bilder pro Sekunde aufnehmen. Die Spezifikationen sind gemäß [basler-cam-spez] angeben. Wichtig ist, dass die Kamera über USB 3.0 angesprochen werden kann. So kann sie über Software auf einem PC oder ähnlichem angesteuert werden. Mit dem Software-Paket Pylon liefert Basler eine eigene Umgebung um die Kamer zu benutzen und einzustellen. Zusätzlich wird mit Pypylon eine Pythonbibliothek gestellt. Diese gilt als Schnittstelle zwischen Kamera und Python. So kann über direkten Python-Code die Kamera eingebunden werden. \newline
+		Das zweite Bauteil ist der Laser. Dabei handelt es sich um einen herkömmlichen roten Laser. Der Lichtstrahl des Lasers wird durch diffraktive optische Elemente (DOE) zu einer Linie geformt. Wie in Abb. \ref{fig:aufbau_sensor} gezeigt werden dann Kamera und Laser an eine Halterung in entsprechender Position befestigt. \newline
+		Die Kamera hat ein ansteuerbares Output-Signal. Dieses Signal kann genutzt werden, um den Laser direkt anzusprechen. Dabei wird ein MOSFET (Metal Oxide Semiconductor Field-Effect Transistors) verwendet. So kann das Output-Signal angesprochen werden, um über den MOSFET den Strom des Lasers an und aus zu stellen. Es ist damit möglich, für die Kamera selbst einen Ablauf zu definieren, in dem sie zuerst ein Bild aufnimmt, dann den Laser anschaltet und anschließend ein zweites Bild aufnimmt. Zuletzt muss der Laser wieder ausgeschaltet werden. So werden von der Kamera die geforderten Bildpaare aufgenommen. Mit Pypylon können diese Bilden in Python und mit OpenCv weiterverwendet werden.
 		
 		\subsubsection{Der Versuchsaufbau}
 		Das Ziel des Versuchsaufbau ist es Bewegung in die aufgenommene Szene zu bringen. Dabei soll die zurückgelegte Bewegung zwischen den Aufnahmen der Oberfläche bekannt sein. So kann die neue Punktewolke der Laserlinie passend angefügt werden. Andernfalls würde man immer den Querschnitt der aktuellen Oberfläche an der Position des Lasers beobachten. Die einfachste Möglichkeit das zu realisieren ist, wenn sich die Szene in genau eine definierte Richtung mit genauen definierten Abstand bewegt. Dazu wurde eine Linear-Führung benutzt. Diese Funktioniert über ein Schrittmotor und bewegt eine Fläche mit einer linearen Bewegung. Der Schrittmotor kann dabei genau angesprochen werden und das Objekt um in unseren Fall genau einen Millimeter weiter schieben.
@@ -259,14 +259,14 @@
 			\caption{Der Lasertriangulationssensor}
 			\label{fig:aufbau_scanner}
 		\end{figure}
-		Die Linear-Führung stammt aus einem 3D-Drucker. Anzusteuern von der Software des Lasertriangulationssensors ist der Schrittmotor. Dieser wird über eine CNC-Steuerung mit Arduino und GRBL-Software angesprochen. Der Arduino ist der Steuerungs-Rechner. Die CNC-Steuerung übernimmt das Ansteuern des Motors. Dazu gibt es ein geeignete Erweiterungsplatinen für einen Arduino, sogenannte CNC-Shields. Damit Arduino und CNC-Shield miteinander kommunizieren können wird die Open-Source-Software GRBL verwendet. So können Befehle des Arduino über GRBL und der CNC-Steuerung für den Schrittmotor lesbar sein.
+		Die Linear-Führung stammt aus einem 3D-Drucker. Die Software des Lasertriangulationsensor muss die Steuerung des Schrittmotors ansteuern können. Dieser wird über eine CNC-Steuerung mit Arduino und GRBL-Software angesprochen. Der Arduino ist der Mikrocontroller. Die CNC-Steuerung übernimmt das Ansteuern des Motors. Dazu gibt es ein geeignete Erweiterungsplatinen für einen Arduino, sogenannte CNC-Shields. Damit Arduino und CNC-Shield miteinander kommunizieren können wird die Open-Source-Software GRBL verwendet. So können Befehle des Arduino über GRBL und der CNC-Steuerung für den Schrittmotor lesbar sein.
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.45\linewidth]{img/hauptteil/hardware/arduino.png}
 			\caption{Arduino mit CNC-Shield}
 			\label{fig:arduino}
 		\end{figure}
-		Mit diesem Aufbau kann über die Bibliothek \textit{serial} in Python eine sogenannte \glqq Serial Connection\grqq{} aufgebaut werden. So kann direkt über ein USB-Anschluss auch der Motor angesprochen werden. Über die Serial Connection werden dann GRBL-Befehle an den Motor gesendet. Diese sind einfache Befehle wie \glqq Startposition festlegen!\grqq{}, \glqq 1mm bewegen\grqq{} oder \glqq Zur Startposition zurückkehren!\grqq{}.
+		Mit diesem Aufbau kann über die Bibliothek \textit{serial} in Python eine sogenannte \glqq Serial Connection\grqq{} aufgebaut werden. Damitaab kann direkt über ein USB-Anschluss auch der Motor angesprochen werden. Über die Serial Connection werden dann GRBL-Befehle an den Motor gesendet. Diese sind einfache Befehle wie \glqq Startposition festlegen!\grqq{}, \glqq 1mm bewegen\grqq{} oder \glqq Zur Startposition zurückkehren!\grqq{}.
 		
 	
 	\label{chap:aufbau_hardware}
@@ -345,13 +345,49 @@
 		Die Funktion \textbf{start\_scan} starten einen Client, der zum Anfang der Scanner-Node über das Topic \textbf{ScannerStatus} signalisiert, dass sie sich jetzt im laufenden Scann befindet. Der Scann startet damit, dass der Service \textbf{send\_img\_pair\_surface} der Kamera aufgerufen wird. Die Kamera nimmt ein Bild-Paar auf und veröffentlicht es. Der Scanner reagiert darauf, in dem er das Bildpaar in eine Punktewolke umsetzt. Diese wird dann ebenfalls veröffentlicht und in Rviz2 dargestellt. Mit dem Senden des Bild-Paares schickt die Kamera ein positives Feedback an den Client zurück. Der Client signalisiert dann der Serial-Connection über die Sprache Grbl, dass sich die Linearführung um einen Millimeter bewegen soll. Danach wiederholt sich der Vorgang mit dem Aufrufen des Services der Kamera. Dabei bestimmt der Client wie oft sich der Vorgang wiederholt. Im Versuchsaufbau bewegt sich die Linear-Führung 290mm, somit wird der Vorgang 290 mal wiederholt. Die Scanner-Node selbst zählt auch mit, wie oft ein Bild-Paar veröffentlicht wurde und rechnet die Verschiebung mit ein. Die aktualisierte Punktewolke wird dabei immer selbst neu veröffentlicht und in Rviz2 aktualisiert. \newline
 		Nachdem alle Wiederholungen durchgeführt wurden signalisiert der Client der Scanner-Node, dass der Scann fertig ist. Daraufhin wird der Scanner die finale Punktewolke in einem (.ply)-File speichern und dann die intern gespeicherte Punktewolke auf null setzten. Damit ist er bereit führ einen erneuten Scann und behält seine Kalibrierung bei.
 		
+		\newpage
 		
 		
-		
-	\subsection{Qualitative Ergebnisse}
+	\subsection{Qualitative Ergebnisse}\label{chap:qual_ergeb}
+	
+	In diesem Abschnitt sollen qualitative Ergebnisse von einem Scann-Vorgang gezeigt werden.
+	
+	\begin{figure}[h]
+		\centering
+		\subfloat[]{\includegraphics[width=0.49\linewidth]{img/hauptteil/scan-imgs/scan_img_0.png}
+			\label{subfig:scan_0}}
+		\subfloat[]{\includegraphics[width=0.49\linewidth]{img/hauptteil/scan-imgs/scan_img_1.png}
+			\label{subfig:scan_1}} \\
+		\subfloat[]{\includegraphics[width=0.49\linewidth]{img/hauptteil/scan-imgs/scan_img_2.png}
+			\label{subfig:scan_2}}
+		\subfloat[]{\includegraphics[width=0.49\linewidth]{img/hauptteil/scan-imgs/scan_img_3.png}
+			\label{subfig:scan_3}}
+		\caption[Qualitative Ergebnisse]{Schachbrett-Kalibrierung mit dem Schachbrett aus verschieden Positionen}
+		\label{fig:scan_imgs}
+	\end{figure}
+	Die aufgenommenen Bilder stammen aus Rviz2. Im Anhang unter \ref{anhang-e} befinden sich weitere Aufnahmen, in dem der Scann näher betrachtet wird. Dabei kann man genau die einzelnen Linien erkennen, die zusammengefügt die komplette Oberflächenrekonstruktion ergeben. 
+	\newpage
 	
 	\subsection{Evaluation}
+		
+		Der Lasertriangulationssensor wurde nun komplett vorgestellt. Es soll nun eine Evaluation folgen. Dabei wird zuerst eine Methode vorgestellt, die die Genauigkeit eines Scann berechnen kann. Nachdem werden zusätzlich aufgekommene Probleme und Schwierigkeiten erläutert.   
 		\subsubsection{Testen von Genauigkeit}
-		\subsubsection{Fehler}
-		\subsubsection{Probleme und Schwierigkeiten}
-			\label{chap:probleme_schwierigkeiten}
+		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Dabei ist es eine gängige Methode das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden [Acc-Ver] [Multi-View-Stereo]. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt.Die Vorgehensweise demnach ist ein Scann durchzuführen der eine Ebene aufnimmt. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} und gibt die Genauigkeit an.
+		\subsubsection{Probleme und Schwierigkeiten}\label{chap:probleme_schwierigkeiten}
+		Bei der Entwicklung und beim Testen des Lasertriangulationssensors sind einige Probleme und Schwierigkeiten aufgetreten. Die ausschlaggebenden sollen hier angesprochen werden.
+		
+		$\underline{Die \; Beleuchtung}$
+		
+		Für das Erkennen der Farbinformation ist eine ausreichende Beleuchtung wichtig. Schnell passiert es, dass die Beleuchtung zu dunkel ausfällt und die Farben nicht gut erkennbar sind. Grundsätzlich ist das ein schnell behebbares Problem. Übe Pylon kann die verwendete Basler-Kamera an die Aktuelle Beleuchtung angepasst werden. Das Dilemma zum Thema der Beleuchtung ist viel mehr, dass je heller das Bild wird, um so weniger ist die Laserlinie erkennbar. An hellen Stellen, auch zu sehen bei den Qualitativen Ergebnissen in \ref{chap:qual_ergeb}, wird die Laserlinie nicht mehr erkannt. Dort ist es so hell, das kein ausreichender Unterschied in der Differenz des Bildpaares auffindbar ist. Gerade in \ref{subfig:scan_0} und \ref{subfig:scan_3} ist dieses Problem eindeutig am Rand der Unterlage des Holzes zu sehen. Sobald man die Kamera etwas dunkler Einstellt, werden die Farben des Holzes weniger gut erkannt. Es ist demnach notwendig die Kamera immer an die aktuelle Beleuchtung anzupassen. Die Anpassung muss so eingestellt sein, dass der Laser gut erkannt wird und gleichzeitig die Farben gut erkennbar sind. Ein automatisches Einstellen der Kamera ist bisher nicht implementiert.
+		
+		$\underline{\ddot{A}nderung \; im \; Bildpaar}$
+		
+		Der Lasertriangulationssensor ist sehr Anfällig auf jegliche Änderung der Szene, die zwischen den beiden Aufnahmen des Bildpaares stattfinden. Nach Plan darf sich hier nur das Einschalten des Laser ändern. Falls sich etwas anderes in Szene ändert, wird dies eindeutig in der Differenz der Bilder erkennbar sein. Da der Algorithmus immer bei der höchsten Intensität ansetzt ist er grundsätzlich robust und wird den Punkt der Laserlinie wählen. Sobald der Unterschied größer ist, kommt es zu ausschlaggebenden Fehlern. Auch hier ist die Beleuchtung wieder eine Fehlerquelle. Die Kamera kann ein Lichtflackern aufnehmen, welches für das menschliche Auge nicht sichtbar ist. Sobald dann ein Bild heller oder dunkler ausfällt, erhält man ein fehlerhaftes Differenz-Bild.
+		
+		$\underline{Fehlerquellen \; im \; Versuchsaufbau}$
+		
+		Als zusätzliche Fehlerquelle ist noch der Versuchsaufbau zu nennen. Die Möglichkeit den verwendeten Schrittmotor anzusteuern ist begrenzt. Hier ist es möglich den Schrittmotor den Befehl sich zu bewegen zu senden. Dabei gibt es kein Feedback, welches erhalten werden kann, sobald die Bewegung abgeschlossen ist. Die Ausführung des Codes muss aber warten, dass die Bewegung tatsächlich abgeschlossen ist. Sonst könne es passieren, dass in der Ausführung der Triangulationssensor davon ausgeht, dass sich die Szene um einen Millimeter weiterbewegt hat, aber die eigentliche Bewegung ist noch nicht abgeschlossen. Die Ausführung und Ermittlung der Punktewolken ist dabei schnell genug , um zweimal innerhalb der Bewegung von einen Millimeter zu erfolgen. Der erste Fehler der hierbei passieren kann, ist, dass die Szene zwischen den Aufnahmen in Bewegung ist und dadurch das Differenz-Bild fehlerhaft ist. Der zweite Fehler ist, dass die Laserlinie in der resultierenden Punktewolke an falscher Position eingefügt wird. Für diese Fehlerquellen wurde der Versuchsaufbau schon so angepasst, dass im Code, nachdem der Befehl für die Bewegung gesendet wurde, eine Sekunde gewartet wird. So ist die Bewegung sicher abgeschlossen, bevor die nächsten Aufnahmen gemacht werden. Nachteil dadurch ist, dass der Scann vergleichsweise langsam aufgenommen wird. Trotzdem bleibt ein kleiner Fehler in der Position. Beim Anhängen der neuen Laserlinie wird genau ein Millimeter in x-Richtung aufaddiert. Hierbei ist ohne größeren Aufwand nicht überprüfbar, ob sich die Linear-Führung genau um einen Millimeter bewegt. Das hängt davon ab, wie genau der Schritt-Motor kalibriert ist. Die Varianz der Laserlinie ist gering und kann somit vernachlässigt werden. Es ist wahrscheinlicher, dass die Kalibrierung des Schritt-Motors für kleine Fehler verantwortlich ist. Diese Fehler können sich in der Oberflächenrekonstruktion aufaddieren und dazu führen, dass die gesamte Punktewolke in x-Richtung fehlerhaft ist. Hiermit wäre auch die der fehlerhafte Radius der gescannten Kugel erklärbar.
+		
+		$\underline{Spiegelung \; und \; schlechte \; Reflektion \; der \; Laserlinie}$
+		
+		

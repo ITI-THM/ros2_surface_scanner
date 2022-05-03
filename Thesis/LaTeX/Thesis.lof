@@ -35,7 +35,15 @@
 \contentsline {figure}{\numberline {25}{\ignorespaces Die LaserLine-Klasse als UML-Diagramm\relax }}{38}{figure.caption.33}%
 \contentsline {figure}{\numberline {26}{\ignorespaces Die Laser-Klasse als UML-Diagramm\relax }}{38}{figure.caption.34}%
 \contentsline {figure}{\numberline {27}{\ignorespaces Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse\relax }}{39}{figure.caption.35}%
-\contentsline {figure}{\numberline {28}{\ignorespaces UML-Klassendiagramm des Lasertriangulationssensor\relax }}{49}{figure.caption.36}%
-\contentsline {figure}{\numberline {29}{\ignorespaces ROS2-Implementierung des Lasertriangulationssensor\relax }}{50}{figure.caption.37}%
-\contentsline {figure}{\numberline {30}{\ignorespaces Vorgang der Kalibrierung\relax }}{51}{figure.caption.38}%
-\contentsline {figure}{\numberline {31}{\ignorespaces Vorgang des Scanablaufs\relax }}{52}{figure.caption.39}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Qualitative Ergebnisse}}{44}{figure.caption.36}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{44}{subfigure.28.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{44}{subfigure.28.2}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{44}{subfigure.28.3}%
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{44}{subfigure.28.4}%
+\contentsline {figure}{\numberline {29}{\ignorespaces UML-Klassendiagramm des Lasertriangulationssensor\relax }}{53}{figure.caption.37}%
+\contentsline {figure}{\numberline {30}{\ignorespaces ROS2-Implementierung des Lasertriangulationssensor\relax }}{54}{figure.caption.38}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Vorgang der Kalibrierung\relax }}{55}{figure.caption.39}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Vorgang des Scanablaufs\relax }}{56}{figure.caption.40}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Qualitativer Scann von nahem\relax }}{57}{figure.caption.41}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{57}{subfigure.33.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{57}{subfigure.33.2}%

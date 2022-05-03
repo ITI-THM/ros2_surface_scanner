@@ -31,21 +31,22 @@
 \contentsline {subsection}{\numberline {3.4}Aufbau / Software}{36}{subsection.3.4}%
 \contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{36}{subsubsection.3.4.1}%
 \contentsline {subsubsection}{\numberline {3.4.2}ROS2}{39}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{43}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Evaluation}{43}{subsection.3.6}%
-\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{43}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Fehler}{43}{subsubsection.3.6.2}%
-\contentsline {subsubsection}{\numberline {3.6.3}Probleme und Schwierigkeiten}{43}{subsubsection.3.6.3}%
-\contentsline {section}{\numberline {4}Fazit}{44}{section.4}%
-\contentsline {section}{\numberline {5}Ausblick}{46}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Erweiterung}{46}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Anpassungen}{48}{subsection.5.2}%
-\contentsline {section}{\numberline {A}Anhang}{49}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{49}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{50}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{51}{subsection.A.3}%
-\contentsline {subsection}{\numberline {A.4}Anhang D}{52}{subsection.A.4}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{53}{section*.40}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{54}{section*.41}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{55}{section*.42}%
-\contentsline {section}{Abkürzungsverzeichnis}{56}{section*.43}%
+\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{44}{subsection.3.5}%
+\contentsline {subsection}{\numberline {3.6}Evaluation}{45}{subsection.3.6}%
+\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{45}{subsubsection.3.6.1}%
+\contentsline {subsubsection}{\numberline {3.6.2}Probleme und Schwierigkeiten}{45}{subsubsection.3.6.2}%
+\contentsline {section}{\numberline {4}Fazit}{48}{section.4}%
+\contentsline {section}{\numberline {5}Ausblick}{50}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Erweiterung}{50}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Anpassungen}{52}{subsection.5.2}%
+\contentsline {section}{\numberline {A}Anhang}{53}{appendix.A}%
+\contentsline {subsection}{\numberline {A.1}Anhang A}{53}{subsection.A.1}%
+\contentsline {subsection}{\numberline {A.2}Anhang B}{54}{subsection.A.2}%
+\contentsline {subsection}{\numberline {A.3}Anhang C}{55}{subsection.A.3}%
+\contentsline {subsection}{\numberline {A.4}Anhang D}{56}{subsection.A.4}%
+\contentsline {subsection}{\numberline {A.5}Anhang E}{57}{subsection.A.5}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{59}{section*.42}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{60}{section*.43}%
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{61}{section*.44}%
+\contentsline {section}{Abkürzungsverzeichnis}{62}{section*.45}%
+\contentsline {section}{\nonumberline Quellenverzeichnis}{63}{section*.46}%

@@ -372,7 +372,50 @@
 		
 		Der Lasertriangulationssensor wurde nun komplett vorgestellt. Es soll nun eine Evaluation folgen. Dabei wird zuerst eine Methode vorgestellt, die die Genauigkeit eines Scann berechnen kann. Nachdem werden zusätzlich aufgekommene Probleme und Schwierigkeiten erläutert.   
 		\subsubsection{Testen von Genauigkeit}
-		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Dabei ist es eine gängige Methode das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden [Acc-Ver] [Multi-View-Stereo]. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt.Die Vorgehensweise demnach ist ein Scann durchzuführen der eine Ebene aufnimmt. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} und gibt die Genauigkeit an.
+		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Dabei ist es eine gängige Methode das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden [Acc-Ver] [Multi-View-Stereo]. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt.Die Vorgehensweise demnach ist ein Scann durchzuführen der eine Ebene aufnimmt. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} und gibt die Genauigkeit an. Um eine höhere Genauigkeit der Messung zu erlangen wird für eine bestimmte Szene dreimal ein Scann durchgeführt. Die gewollte Form wird dann über dein Least-Squares-Algorithmus in die Punkte gefittet. Sobald das geschehen ist, können die Abstände der Punkte zu der Form berechnet werden. Der erste Versuch ist mit einer Linie gemacht worden. Dazu wurde eine einzelne Laserlinie von einer geraden Fläche aufgenommen.  
+		
+		\begin{table}[h]
+			\centering
+			\begin{tabular}[h]{c|c|c||c}
+				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+				\hline
+				74,68858 $\mu$m & 85,75119 $\mu$m & 82,05037 $\mu$m & 80,83005 $\mu$m \\
+				\hline
+			\end{tabular}
+			\caption{Messungen einer Linie}
+			\label{tab:linie}
+		\end{table}
+	
+		Die zweite Messung betrachtet eine Ebene. Der Versuchsaufbau selbst bietet dazu gute Möglichkeiten, da die Grundlage der Linear-Führung eben ist. Diese wird in einem kompletten Scann-Ablauf aufgenommen. Da durch den Versuchsaufbau auch einzelne Objekte links und recht der Linear-Führung aufgenommen werden (siehe \ref{chap:qual_ergeb}), muss die Punktewolke etwas zugeschnitten werden. In die resultierenden Punkte kann dann eine Ebene gefittet werden. Berücksichtigt werden dann die Abstände der Punkte zu der Ebene.  
+		
+		\begin{table}[h]
+			\centering
+			\begin{tabular}[h]{c|c|c||c}
+				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+				\hline
+				0,12192 mm & 0,12159 mm & 0,11337 mm & 0,11896 mm \\
+				\hline
+			\end{tabular}
+			\caption{Messungen einer Ebene}
+			\label{tab:ebene}
+		\end{table}
+	
+		Für die dritte Messung wurde eine Kugel benutzt. Der Unterschied zu den vorherigen Messungen ist, dass hier die tatsächliche Größe des Objektes mit evaluiert wird. Beim fitten einer Kugel wird Radius ausgegeben. Die verwendete Kugel hat einen Radius von 5 cm.
+	
+		\begin{table}[h]
+			\centering
+			\begin{tabular}[h]{c|c|c||c}
+				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+				\hline
+				0,35608 mm & 0,35462 mm & 0,33945 mm & 0,35005 mm \\
+				\hline
+				4,80014 cm & 4,80705 cm & 4,80895 cm & 4,80538 cm \\
+				\hline
+			\end{tabular}
+			\caption{Messungen einer Kugel}
+			\label{tab:sphere}
+		\end{table}
+		
 		\subsubsection{Probleme und Schwierigkeiten}\label{chap:probleme_schwierigkeiten}
 		Bei der Entwicklung und beim Testen des Lasertriangulationssensors sind einige Probleme und Schwierigkeiten aufgetreten. Die ausschlaggebenden sollen hier angesprochen werden.
 		
@@ -390,4 +433,4 @@
 		
 		$\underline{Spiegelung \; und \; schlechte \; Reflektion \; der \; Laserlinie}$
 		
-		
+		Für einen Lasertriangulationssensor ist grundlegend vorausgesetzt, dass die Laserlinie auf den Objekt sichtbar ist. Das bedeutet, dass sie gut reflektiert wird. Wenn das nicht der Fall ist, kommt es zu Fehlern. Durchsichtige oder nihct reflektierende Oberflächen können vom Sensor nicht erfasst werden.

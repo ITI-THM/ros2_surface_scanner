@@ -167,7 +167,7 @@
 	
 		$\underline{Das \; Bestimmen \; der \; Ebenengleichung}$
 		
-		Mit dem letzten Schritt wird die gesuchte Ebenengleichung gefunden. Alle Vorbereitungen sind abgeschlossen. Die richtigen Punkte der zwei nicht parallelen Laserlinien sind in einem einheitlichen Koordinatensystem. Im letzten Schritt muss in diese Punkte eine Ebene gefittet werden. Für einen Ebenen-Fit gibt es diverse Möglichkeiten. Hier wurde sich für die Singular Value Decomposition (SVD) entschieden [svd-t]. Sie ist über die Numpy-Bibliothek in Python implementiert und nutzbar. Wenn man über Numpy den SVD-Algorithmus anwendet, gibt dieser, wie in [svd-t] beschrieben drei Matrizen zurück. Diese heißen U, S und V. Nach [svd-fit] ist die dritte Zeile von U der Normalen-Vektor (\( \vec{n} \)) der passenden Ebene. Ziel ist es eine Ebenengleichung als Koordinatenform zu erhalten. 
+		Mit dem letzten Schritt wird die gesuchte Ebenengleichung gefunden. Alle Vorbereitungen sind abgeschlossen. Die richtigen Punkte der zwei nicht parallelen Laserlinien sind in einem einheitlichen Koordinatensystem. Im letzten Schritt muss in diese Punkte eine Ebene gefittet werden. Der Ebenen-Fit wird über die Singular Value Decomposition (SVD) oder auch Singulärwertzerlegung realisiert \citep[Vgl. S. 349 ff]{liesen_lineare_2021}. Sie ist über die Numpy-Bibliothek in Python implementiert und nutzbar. Die Singulärwertzerlegung wird auf die Punkte angewandt und zelegt diese in drei Matrizen. Die erste dieser Matrizen ist per Definition eine orthogonale n x n-Matrix, wobei n die Dimension ist, in der sich die Punkte befinden. Da diese im Dreidimensionalen Raum sind erhält man eine 3 x 3-Matrix. In dieser Spannen die ersten beiden Spalten-Vektoren die Ebene auf. Da alle Vektoren in der Matrix orthogonal zueinander sind, entspricht der dritte und letzte Vektor der Matrix dem Normalenvektor ($ \vec{n} $) auf der Ebene, die am besten zu den übergebenen Punkten passt. Mit dem bekannten Normalenvektor kann eine Ebenengleichung als Koordinatenform ermittelt werden. 
 		
 		\begin{equation}
 			\begin{aligned}
@@ -180,7 +180,7 @@
 			\end{aligned}
 		\end{equation}
 		
-		Um D zu erhalten kann ein zufälliger Punkt aus den Laserlinien-Punkten ausgewählt werden. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das finden der Laser-Ebene abgeschlossen. 
+		Um D zu erhalten kann ein zufälliger Punkt aus den Laserlinien-Punkten ausgewählt werden. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das Finden der Laser-Ebene abgeschlossen. 
 		\label{chap:kalibrierung_extrinsisch}
 		
 	\subsection{Das Erzeugen einer Punktewolke}
@@ -247,7 +247,7 @@
 			\caption{Der Lasertriangulationssensor}
 			\label{fig:aufbau_sensor}
 		\end{figure}
-		Für die Kamera wurde die Basler a2A1920-160ucPRO verwendet. Dabei handelt es sich um eine Industriekamera mit einer Auflösung von 1920 x 1200 Pixeln. Sie ist eine Farbkamera und kann bis zu 164 Bilder pro Sekunde aufnehmen. Die Spezifikationen sind gemäß [basler-cam-spez] angeben. Wichtig ist, dass die Kamera über USB 3.0 angesprochen werden kann. So kann sie über Software auf einem PC oder ähnlichem angesteuert werden. Mit dem Software-Paket Pylon liefert Basler eine eigene Umgebung um die Kamer zu benutzen und einzustellen. Zusätzlich wird mit Pypylon eine Pythonbibliothek gestellt. Diese gilt als Schnittstelle zwischen Kamera und Python. So kann über direkten Python-Code die Kamera eingebunden werden. \newline
+		Für die Kamera wurde die Basler a2A1920-160ucPRO verwendet. Dabei handelt es sich um eine Industriekamera mit einer Auflösung von 1920 x 1200 Pixeln. Sie ist eine Farbkamera und kann bis zu 164 Bilder pro Sekunde aufnehmen. Die Spezifikationen sind gemäß \citep{noauthor_a2a1920-160ucpro_nodate} angeben. Wichtig ist, dass die Kamera über USB 3.0 angesprochen werden kann. So kann sie über Software auf einem PC oder ähnlichem angesteuert werden. Mit dem Software-Paket Pylon liefert Basler eine eigene Umgebung um die Kamer zu benutzen und einzustellen. Zusätzlich wird mit Pypylon eine Pythonbibliothek gestellt. Diese gilt als Schnittstelle zwischen Kamera und Python. So kann über direkten Python-Code die Kamera eingebunden werden. \newline
 		Das zweite Bauteil ist der Laser. Dabei handelt es sich um einen herkömmlichen roten Laser. Der Lichtstrahl des Lasers wird durch diffraktive optische Elemente (DOE) zu einer Linie geformt. Wie in Abb. \ref{fig:aufbau_sensor} gezeigt werden dann Kamera und Laser an eine Halterung in entsprechender Position befestigt. \newline
 		Die Kamera hat ein ansteuerbares Output-Signal. Dieses Signal kann genutzt werden, um den Laser direkt anzusprechen. Dabei wird ein MOSFET (Metal Oxide Semiconductor Field-Effect Transistors) verwendet. So kann das Output-Signal angesprochen werden, um über den MOSFET den Strom des Lasers an und aus zu stellen. Es ist damit möglich, für die Kamera selbst einen Ablauf zu definieren, in dem sie zuerst ein Bild aufnimmt, dann den Laser anschaltet und anschließend ein zweites Bild aufnimmt. Zuletzt muss der Laser wieder ausgeschaltet werden. So werden von der Kamera die geforderten Bildpaare aufgenommen. Mit Pypylon können diese Bilden in Python und mit OpenCv weiterverwendet werden.
 		
@@ -302,7 +302,7 @@
 			\caption{Die LaserLine-Klasse als UML-Diagramm}
 			\label{fig:laser_line_uml}
 		\end{figure}
-		Die Klasse LaserLine beschreibt eine aufgenommene Laserlinie. Information die dafür als Variablen gespeichert werden sind das Differenz-Bild, die errechneten 3D-Punkte der Linie und die entsprechende Rotation und Translation zu dem Weltkoordinatensystem, in dem sich die Laserlinie befindet. Zum initialisieren der LaserLine-Klasse wird das aufgenommene Bildpaar und die Rotation und Translation zu dem jeweiligen Weltkoordinatensystem benötigt. Die Klasse errechnet dann noch im Konstruktor die Bild-Differenz und die Laserlinienpunkte.
+		Die Klasse LaserLine beschreibt eine aufgenommene Laserlinie. Information die dafür als Variablen gespeichert werden sind das Differenz-Bild, die errechneten 3D-Punkte der Linie und die entsprechende Rotation und Translation zu dem Weltkoordinatensystem, in dem sich die Laserlinie befindet. Zum initialisieren der LaserLine-Klasse wird das aufgenommene Bildpaar und die Rotation und Translation zu dem jeweiligen Weltkoordinatensystem benötigt. Die Klasse errechnet dann noch im Konstruktor die Bild-Differenz und die Laserlinienpunkte.\nocite{*}
 		
 		\begin{figure}[h]
 			\centering
@@ -324,7 +324,7 @@
 		
 		\subsubsection{ROS2}
 		
-		Übergeordnet über der Python-Bibliothek befindet sich die ROS2-Implementierung, mit der letztendlich der Triangulationssensor bedient wird. Mit ROS2 erstellt man sogenannte \textbf{Nodes}, die verschiedene Möglichkeiten bereitstellen miteinander zu kommunizieren. Dazu gehören zum einen \textbf{Services}. Services sind am ehesten mit Methoden einer Klasse zu vergleichen, wobei dann die Nodes eine Klasse darstellen. Eine Node stellt ein Service bereit. Dieser kann aufgerufen werden und man erhält eine Antwort zurück. Der Triangulationssensor selbst ist auch über Nodes umgesetzt. Dabei sind die beiden ausschlaggebenden Nodes die Scanner-Node und die Kamera-Node. Die Scanner-Node enthält die vorgestellte Python-Bibliothek und damit eine Instanz von der Scanner-Klasse. Die Instanzen von der Scanner-Klasse selbst, also der Laser und die Kamera sind nach Initialisierung noch nicht mit Daten gefüllt. Das liegt daran, dass die Kalibrierung noch nicht stattgefunden hat. Dazu gibt es die Kamera-Node, die nun konkrete Bilder liefern kann. Die Kamera-Node hat Zugriff auf die Pypylon-Bibliothek [pypylon] und damit auf die Repräsentation der Basler-Kamera. Die Node beinhaltet eine Funktion, die das gewünschte Bildpaar liefert. Da der Linienlaser selbst über den Output der Kamera gesteuert wird, kann dieser auch direkt in der Kamera-Node angesprochen werden. So stellt die Kamera ein Service bereit, der ein Bildpaar aufnimmt und dieses an den Scanner weiterleiten kann. Genauso stellt sie einen Service bereit, der mehrere Bilder aufnimmt und diese als Liste weiterleitet. Damit ist auch für die intrinsische Kalibrierung gesorgt. \newline
+		Übergeordnet über der Python-Bibliothek befindet sich die ROS2-Implementierung, mit der letztendlich der Triangulationssensor bedient wird. Mit ROS2 erstellt man sogenannte \textbf{Nodes}, die verschiedene Möglichkeiten bereitstellen miteinander zu kommunizieren. Dazu gehören zum einen \textbf{Services}. Services sind am ehesten mit Methoden einer Klasse zu vergleichen, wobei dann die Nodes eine Klasse darstellen. Eine Node stellt ein Service bereit. Dieser kann aufgerufen werden und man erhält eine Antwort zurück. Der Triangulationssensor selbst ist auch über Nodes umgesetzt. Dabei sind die beiden ausschlaggebenden Nodes die Scanner-Node und die Kamera-Node. Die Scanner-Node enthält die vorgestellte Python-Bibliothek und damit eine Instanz von der Scanner-Klasse. Die Instanzen von der Scanner-Klasse selbst, also der Laser und die Kamera sind nach Initialisierung noch nicht mit Daten gefüllt. Das liegt daran, dass die Kalibrierung noch nicht stattgefunden hat. Dazu gibt es die Kamera-Node, die nun konkrete Bilder liefern kann. Die Kamera-Node hat Zugriff auf die Pypylon-Bibliothek \citep{noauthor_getting_2022} und damit auf die Repräsentation der Basler-Kamera. Die Node beinhaltet eine Funktion, die das gewünschte Bildpaar liefert. Da der Linienlaser selbst über den Output der Kamera gesteuert wird, kann dieser auch direkt in der Kamera-Node angesprochen werden. So stellt die Kamera ein Service bereit, der ein Bildpaar aufnimmt und dieses an den Scanner weiterleiten kann. Genauso stellt sie einen Service bereit, der mehrere Bilder aufnimmt und diese als Liste weiterleitet. Damit ist auch für die intrinsische Kalibrierung gesorgt. \newline
 		Diese Kommunikation funktioniert in ROS2 über \textbf{Topics}. Topics beschreiben eine Nachricht. Eine Node hat die Möglichkeit eine Nachricht über ein gewähltes Topic zu veröffentlichen (publish). Ebenfalls gibt es die Möglichkeit , dass eine Node Nachrichten über ein gewähltes Topic empfängt (subscribe). Der Service hier nimmt ein Bildpaar auf und veröffentlicht es über das jeweilige Topic. Was die Scanner-Node beim Eintreffen der Bilder macht, ist für den Service selbst nicht mehr von Belangen.\newline
 		In der Kommunikation muss zusätzlich festgehalten werden, welchen Datentyp die Nachricht bzw. das Topic verwenden soll. In ROS2 wird das über einen \textbf{Message}-Type realisiert. Hierbei kann man selbst eine Message erstellen oder man benutzt Vorgefertigte, die von ROS2 bereitgestellt werden. Für ein Bild gibt es einen vorgefertigten Message-Type. Da jedoch zwei Bilder auf einmal geschickt werden sollen, wurde hier ein eigener Typ (img\_pair.msg) erstellt. Ähnlich verhält es sich bei dem Schicken der Kalibrierungsbilder für die intrinsische Kalibrierung. Hier wird ein Message-Type erstellt, der eine Liste an Bildern beinhaltet (cam\_calib\_imgs.msg). Die Kamera nimmt demnach bei einem Aufruf des Services die Bilder auf und veröffentlicht sie über das jeweilige Topic. Der Scanner ist ein Subscriber zu diesem Topic und empfängt sie. Dabei wird in der Node eine Callback-Function aufgerufen, die auf dieses Empfangen reagiert. Der Scanner selbst speichert die für die Kalibrierung gesendeten Bild erst einmal nur ab. Zusätzlich hat ein Service in ROS2 dei Möglichkeit ein Feedback zurückzugeben. Diese Möglichkeit wird hier genutzt, damit die Kamera zeigen kann, dass die Bilder erfolgreich aufgenommen und veröffentlicht wurden.\newline
 		Die Scanner-Node stellt einen eigenen Service bereit, der den Scanner Kalibriert. Dazu werden die Methoden, die die Scanner-Klasse bereitstellt genutzt. Überprüft wird hierbei, ob dem Scanner schon die benötigten Bilder bereitstehen. Falls das nicht der Fall ist, wird über die Antwort des Services darauf hingewiesen und der Aufruf des Services schlägt fehl. Andernfalls kann die Node den Scanner Kalibrieren und ein Scan kann gestartet werden. \newline
@@ -372,56 +372,67 @@
 		
 		Der Lasertriangulationssensor wurde nun komplett vorgestellt. Es soll nun eine Evaluation folgen. Dabei wird zuerst eine Methode vorgestellt, die die Genauigkeit eines Scann berechnen kann. Nachdem werden zusätzlich aufgekommene Probleme und Schwierigkeiten erläutert.   
 		\subsubsection{Testen von Genauigkeit}
-		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Dabei ist es eine gängige Methode das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden [Acc-Ver] [Multi-View-Stereo]. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt.Die Vorgehensweise demnach ist ein Scann durchzuführen der eine Ebene aufnimmt. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} und gibt die Genauigkeit an. Um eine höhere Genauigkeit der Messung zu erlangen wird für eine bestimmte Szene dreimal ein Scann durchgeführt. Die gewollte Form wird dann über dein Least-Squares-Algorithmus in die Punkte gefittet. Sobald das geschehen ist, können die Abstände der Punkte zu der Form berechnet werden. Der erste Versuch ist mit einer Linie gemacht worden. Dazu wurde eine einzelne Laserlinie von einer geraden Fläche aufgenommen.  
+		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Eine gängige Methode dafür ist, das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden \citep{bart_accuracy_nodate} \citep{song_multi-view_2019}. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt. Die Vorgehensweise demnach ist ein Scann durchzuführen der eine Ebene aufnimmt. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} (MSE) und gibt die Genauigkeit an. Die selbe MEthode wurde auch für eine einfache Linie und eine Kugel genutzt. Um eine höhere Genauigkeit der Messung zu erlangen, wird für eine bestimmte Szene dreimal ein Scann durchgeführt. Die gewollte Form wird dann über dein Least-Squares-Algorithmus in die Punkte gefittet. Sobald das geschehen ist, können die Abstände der Punkte zu der Form berechnet werden. Der erste Versuch ist mit einer Linie gemacht worden. Dazu wurde eine einzelne Laserlinie von einer geraden Fläche aufgenommen.  
 		
 		\begin{table}[h]
 			\centering
-			\begin{tabular}[h]{c|c|c||c}
-				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+			
+			\begin{tabular}[h]{c|c|c|c||c}
+				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
 				\hline
-				74,68858 $\mu$m & 85,75119 $\mu$m & 82,05037 $\mu$m & 80,83005 $\mu$m \\
+				MSE & 74,69 $\mu$m & 85,75 $\mu$m & 82,05 $\mu$m & 80,83 $\mu$m \\
 				\hline
 			\end{tabular}
+		
 			\caption{Messungen einer Linie}
 			\label{tab:linie}
+			
 		\end{table}
 	
-		Die zweite Messung betrachtet eine Ebene. Der Versuchsaufbau selbst bietet dazu gute Möglichkeiten, da die Grundlage der Linear-Führung eben ist. Diese wird in einem kompletten Scann-Ablauf aufgenommen. Da durch den Versuchsaufbau auch einzelne Objekte links und recht der Linear-Führung aufgenommen werden (siehe \ref{chap:qual_ergeb}), muss die Punktewolke etwas zugeschnitten werden. In die resultierenden Punkte kann dann eine Ebene gefittet werden. Berücksichtigt werden dann die Abstände der Punkte zu der Ebene.  
+		Die zweite Messung betrachtet eine Ebene. Der Versuchsaufbau selbst bietet dazu gute Möglichkeiten, da die Grundlage der Linear-Führung eben ist. Diese wird in einem kompletten Scann-Ablauf aufgenommen. Da durch den Versuchsaufbau auch einzelne Objekte links und recht der Linear-Führung aufgenommen werden (siehe \ref{chap:qual_ergeb}), muss die Punktewolke etwas zugeschnitten werden. In die resultierenden Punkte kann dann eine Ebene gefittet werden. Berücksichtigt werden dann die Abstände der Punkte zu der Ebene.
 		
 		\begin{table}[h]
 			\centering
-			\begin{tabular}[h]{c|c|c||c}
-				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+			
+			\begin{tabular}[h]{c|c|c|c||c}
+				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
 				\hline
-				0,12192 mm & 0,12159 mm & 0,11337 mm & 0,11896 mm \\
+				MSE & 121,92 $\mu$m & 121,59 $\mu$m & 113,37 $\mu$m & 118,96 $\mu$m \\
 				\hline
 			\end{tabular}
+		
 			\caption{Messungen einer Ebene}
 			\label{tab:ebene}
+			
 		\end{table}
 	
-		Für die dritte Messung wurde eine Kugel benutzt. Der Unterschied zu den vorherigen Messungen ist, dass hier die tatsächliche Größe des Objektes mit evaluiert wird. Beim fitten einer Kugel wird Radius ausgegeben. Die verwendete Kugel hat einen Radius von 5 cm.
+		Für die dritte Messung wurde eine Kugel benutzt. Der Unterschied zu den vorherigen Messungen ist, dass hier die tatsächliche Größe des Objektes mit evaluiert wird. Beim fitten einer Kugel wird Radius ausgegeben. Die verwendete Kugel hat einen Radius von 5 cm. Diese 5 cm sollten sich auch in der optimal gefitteten Kugel widerspiegeln. Zusätzlich wird der MSE berechnet.
 	
 		\begin{table}[h]
 			\centering
-			\begin{tabular}[h]{c|c|c||c}
-				Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
+			
+			\begin{tabular}[h]{c|c|c|c||c}
+				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
 				\hline
-				0,35608 mm & 0,35462 mm & 0,33945 mm & 0,35005 mm \\
+				MSE & 356,08 $\mu$m & 354,62 $\mu$m & 339,45 $\mu$m & 350,05 $\mu$m \\
 				\hline
-				4,80014 cm & 4,80705 cm & 4,80895 cm & 4,80538 cm \\
+				Radius & 4,80014 cm & 4,80705 cm & 4,80895 cm & 4,80538 cm \\
 				\hline
 			\end{tabular}
+		
 			\caption{Messungen einer Kugel}
 			\label{tab:sphere}
+			
 		\end{table}
+	
+		An der durchgeführten Messung fällt auf, dass der Radius zu klein ist. Er ist zwischen 1 bis 2 Millimeter zu kurz. Der MSE für die gefittete Kugel ist jedoch wieder in einem vergleichbaren Mikrometer-Bereich, wie bei den anderen Messungen. Die Varianz der Punkte um das \glqq Soll\grqq{} ist also gering, jedoch ist die Kugel an sich zu klein. Dabei sind 1 bis 2 Millimeter bei einem Soll von 50 Millimetern ein vergleichsweise großer Fehler. 
 		
 		\subsubsection{Probleme und Schwierigkeiten}\label{chap:probleme_schwierigkeiten}
 		Bei der Entwicklung und beim Testen des Lasertriangulationssensors sind einige Probleme und Schwierigkeiten aufgetreten. Die ausschlaggebenden sollen hier angesprochen werden.
 		
 		$\underline{Die \; Beleuchtung}$
 		
-		Für das Erkennen der Farbinformation ist eine ausreichende Beleuchtung wichtig. Schnell passiert es, dass die Beleuchtung zu dunkel ausfällt und die Farben nicht gut erkennbar sind. Grundsätzlich ist das ein schnell behebbares Problem. Übe Pylon kann die verwendete Basler-Kamera an die Aktuelle Beleuchtung angepasst werden. Das Dilemma zum Thema der Beleuchtung ist viel mehr, dass je heller das Bild wird, um so weniger ist die Laserlinie erkennbar. An hellen Stellen, auch zu sehen bei den Qualitativen Ergebnissen in \ref{chap:qual_ergeb}, wird die Laserlinie nicht mehr erkannt. Dort ist es so hell, das kein ausreichender Unterschied in der Differenz des Bildpaares auffindbar ist. Gerade in \ref{subfig:scan_0} und \ref{subfig:scan_3} ist dieses Problem eindeutig am Rand der Unterlage des Holzes zu sehen. Sobald man die Kamera etwas dunkler Einstellt, werden die Farben des Holzes weniger gut erkannt. Es ist demnach notwendig die Kamera immer an die aktuelle Beleuchtung anzupassen. Die Anpassung muss so eingestellt sein, dass der Laser gut erkannt wird und gleichzeitig die Farben gut erkennbar sind. Ein automatisches Einstellen der Kamera ist bisher nicht implementiert.
+		Für das Erkennen der Farbinformation ist eine ausreichende Beleuchtung wichtig. Schnell passiert es, dass die Beleuchtung zu dunkel ausfällt und die Farben nicht gut erkennbar sind. Grundsätzlich ist das ein schnell behebbares Problem. Über Pylon kann die verwendete Basler-Kamera an die aktuelle Beleuchtung angepasst werden. Das Dilemma zum Thema der Beleuchtung ist viel mehr, dass je heller das Bild wird, um so weniger ist die Laserlinie erkennbar. An hellen Stellen, auch zu sehen bei den Qualitativen Ergebnissen in \ref{chap:qual_ergeb}, wird die Laserlinie nicht mehr erkannt. Dort ist es so hell, das kein ausreichender Unterschied in der Differenz des Bildpaares auffindbar ist. Gerade in \ref{subfig:scan_0} und \ref{subfig:scan_3} ist dieses Problem eindeutig am Rand der Unterlage des Holzes zu sehen. Sobald man die Kamera etwas dunkler Einstellt, werden die Farben des Holzes weniger gut erkannt. Es ist demnach notwendig die Kamera immer an die aktuelle Beleuchtung anzupassen. Die Anpassung muss so eingestellt sein, dass der Laser gut erkannt wird und gleichzeitig die Farben gut erkennbar sind. Ein automatisches Einstellen der Kamera ist bisher nicht implementiert.
 		
 		$\underline{\ddot{A}nderung \; im \; Bildpaar}$
 		
@@ -433,4 +444,5 @@
 		
 		$\underline{Spiegelung \; und \; schlechte \; Reflektion \; der \; Laserlinie}$
 		
-		Für einen Lasertriangulationssensor ist grundlegend vorausgesetzt, dass die Laserlinie auf den Objekt sichtbar ist. Das bedeutet, dass sie gut reflektiert wird. Wenn das nicht der Fall ist, kommt es zu Fehlern. Durchsichtige oder nihct reflektierende Oberflächen können vom Sensor nicht erfasst werden.
+		Für einen Lasertriangulationssensor ist grundlegend vorausgesetzt, dass die Laserlinie auf den Objekt sichtbar ist. Das bedeutet, dass sie gut reflektiert wird. Wenn das nicht der Fall ist, kommt es zu Fehlern. Durchsichtige oder nicht reflektierende Oberflächen können vom Sensor nicht erfasst werden. Zu Fehlern kommt es auch, wenn sich das Laserlicht an einer Oberfläche spiegelt. Dadurch kann es passieren, dass rotes Licht an stellen erscheint, die gar nicht zur eigentlichen Laserlinie gehören. Da dieses Licht vom Laser selbst kommt, ist es auch im Differenz-Bild eindeutig erkennbar. Da alle erfassten Pixel des Lasers auf die Laser-Ebene gespannt werden, erscheinen diese Fehlerhaften Stellen dann in der Oberflächenrekonstruktion über oder unter den Objekt als Rauschen. 
+		\citep[Vgl.][]{song_multi-view_2019}

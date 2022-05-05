@@ -86,7 +86,7 @@
 %\usepackage{chngcntr}
 %\counterwithout{footnote}{section}
 %\usepackage{perpage} \MakePerPage{footnote}
-\usepackage{multibbl}
+%\usepackage{multibbl}
 \usepackage{multirow}
 \usepackage{mathtools}
 \usepackage{wrapfig}
@@ -100,7 +100,6 @@
 %\usepackage{siunitx}  
 \usepackage{todonotes}
 \usepackage{pdflscape}
-
 %\usepackage{showframe}
 %\renewcommand*\ShowFrameColor{\color{red}}
 
@@ -132,7 +131,7 @@
 \DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
 
 
-\newbibliography{all}
+% \newbibliography{all}
 
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % linksbündig mit Breitenangabe
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
@@ -144,6 +143,13 @@
 
 %fuer Listings
 \usepackage{listings}
+\usepackage[backend=biber, %% Hilfsprogramm "biber" (statt "biblatex" oder "bibtex")
+style=numeric, %% Zitierstil (siehe Dokumentation)
+natbib=true, %% Bereitstellen von natbib-kompatiblen Zitierkommandos
+hyperref=true, %% hyperref-Paket verwenden, um Links zu erstellen
+]{biblatex}
+
+\addbibresource{bib/Hauptteil.bib} %% Einbinden der bib-Datei
 
 \begin{comment}
 \lstset{literate=
@@ -483,11 +489,9 @@
 % Literaturverzeichnis
 % ----------------------------------------------------------------------------------------------------------
 
-%\bibliographystyle{literatur}{unsrtdin}
-%\raggedright
-%\bibliography{literatur}{bib/literatur}{Literaturverzeichnis}
-%\clearpage
-%
+\printbibliography
+\clearpage
+
 %% ----------------------------------------------------------------------------------------------------------
 %% Datenblattverzeichnis
 %% ----------------------------------------------------------------------------------------------------------
@@ -500,14 +504,14 @@
 % ----------------------------------------------------------------------------------------------------------
 % Bildverzeichnis
 % ----------------------------------------------------------------------------------------------------------
-
-\bibliographystyle{all}{unsrtdin} % apalike
-\raggedright
-
-
-\bibliography{all}{bib/all}{Quellenverzeichnis}
-\clearpage
-
+%
+%\bibliographystyle{all}{unsrtdin} % apalike
+%\raggedright
+%
+%
+%\bibliography{all}{bib/all}{Quellenverzeichnis}
+%\clearpage
+%
 % ----------------------------------------------------------------------------------------------------------
 % Eidesstattliche Erklärung
 % ----------------------------------------------------------------------------------------------------------

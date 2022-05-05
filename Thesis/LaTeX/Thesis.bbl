@@ -1,0 +1,582 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{noauthor_a2a1920-160ucpro_nodate}{online}{}
+      \field{sortinit}{a}
+      \field{sortinithash}{a3dcedd53b04d1adfd5ac303ecd5e6fa}
+      \field{labeltitlesource}{title}
+      \field{title}{a2A1920-160ucPRO | Basler}
+      \field{urlday}{28}
+      \field{urlmonth}{4}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb a2A1920-160ucPRO | Basler:/home/tristan/Zotero/storage/M54TA6FS/a2a1920-160ucpro.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://docs.baslerweb.com/a2a1920-160ucpro
+      \endverb
+      \verb{url}
+      \verb https://docs.baslerweb.com/a2a1920-160ucpro
+      \endverb
+    \endentry
+    \entry{baker_singular_nodate}{article}{}
+      \name{author}{1}{}{%
+        {{hash=1e9896d7dac8a643dea1b0019c3f9938}{%
+           family={Baker},
+           familyi={B\bibinitperiod},
+           given={Kirk},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \strng{fullhash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \strng{bibnamehash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \strng{authorbibnamehash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \strng{authornamehash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \strng{authorfullhash}{1e9896d7dac8a643dea1b0019c3f9938}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Singular Value Decomposition Tutorial}
+      \true{nocite}
+      \field{pages}{24}
+      \range{pages}{1}
+      \verb{file}
+      \verb Baker - Singular Value Decomposition Tutorial.pdf:/home/tristan/Zotero/storage/7XML5QD3/Baker - Singular Value Decomposition Tutorial.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{bart_accuracy_nodate}{article}{}
+      \name{author}{3}{}{%
+        {{hash=c7d5363a920c2714638e9535312685da}{%
+           family={Bart},
+           familyi={B\bibinitperiod},
+           given={Boeckmans},
+           giveni={B\bibinitperiod}}}%
+        {{hash=7db8d345e981616feddab13c941f609e}{%
+           family={Frank},
+           familyi={F\bibinitperiod},
+           given={Welkenhuyzen},
+           giveni={W\bibinitperiod}}}%
+        {{hash=197837db005b44235937bb614919dd1c}{%
+           family={Jean-Pierre},
+           familyi={J\bibinithyphendelim P\bibinitperiod},
+           given={Kruth},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{fullhash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{bibnamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{authorbibnamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{authornamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{authorfullhash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper presents an accuracy verification test method for laser line scanners on coordinate measuring machines ({CMMs}). Recent evolutions improved laser line scanners to the extent that verification is increasingly important. A sphere beam with optically cooperative spheres is proposed as verification object. The ideal verification object excludes many influencing factors, e.g. specular reflection issues. The scanner sphere probing test describes a method to determine the scanner accuracy, the scanner ball bar test checks the integration of the scanner on the {CMM}. The experimental results show a scanner accuracy of about 8µm (sphere best fit {RMS} value) and a total accuracy below 14µm on a measuring length of 1m.}
+      \field{langid}{english}
+      \field{title}{Accuracy verification of a laser line scanner probe}
+      \true{nocite}
+      \field{pages}{10}
+      \range{pages}{1}
+      \verb{file}
+      \verb Bart et al. - Accuracy verification of a laser line scanner prob.pdf:/home/tristan/Zotero/storage/J3VZG3KR/Bart et al. - Accuracy verification of a laser line scanner prob.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{noauthor_camera_nodate}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeltitlesource}{title}
+      \field{title}{Camera Calibration Toolbox for Matlab}
+      \field{urlday}{29}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb Camera Calibration Toolbox for Matlab:/home/tristan/Zotero/storage/FRQKWFL9/calib_doc.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://www.vision.caltech.edu/bouguetj/calib_doc/
+      \endverb
+      \verb{url}
+      \verb http://www.vision.caltech.edu/bouguetj/calib_doc/
+      \endverb
+    \endentry
+    \entry{noauthor_camera_nodate-1}{online}{}
+      \field{sortinit}{C}
+      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
+      \field{labeltitlesource}{title}
+      \field{title}{Camera Lens Distortion - Image Engineering}
+      \field{urlday}{29}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb Camera Lens Distortion - Image Engineering:/home/tristan/Zotero/storage/RVH532DK/1062-distortion.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.image-engineering.de/library/image-quality/factors/1062-distortion
+      \endverb
+      \verb{url}
+      \verb https://www.image-engineering.de/library/image-quality/factors/1062-distortion
+      \endverb
+    \endentry
+    \entry{noauthor_getting_2022}{software}{}
+      \list{publisher}{1}{%
+        {Basler}%
+      }
+      \field{sortinit}{G}
+      \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The official python wrapper for the pylon Camera Software Suite}
+      \field{day}{25}
+      \field{month}{4}
+      \field{note}{original-date: 2018-03-05T14:35:19Z}
+      \field{title}{Getting Started}
+      \field{urlday}{26}
+      \field{urlmonth}{4}
+      \field{urlyear}{2022}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{urlraw}
+      \verb https://github.com/basler/pypylon
+      \endverb
+      \verb{url}
+      \verb https://github.com/basler/pypylon
+      \endverb
+      \keyw{camera,computer-vision,machine-vision}
+    \endentry
+    \entry{noauthor_itu-r_2018}{inreference}{}
+      \field{sortinit}{I}
+      \field{sortinithash}{9417e9a1288a9371e2691d999083ed39}
+      \field{labeltitlesource}{title}
+      \field{abstract}{{ITU}-R-Empfehlung {BT}.601 (alte Bezeichnung: {CCIR} 601) ist ein Standard, der durch den {CCIR} (jetzt {ITU}-R) veröffentlicht wurde und der festlegt, wie digitale interlaced-Video-Signale zu kodieren sind. Er enthält Methoden, analoge Fernsehsignale mit einer Bildrate von 60 Hz und 525 Zeilen oder alternativ dazu mit einer Bildrate von 50 Hz und 625 Zeilen zu digitalisieren.}
+      \field{booktitle}{Wikipedia}
+      \field{day}{13}
+      \field{langid}{german}
+      \field{month}{5}
+      \field{note}{Page Version {ID}: 177397717}
+      \field{title}{{ITU}-R {BT} 601}
+      \field{urlday}{22}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb Snapshot:/home/tristan/Zotero/storage/6CV9YDN6/ITU-R_BT_601.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://de.wikipedia.org/w/index.php?title=ITU-R_BT_601&oldid=177397717
+      \endverb
+      \verb{url}
+      \verb https://de.wikipedia.org/w/index.php?title=ITU-R_BT_601&oldid=177397717
+      \endverb
+    \endentry
+    \entry{liesen_lineare_2021}{book}{}
+      \name{author}{2}{}{%
+        {{hash=7e27769a9f513cd0df1e6aea45134814}{%
+           family={Liesen},
+           familyi={L\bibinitperiod},
+           given={Jörg},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9ea3694a4f993cf0fe21281abf196b87}{%
+           family={Mehrmann},
+           familyi={M\bibinitperiod},
+           given={Volker},
+           giveni={V\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Springer Berlin Heidelberg}%
+      }
+      \strng{namehash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \strng{fullhash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \strng{bibnamehash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \strng{authorbibnamehash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \strng{authornamehash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \strng{authorfullhash}{fa7812116c584fde7fd7a58eb39ca3d7}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{isbn}{978-3-662-62741-9 978-3-662-62742-6}
+      \field{langid}{german}
+      \field{shorttitle}{Lineare Algebra}
+      \field{title}{Lineare Algebra: Ein Lehrbuch über die Theorie mit Blick auf die Praxis}
+      \field{urlday}{5}
+      \field{urlmonth}{5}
+      \field{urlyear}{2022}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{doi}
+      \verb 10.1007/978-3-662-62742-6
+      \endverb
+      \verb{file}
+      \verb Liesen and Mehrmann - 2021 - Lineare Algebra Ein Lehrbuch über die Theorie mit.pdf:/home/tristan/Zotero/storage/DWJV9RWZ/Liesen and Mehrmann - 2021 - Lineare Algebra Ein Lehrbuch über die Theorie mit.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://link.springer.com/10.1007/978-3-662-62742-6
+      \endverb
+      \verb{url}
+      \verb https://link.springer.com/10.1007/978-3-662-62742-6
+      \endverb
+    \endentry
+    \entry{noauthor_luma_2021}{inreference}{}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In video, luma represents the brightness in an image (the "black-and-white" or achromatic portion of the image). Luma is typically paired with chrominance. Luma represents the achromatic image, while the chroma components represent the color information. Converting R′G′B′ sources (such as the output of a three-{CCD} camera) into luma and chroma allows for chroma subsampling: because human vision has finer spatial sensitivity to luminance ("black and white") differences than chromatic differences, video systems can store and transmit chromatic information at lower resolution, optimizing perceived detail at a particular bandwidth.}
+      \field{booktitle}{Wikipedia}
+      \field{day}{4}
+      \field{langid}{english}
+      \field{month}{9}
+      \field{note}{Page Version {ID}: 1042293423}
+      \field{title}{Luma (video)}
+      \field{urlday}{22}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb Snapshot:/home/tristan/Zotero/storage/GJ7SCHWQ/Luma_(video).html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/w/index.php?title=Luma_(video)&oldid=1042293423
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/w/index.php?title=Luma_(video)&oldid=1042293423
+      \endverb
+    \endentry
+    \entry{noauthor_opencv_nodate-1}{online}{}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{labeltitlesource}{title}
+      \field{title}{{OpenCV}: Camera Calibration}
+      \field{urlday}{29}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb OpenCV\: Camera Calibration:/home/tristan/Zotero/storage/WT7V3BLT/tutorial_py_calibration.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html
+      \endverb
+      \verb{url}
+      \verb https://docs.opencv.org/3.4/dc/dbb/tutorial_py_calibration.html
+      \endverb
+    \endentry
+    \entry{noauthor_opencv_nodate-2}{online}{}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{labeltitlesource}{title}
+      \field{title}{{OpenCV}: Camera Calibration and 3D Reconstruction}
+      \field{urlday}{29}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb OpenCV\: Camera Calibration and 3D Reconstruction:/home/tristan/Zotero/storage/UBK7UIYL/group__calib3d.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html
+      \endverb
+      \verb{url}
+      \verb https://docs.opencv.org/4.x/d9/d0c/group__calib3d.html
+      \endverb
+    \endentry
+    \entry{noauthor_opencv_nodate}{online}{}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{labeltitlesource}{title}
+      \field{title}{{OpenCV}: Color conversions}
+      \field{urlday}{22}
+      \field{urlmonth}{3}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \verb{file}
+      \verb OpenCV\: Color conversions:/home/tristan/Zotero/storage/HRKN2HAW/imgproc_color_conversions.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_gray
+      \endverb
+      \verb{url}
+      \verb https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_gray
+      \endverb
+    \endentry
+    \entry{otsu_tlreshold_nodate}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4c9490b4888796e772e507d10bb89b3f}{%
+           family={Otsu},
+           familyi={O\bibinitperiod},
+           given={Nobuyuki},
+           giveni={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{4c9490b4888796e772e507d10bb89b3f}
+      \strng{fullhash}{4c9490b4888796e772e507d10bb89b3f}
+      \strng{bibnamehash}{4c9490b4888796e772e507d10bb89b3f}
+      \strng{authorbibnamehash}{4c9490b4888796e772e507d10bb89b3f}
+      \strng{authornamehash}{4c9490b4888796e772e507d10bb89b3f}
+      \strng{authorfullhash}{4c9490b4888796e772e507d10bb89b3f}
+      \field{sortinit}{O}
+      \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A nonparametric and unsupervised method of automatic threshold selection for picture segmentation is presented. An optimal threshold is selected by the discriminant criterion, namely, so as to maximize the separability of the resultant classes in gray levels. The procedure is very simple, utilizing only the zeroth- and the first-order cumulative moments of the gray-level histogram. It is t straightforward to extend the method to multithreshold problems.}
+      \field{langid}{english}
+      \field{title}{A Tlreshold Selection Method from Gray-Level Histograms}
+      \true{nocite}
+      \field{pages}{5}
+      \range{pages}{1}
+      \verb{file}
+      \verb Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:/home/tristan/Zotero/storage/MKCN88W5/Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{soderkvist_using_nodate}{article}{}
+      \name{author}{1}{}{%
+        {{hash=ff79ddd3e9e9fc9d11bbdbc977fe2435}{%
+           family={Soderkvist},
+           familyi={S\bibinitperiod},
+           given={Inge},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \strng{fullhash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \strng{bibnamehash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \strng{authorbibnamehash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \strng{authornamehash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \strng{authorfullhash}{ff79ddd3e9e9fc9d11bbdbc977fe2435}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{langid}{english}
+      \field{title}{Using {SVD} for some ﬁtting problems}
+      \true{nocite}
+      \field{pages}{4}
+      \range{pages}{1}
+      \verb{file}
+      \verb Soderkvist - Using SVD for some ﬁtting problems.pdf:/home/tristan/Zotero/storage/AU97KQT4/Soderkvist - Using SVD for some ﬁtting problems.pdf:application/pdf
+      \endverb
+    \endentry
+    \entry{song_multi-view_2019}{article}{}
+      \name{author}{6}{}{%
+        {{hash=64d1a4a683c51a92ede4376e626f2e17}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Limei},
+           giveni={L\bibinitperiod}}}%
+        {{hash=016ebd5be3e526f4c868c0a49b647953}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Siyuan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=68b2c27a81e1144485b9448680660055}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Yangang},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=fcaab3c9d4ec284771daa463b0e7e04d}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Xinjun},
+           giveni={X\bibinitperiod}}}%
+        {{hash=6f9e35741552e87a8396b0b3969da9f1}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Qinghua},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=d4a87cb633ecaede2570f139ea851b6e}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Huaidong},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{b7ff6a13afd8b635047b96a28379e5f5}
+      \strng{fullhash}{d7b20e64ace0cacf40d04d90be8db6a7}
+      \strng{bibnamehash}{b7ff6a13afd8b635047b96a28379e5f5}
+      \strng{authorbibnamehash}{b7ff6a13afd8b635047b96a28379e5f5}
+      \strng{authornamehash}{b7ff6a13afd8b635047b96a28379e5f5}
+      \strng{authorfullhash}{d7b20e64ace0cacf40d04d90be8db6a7}
+      \field{sortinit}{S}
+      \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{A new solution to the high-quality 3D reverse modeling problem of complex surfaces for fine workpieces is presented using a laser line-scanning sensor. Due to registration errors, measurement errors, deformations, etc., a fast and accurate method is important in machine vision measurement. This paper builds a convenient and economic multi-view stereo ({MVS}) measurement system based on a linear stage and a rotary stage to reconstruct the measured object surface completely and accurately. In the proposed technique, the linear stage is used to generate the trigger signal and synchronize the laser sensor scanning; the rotary stage is used to rotate the object and obtain multi-view point cloud data, and then the multi-view point cloud data are registered and integrated into a 3D model. The measurement results show a measurement accuracy of 0.075 mm for a 360° reconstruction in 34 s, and some evaluation experiments were carried out to demonstrate the validity and practicability of the proposed technique.}
+      \field{issn}{1424-8220}
+      \field{journaltitle}{Sensors}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{note}{Number: 2 Publisher: Multidisciplinary Digital Publishing Institute}
+      \field{number}{2}
+      \field{title}{A Multi-View Stereo Measurement System Based on a Laser Scanner for Fine Workpieces}
+      \field{urlday}{3}
+      \field{urlmonth}{5}
+      \field{urlyear}{2022}
+      \field{volume}{19}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \field{pages}{381}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/s19020381
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:/home/tristan/Zotero/storage/GQL7AAYF/Song et al. - 2019 - A Multi-View Stereo Measurement System Based on a .pdf:application/pdf;Snapshot:/home/tristan/Zotero/storage/CL786NUB/htm.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.mdpi.com/1424-8220/19/2/381
+      \endverb
+      \verb{url}
+      \verb https://www.mdpi.com/1424-8220/19/2/381
+      \endverb
+      \keyw{calibration,laser sensor,multi-view 3D reconstruction,point clouds,workpiece measurement}
+    \endentry
+    \entry{van_gestel_performance_2009}{article}{}
+      \name{author}{4}{}{%
+        {{hash=6d378941cd74bf20acf655e5853453d4}{%
+           family={Van\bibnamedelima Gestel},
+           familyi={V\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={Nick},
+           giveni={N\bibinitperiod}}}%
+        {{hash=ffa0e70959a12c53c42c61823e0ec970}{%
+           family={Cuypers},
+           familyi={C\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c84e450d6991d3a71307c9fe0fea89a1}{%
+           family={Bleys},
+           familyi={B\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+        {{hash=20ff922f6e184edb37e98896a89171bf}{%
+           family={Kruth},
+           familyi={K\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{635699c01800d6d27e059bf3ae96a238}
+      \strng{fullhash}{ca35c37a3e0428f8cc890c6c2ce32613}
+      \strng{bibnamehash}{635699c01800d6d27e059bf3ae96a238}
+      \strng{authorbibnamehash}{635699c01800d6d27e059bf3ae96a238}
+      \strng{authornamehash}{635699c01800d6d27e059bf3ae96a238}
+      \strng{authorfullhash}{ca35c37a3e0428f8cc890c6c2ce32613}
+      \field{sortinit}{V}
+      \field{sortinithash}{02432525618c08e2b03cac47c19764af}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper presents a performance evaluation test for laser line scanners on 3D coordinate measuring machines ({CMMs}). Laser line scanners are becoming more popular in recent years, mainly for free form inspection tasks and reverse engineering. Error specification of these scanners is difficult because of many influencing factors like surface quality, surface orientation and scan depth. Therefore, procedures for evaluation and verification of conventional contact probes (e.g. touch-trigger probes) are not appropriate for non-contact laser line scanners. A straightforward test method that uses a planar test artefact is proposed. It enables to identify the influence of in-plane and out-of-plane angle, as well as scan depth on systematic and random errors of the laser scanner. Experimental results show that the tested commercial laser scanner, after calibration, exhibits systematic errors of about 10μm.}
+      \field{day}{1}
+      \field{issn}{0143-8166}
+      \field{journaltitle}{Optics and Lasers in Engineering}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{number}{3}
+      \field{series}{Optical Measurements}
+      \field{shortjournal}{Optics and Lasers in Engineering}
+      \field{title}{A performance evaluation test for laser line scanners on {CMMs}}
+      \field{urlday}{3}
+      \field{urlmonth}{5}
+      \field{urlyear}{2022}
+      \field{volume}{47}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \true{nocite}
+      \field{pages}{336\bibrangedash 342}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1016/j.optlaseng.2008.06.001
+      \endverb
+      \verb{file}
+      \verb Full Text:/home/tristan/Zotero/storage/T4PHCUT4/Van Gestel et al. - 2009 - A performance evaluation test for laser line scann.pdf:application/pdf;ScienceDirect Snapshot:/home/tristan/Zotero/storage/LMAU3EHA/S0143816608001292.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0143816608001292
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0143816608001292
+      \endverb
+      \keyw{{CMM},Dimensional measuring,Laser line scanner,Performance testing}
+    \endentry
+    \entry{zhang_flexible_2000}{article}{}
+      \name{author}{1}{}{%
+        {{hash=5ee5d3d5470ac29a2e7c8df70ed54725}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \strng{fullhash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \strng{bibnamehash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \strng{authorbibnamehash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \strng{authornamehash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \strng{authorfullhash}{5ee5d3d5470ac29a2e7c8df70ed54725}
+      \field{sortinit}{Z}
+      \field{sortinithash}{8f7b480688e809b50b6f6577b16f3db5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We propose a flexible technique to easily calibrate a camera. It only requires the camera to observe a planar pattern shown at a few (at least two) different orientations. Either the camera or the planar pattern can be freely moved. The motion need not be known. Radial lens distortion is modeled. The proposed procedure consists of a closed-form solution, followed by a nonlinear refinement based on the maximum likelihood criterion. Both computer simulation and real data have been used to test the proposed technique and very good results have been obtained. Compared with classical techniques which use expensive equipment such as two or three orthogonal planes, the proposed technique is easy to use and flexible. It advances 3D computer vision one more step from laboratory environments to real world use.}
+      \field{issn}{1939-3539}
+      \field{journaltitle}{{IEEE} Transactions on Pattern Analysis and Machine Intelligence}
+      \field{month}{11}
+      \field{note}{Conference Name: {IEEE} Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{11}
+      \field{title}{A flexible new technique for camera calibration}
+      \field{volume}{22}
+      \field{year}{2000}
+      \field{dateera}{ce}
+      \true{nocite}
+      \field{pages}{1330\bibrangedash 1334}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/34.888718
+      \endverb
+      \verb{file}
+      \verb IEEE Xplore Abstract Record:/home/tristan/Zotero/storage/4R4GYIB8/888718.html:text/html;IEEE Xplore Full Text PDF:/home/tristan/Zotero/storage/RJ9RAUBC/Zhang - 2000 - A flexible new technique for camera calibration.pdf:application/pdf
+      \endverb
+      \keyw{Cameras,Calibration,Closed-form solution,Computer simulation,Computer vision,Layout,Lenses,Maximum likelihood estimation,Nonlinear distortion,Testing}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -1,52 +1,104 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {ngerman}{}
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Einleitung}{1}{section.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.1}Aufgabe / Motivation}{1}{subsection.1.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.2}Stand der Technik}{2}{subsection.1.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {1.2.1}Methodik}{2}{subsubsection.1.2.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {1.2.2}Geräte}{3}{subsubsection.1.2.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.3}Kriterien}{3}{subsection.1.3}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.4}Lösungsansatz}{4}{subsection.1.4}%
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2}Grundlagen}{6}{section.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1}Bibliotheken}{6}{subsection.2.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.2}Der Grundlegende Aufbau}{6}{subsection.2.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.3}OpenCv Pinhole Camera Model}{7}{subsection.2.3}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.4}Mathematische Grundlage}{9}{subsection.2.4}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.4.1}Homogene Koordinaten}{9}{subsubsection.2.4.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.4.2}Koordinaten-Transformationen}{11}{subsubsection.2.4.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.5}Bildverarbeitung}{13}{subsection.2.5}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.5.1}Das Erkennen der Laserlinie}{13}{subsubsection.2.5.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.5.2}Umwandlung zu einem Grauwert-Bild}{15}{subsubsection.2.5.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.5.3}Gauß-Filter}{16}{subsubsection.2.5.3}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.5.4}Das Erstellen von Subpixeln}{17}{subsubsection.2.5.4}%
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3}Hauptteil - Projektbeschreibung und Projektergebnisse}{20}{section.3}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.1}Kalibrierung}{20}{subsection.3.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.1.1}Intrinsische Kalibrierung}{20}{subsubsection.3.1.1}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.1.2}Extrinsische Kalibrierung}{24}{subsubsection.3.1.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.2}Das Erzeugen einer Punktewolke}{30}{subsection.3.2}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.1}Die 3D-Koordinaten}{30}{subsubsection.3.2.1}%
-\contentsline {subsubsection}{\numberline {3.2.2}Das Finden der Farbinformationen}{31}{subsubsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{33}{subsection.3.3}%
-\contentsline {subsubsection}{\numberline {3.3.1}Hardware-Aufbau des Lasertriangulationssensors}{33}{subsubsection.3.3.1}%
-\contentsline {subsubsection}{\numberline {3.3.2}Der Versuchsaufbau}{34}{subsubsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{36}{subsection.3.4}%
-\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{36}{subsubsection.3.4.1}%
-\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{39}{subsubsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{44}{subsection.3.5}%
-\contentsline {subsection}{\numberline {3.6}Evaluation}{45}{subsection.3.6}%
-\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{45}{subsubsection.3.6.1}%
-\contentsline {subsubsection}{\numberline {3.6.2}Probleme und Schwierigkeiten}{46}{subsubsection.3.6.2}%
-\contentsline {section}{\numberline {4}Fazit}{49}{section.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.2.2}Das Finden der Farbinformationen}{32}{subsubsection.3.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{34}{subsection.3.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.1}Hardware-Aufbau des Lasertriangulationssensors}{34}{subsubsection.3.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.3.2}Der Versuchsaufbau}{35}{subsubsection.3.3.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{37}{subsection.3.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{37}{subsubsection.3.4.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.4.2}ROS2}{40}{subsubsection.3.4.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{45}{subsection.3.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.6}Evaluation}{46}{subsection.3.6}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{46}{subsubsection.3.6.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.6.2}Probleme und Schwierigkeiten}{47}{subsubsection.3.6.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {4}Fazit}{50}{section.4}%
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {5}Ausblick}{51}{section.5}%
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {5.1}Erweiterung}{51}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Anpassungen}{53}{subsection.5.2}%
-\contentsline {section}{\numberline {A}Anhang}{55}{appendix.A}%
-\contentsline {subsection}{\numberline {A.1}Anhang A}{55}{subsection.A.1}%
-\contentsline {subsection}{\numberline {A.2}Anhang B}{56}{subsection.A.2}%
-\contentsline {subsection}{\numberline {A.3}Anhang C}{57}{subsection.A.3}%
-\contentsline {subsection}{\numberline {A.4}Anhang D}{58}{subsection.A.4}%
-\contentsline {subsection}{\numberline {A.5}Anhang E}{59}{subsection.A.5}%
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{61}{section*.45}%
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{62}{section*.46}%
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{63}{section*.47}%
-\contentsline {section}{Abkürzungsverzeichnis}{64}{section*.48}%
-\contentsline {section}{\nonumberline Quellenverzeichnis}{65}{section*.49}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {5.2}Anpassungen}{51}{subsection.5.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {A}Anhang}{53}{appendix.A}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.1}Anhang A}{53}{subsection.A.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.2}Anhang B}{54}{subsection.A.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.3}Anhang C}{55}{subsection.A.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.4}Anhang D}{56}{subsection.A.4}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {A.5}Anhang E}{57}{subsection.A.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{59}{section*.45}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{60}{section*.46}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Quellcodeverzeichnis}{61}{section*.47}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Abkürzungsverzeichnis}{62}{section*.48}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Literatur}{63}{section*.49}%

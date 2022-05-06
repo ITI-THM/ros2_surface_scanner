@@ -73,13 +73,13 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.6.2}Probleme und Schwierigkeiten}{47}{subsubsection.3.6.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Fazit}{50}{section.4}%
+\contentsline {section}{\numberline {4}Zusammenfassung}{50}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Ausblick}{51}{section.5}%
+\contentsline {section}{\numberline {5}Ausblick}{52}{section.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.1}Erweiterung}{51}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.1}Erweiterung}{52}{subsection.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {5.2}Anpassungen}{51}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2}Anpassungen}{52}{subsection.5.2}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {A}Anhang}{53}{appendix.A}%
 \defcounter {refsection}{0}\relax 

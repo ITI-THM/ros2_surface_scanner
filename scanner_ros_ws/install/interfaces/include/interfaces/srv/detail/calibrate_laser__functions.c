@@ -27,6 +27,32 @@ interfaces__srv__CalibrateLaser_Request__fini(interfaces__srv__CalibrateLaser_Re
   // structure_needs_at_least_one_member
 }
 
+bool
+interfaces__srv__CalibrateLaser_Request__are_equal(const interfaces__srv__CalibrateLaser_Request * lhs, const interfaces__srv__CalibrateLaser_Request * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member) {
+    return false;
+  }
+  return true;
+}
+
+bool
+interfaces__srv__CalibrateLaser_Request__copy(
+  const interfaces__srv__CalibrateLaser_Request * input,
+  interfaces__srv__CalibrateLaser_Request * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
+  return true;
+}
+
 interfaces__srv__CalibrateLaser_Request *
 interfaces__srv__CalibrateLaser_Request__create()
 {
@@ -136,6 +162,63 @@ interfaces__srv__CalibrateLaser_Request__Sequence__destroy(interfaces__srv__Cali
   free(array);
 }
 
+bool
+interfaces__srv__CalibrateLaser_Request__Sequence__are_equal(const interfaces__srv__CalibrateLaser_Request__Sequence * lhs, const interfaces__srv__CalibrateLaser_Request__Sequence * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!interfaces__srv__CalibrateLaser_Request__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+interfaces__srv__CalibrateLaser_Request__Sequence__copy(
+  const interfaces__srv__CalibrateLaser_Request__Sequence * input,
+  interfaces__srv__CalibrateLaser_Request__Sequence * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(interfaces__srv__CalibrateLaser_Request);
+    interfaces__srv__CalibrateLaser_Request * data =
+      (interfaces__srv__CalibrateLaser_Request *)realloc(output->data, allocation_size);
+    if (!data) {
+      return false;
+    }
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!interfaces__srv__CalibrateLaser_Request__init(&data[i])) {
+        /* free currently allocated and return false */
+        for (; i-- > output->capacity; ) {
+          interfaces__srv__CalibrateLaser_Request__fini(&data[i]);
+        }
+        free(data);
+        return false;
+      }
+    }
+    output->data = data;
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!interfaces__srv__CalibrateLaser_Request__copy(
+        &(input->data[i]), &(output->data[i])))
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 
 bool
 interfaces__srv__CalibrateLaser_Response__init(interfaces__srv__CalibrateLaser_Response * msg)
@@ -154,6 +237,32 @@ interfaces__srv__CalibrateLaser_Response__fini(interfaces__srv__CalibrateLaser_R
     return;
   }
   // response
+}
+
+bool
+interfaces__srv__CalibrateLaser_Response__are_equal(const interfaces__srv__CalibrateLaser_Response * lhs, const interfaces__srv__CalibrateLaser_Response * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // response
+  if (lhs->response != rhs->response) {
+    return false;
+  }
+  return true;
+}
+
+bool
+interfaces__srv__CalibrateLaser_Response__copy(
+  const interfaces__srv__CalibrateLaser_Response * input,
+  interfaces__srv__CalibrateLaser_Response * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  // response
+  output->response = input->response;
+  return true;
 }
 
 interfaces__srv__CalibrateLaser_Response *
@@ -263,4 +372,61 @@ interfaces__srv__CalibrateLaser_Response__Sequence__destroy(interfaces__srv__Cal
     interfaces__srv__CalibrateLaser_Response__Sequence__fini(array);
   }
   free(array);
+}
+
+bool
+interfaces__srv__CalibrateLaser_Response__Sequence__are_equal(const interfaces__srv__CalibrateLaser_Response__Sequence * lhs, const interfaces__srv__CalibrateLaser_Response__Sequence * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!interfaces__srv__CalibrateLaser_Response__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+interfaces__srv__CalibrateLaser_Response__Sequence__copy(
+  const interfaces__srv__CalibrateLaser_Response__Sequence * input,
+  interfaces__srv__CalibrateLaser_Response__Sequence * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(interfaces__srv__CalibrateLaser_Response);
+    interfaces__srv__CalibrateLaser_Response * data =
+      (interfaces__srv__CalibrateLaser_Response *)realloc(output->data, allocation_size);
+    if (!data) {
+      return false;
+    }
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!interfaces__srv__CalibrateLaser_Response__init(&data[i])) {
+        /* free currently allocated and return false */
+        for (; i-- > output->capacity; ) {
+          interfaces__srv__CalibrateLaser_Response__fini(&data[i]);
+        }
+        free(data);
+        return false;
+      }
+    }
+    output->data = data;
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!interfaces__srv__CalibrateLaser_Response__copy(
+        &(input->data[i]), &(output->data[i])))
+    {
+      return false;
+    }
+  }
+  return true;
 }

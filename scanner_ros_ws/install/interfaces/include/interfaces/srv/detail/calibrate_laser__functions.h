@@ -66,6 +66,32 @@ ROSIDL_GENERATOR_C_PUBLIC_interfaces
 void
 interfaces__srv__CalibrateLaser_Request__destroy(interfaces__srv__CalibrateLaser_Request * msg);
 
+/// Check for srv/CalibrateLaser message equality.
+/**
+ * \param[in] lhs The message on the left hand size of the equality operator.
+ * \param[in] rhs The message on the right hand size of the equality operator.
+ * \return true if messages are equal, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Request__are_equal(const interfaces__srv__CalibrateLaser_Request * lhs, const interfaces__srv__CalibrateLaser_Request * rhs);
+
+/// Copy a srv/CalibrateLaser message.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source message pointer.
+ * \param[out] output The target message pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer is null
+ *   or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Request__copy(
+  const interfaces__srv__CalibrateLaser_Request * input,
+  interfaces__srv__CalibrateLaser_Request * output);
 
 /// Initialize array of srv/CalibrateLaser messages.
 /**
@@ -117,6 +143,33 @@ ROSIDL_GENERATOR_C_PUBLIC_interfaces
 void
 interfaces__srv__CalibrateLaser_Request__Sequence__destroy(interfaces__srv__CalibrateLaser_Request__Sequence * array);
 
+/// Check for srv/CalibrateLaser message array equality.
+/**
+ * \param[in] lhs The message array on the left hand size of the equality operator.
+ * \param[in] rhs The message array on the right hand size of the equality operator.
+ * \return true if message arrays are equal in size and content, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Request__Sequence__are_equal(const interfaces__srv__CalibrateLaser_Request__Sequence * lhs, const interfaces__srv__CalibrateLaser_Request__Sequence * rhs);
+
+/// Copy an array of srv/CalibrateLaser messages.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source array pointer.
+ * \param[out] output The target array pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer
+ *   is null or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Request__Sequence__copy(
+  const interfaces__srv__CalibrateLaser_Request__Sequence * input,
+  interfaces__srv__CalibrateLaser_Request__Sequence * output);
+
 /// Initialize srv/CalibrateLaser message.
 /**
  * If the init function is called twice for the same message without
@@ -165,6 +218,32 @@ ROSIDL_GENERATOR_C_PUBLIC_interfaces
 void
 interfaces__srv__CalibrateLaser_Response__destroy(interfaces__srv__CalibrateLaser_Response * msg);
 
+/// Check for srv/CalibrateLaser message equality.
+/**
+ * \param[in] lhs The message on the left hand size of the equality operator.
+ * \param[in] rhs The message on the right hand size of the equality operator.
+ * \return true if messages are equal, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Response__are_equal(const interfaces__srv__CalibrateLaser_Response * lhs, const interfaces__srv__CalibrateLaser_Response * rhs);
+
+/// Copy a srv/CalibrateLaser message.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source message pointer.
+ * \param[out] output The target message pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer is null
+ *   or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Response__copy(
+  const interfaces__srv__CalibrateLaser_Response * input,
+  interfaces__srv__CalibrateLaser_Response * output);
 
 /// Initialize array of srv/CalibrateLaser messages.
 /**
@@ -215,6 +294,33 @@ interfaces__srv__CalibrateLaser_Response__Sequence__create(size_t size);
 ROSIDL_GENERATOR_C_PUBLIC_interfaces
 void
 interfaces__srv__CalibrateLaser_Response__Sequence__destroy(interfaces__srv__CalibrateLaser_Response__Sequence * array);
+
+/// Check for srv/CalibrateLaser message array equality.
+/**
+ * \param[in] lhs The message array on the left hand size of the equality operator.
+ * \param[in] rhs The message array on the right hand size of the equality operator.
+ * \return true if message arrays are equal in size and content, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Response__Sequence__are_equal(const interfaces__srv__CalibrateLaser_Response__Sequence * lhs, const interfaces__srv__CalibrateLaser_Response__Sequence * rhs);
+
+/// Copy an array of srv/CalibrateLaser messages.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source array pointer.
+ * \param[out] output The target array pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer
+ *   is null or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_interfaces
+bool
+interfaces__srv__CalibrateLaser_Response__Sequence__copy(
+  const interfaces__srv__CalibrateLaser_Response__Sequence * input,
+  interfaces__srv__CalibrateLaser_Response__Sequence * output);
 
 #ifdef __cplusplus
 }

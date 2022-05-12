@@ -47,6 +47,56 @@ interfaces__msg__ImagePair__fini(interfaces__msg__ImagePair * msg)
   sensor_msgs__msg__Image__fini(&msg->laser_img);
 }
 
+bool
+interfaces__msg__ImagePair__are_equal(const interfaces__msg__ImagePair * lhs, const interfaces__msg__ImagePair * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // is_for_laser_calib
+  if (lhs->is_for_laser_calib != rhs->is_for_laser_calib) {
+    return false;
+  }
+  // origin_img
+  if (!sensor_msgs__msg__Image__are_equal(
+      &(lhs->origin_img), &(rhs->origin_img)))
+  {
+    return false;
+  }
+  // laser_img
+  if (!sensor_msgs__msg__Image__are_equal(
+      &(lhs->laser_img), &(rhs->laser_img)))
+  {
+    return false;
+  }
+  return true;
+}
+
+bool
+interfaces__msg__ImagePair__copy(
+  const interfaces__msg__ImagePair * input,
+  interfaces__msg__ImagePair * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  // is_for_laser_calib
+  output->is_for_laser_calib = input->is_for_laser_calib;
+  // origin_img
+  if (!sensor_msgs__msg__Image__copy(
+      &(input->origin_img), &(output->origin_img)))
+  {
+    return false;
+  }
+  // laser_img
+  if (!sensor_msgs__msg__Image__copy(
+      &(input->laser_img), &(output->laser_img)))
+  {
+    return false;
+  }
+  return true;
+}
+
 interfaces__msg__ImagePair *
 interfaces__msg__ImagePair__create()
 {
@@ -154,4 +204,61 @@ interfaces__msg__ImagePair__Sequence__destroy(interfaces__msg__ImagePair__Sequen
     interfaces__msg__ImagePair__Sequence__fini(array);
   }
   free(array);
+}
+
+bool
+interfaces__msg__ImagePair__Sequence__are_equal(const interfaces__msg__ImagePair__Sequence * lhs, const interfaces__msg__ImagePair__Sequence * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!interfaces__msg__ImagePair__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+interfaces__msg__ImagePair__Sequence__copy(
+  const interfaces__msg__ImagePair__Sequence * input,
+  interfaces__msg__ImagePair__Sequence * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(interfaces__msg__ImagePair);
+    interfaces__msg__ImagePair * data =
+      (interfaces__msg__ImagePair *)realloc(output->data, allocation_size);
+    if (!data) {
+      return false;
+    }
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!interfaces__msg__ImagePair__init(&data[i])) {
+        /* free currently allocated and return false */
+        for (; i-- > output->capacity; ) {
+          interfaces__msg__ImagePair__fini(&data[i]);
+        }
+        free(data);
+        return false;
+      }
+    }
+    output->data = data;
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!interfaces__msg__ImagePair__copy(
+        &(input->data[i]), &(output->data[i])))
+    {
+      return false;
+    }
+  }
+  return true;
 }

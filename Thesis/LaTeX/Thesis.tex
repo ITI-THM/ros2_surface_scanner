@@ -379,6 +379,9 @@ hyperref=true, %% hyperref-Paket verwenden, um Links zu erstellen
 \input{content/hauptteil.tex}      
 \clearpage
 
+
+\input{content/Evaluation.tex}
+\clearpage
 % ----------------------------------------------------------------------------------------------------------
 % Fazit
 % ----------------------------------------------------------------------------------------------------------
@@ -435,9 +438,46 @@ hyperref=true, %% hyperref-Paket verwenden, um Links zu erstellen
 					\label{subfig:scan_lines_0}} \\
 				\subfloat[]{\includegraphics[width=0.74\linewidth]{img/hauptteil/scan-imgs/lines_1.png}
 					\label{subfig:scan_lines_1}}
-				\caption{Qualitativer Scann von nahem}
+				\caption{Qualitativer Scann aus der Nähe}
 				\label{fig:scan_lines}
 			\end{figure}
+		\newpage
+		\subsection{Anhang F}\label{anhang-f}
+		% \begin{figure}[h]
+		% 	\centering
+		% 	\subfloat[]{\includegraphics[width=0.33\linewidth]{img/anhang/scans/line1.png}
+		%		\label{subfig:line1}} 
+		%	\subfloat[]{\includegraphics[width=0.33\linewidth]{img/anhang/scans/line2.png}
+		%		\label{subfig:line2}}
+		%	\subfloat[]{\includegraphics[width=0.33\linewidth]{img/anhang/scans/line3.png}
+		%		\label{subfig:line3}}
+		%	\caption[Messung einer Linie]{Messung einer Linie. Dabei stellt Abbildung \ref{subfig:line1} den % kompletten Scann dar. Abbildung \ref{subfig:line2} zeigt die ROI und Abbildung \ref{subfig:line3}  % die gefittete Linie (bunt) in die ROI (schwarz).}
+		%	\label{fig:line_fit}
+		% \end{figure}
+	
+		\begin{figure}[h]
+			\centering
+			\subfloat[]{\includegraphics[width=0.32\linewidth]{img/anhang/scans/plane1.png}
+				\label{subfig:plane1}} 
+			\subfloat[]{\includegraphics[width=0.32\linewidth]{img/anhang/scans/plane2.png}
+				\label{subfig:plane2}} 
+			\subfloat[]{\includegraphics[width=0.33\linewidth]{img/anhang/scans/plane3.png}
+				\label{subfig:plane3}}
+			\caption[Messung einer Ebene]{Messung einer Ebene. Dabei stellt Abbildung \ref{subfig:plane1} den kompletten Scann dar. Abbildung \ref{subfig:plane2} zeigt die ROI und Abbildung \ref{subfig:plane3} die gefittete Ebene (bunt) in die ROI (schwarz).}
+			\label{fig:plane_fit}
+		\end{figure}
+		
+		\begin{figure}[h]
+			\centering
+			\subfloat[]{\includegraphics[width=0.32\linewidth]{img/anhang/scans/sphere1.png}
+				\label{subfig:sphere1}} 
+			\subfloat[]{\includegraphics[width=0.32\linewidth]{img/anhang/scans/sphere2.png}
+				\label{subfig:sphere2}} 
+			\subfloat[]{\includegraphics[width=0.33\linewidth]{img/anhang/scans/sphere3.png}
+				\label{subfig:sphere3}}
+			\caption[Messung einer Kugel]{Messung einer Kugel. Dabei stellt Abbildung \ref{subfig:sphere1} den kompletten Scann dar. Abbildung \ref{subfig:sphere2} zeigt die ROI und Abbildung \ref{subfig:sphere3} die gefittete Kugel (bunt) in die ROI (schwarz).}
+			\label{fig:sphere_fit}
+		\end{figure}
 \end{appendix}
 \cleardoublepage
 
@@ -460,29 +500,29 @@ hyperref=true, %% hyperref-Paket verwenden, um Links zu erstellen
 % ----------------------------------------------------------------------------------------------------------
 % Codeverzeichnis
 % ----------------------------------------------------------------------------------------------------------
-\ohead{Quellcodeverzeichnis}
-\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
-\clearpage
+% \ohead{Quellcodeverzeichnis}
+% \renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
+% \clearpage
 
-\lstlistoflistings
-\clearpage
+% \lstlistoflistings
+% \clearpage
 
 % ----------------------------------------------------------------------------------------------------------
 % Abkuerzungen
 % ----------------------------------------------------------------------------------------------------------
-\ohead{Abkürzungsverzeichnis}
-\section*{Abkürzungsverzeichnis}
-\addcontentsline{toc}{section}{Abkürzungsverzeichnis}
-\begin{acronym}[ITI] % laengste Abkuerzung steht in eckigen Klammern
-	\setlength{\itemsep}{-\parsep} % geringerer Zeilenabstand
-	\acro{ITI}{Institut für Technik und Informatik}
-	\acro{MNI}{Mathematik, Naturwissenschaften und Informatik}
-	\acro{THM}{Technische Hochschule Mittelhessen}
+% \ohead{Abkürzungsverzeichnis}
+% \section*{Abkürzungsverzeichnis}
+% \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
+% \begin{acronym}[ITI] % laengste Abkuerzung steht in eckigen Klammern
+% 	\setlength{\itemsep}{-\parsep} % geringerer Zeilenabstand
+% 	\acro{ITI}{Institut für Technik und Informatik}
+% 	\acro{MNI}{Mathematik, Naturwissenschaften und Informatik}
+% 	\acro{THM}{Technische Hochschule Mittelhessen}
 	%\acro{}
 	
-\end{acronym}
-\clearpage
-\ohead{\leftmark}
+% \end{acronym}
+% \clearpage
+% \ohead{\leftmark}
 
 %TODO: Fix Floating Numbering 
 % ----------------------------------------------------------------------------------------------------------

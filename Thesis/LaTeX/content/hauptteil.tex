@@ -1,14 +1,14 @@
 % ----------------------------------------------------------------------------------------------------------
 % Eigene Projektbeschreibung und -ergebnisse
 % ----------------------------------------------------------------------------------------------------------
-\section{Hauptteil - Projektbeschreibung und Projektergebnisse}\label{ergebnisse}
+\section{Projektumsetzung}\label{ergebnisse}
 	\subsection{Kalibrierung}
-		Die Kamerakalibrierung ist ausschlaggebend, um die Formel (\ref{eq:basic_trans_complete}) benutzen zu können. Durch sie wird die Kamera-, Rotationsmatrix und der Translationsvektor gefunden. Dabei unterscheidet man zwischen intrinsische und extrinsischer Kalibrierung, bei denen auch ein unterschiedliches Kalibrierverfahren angewandt wird.
+		Die Kamerakalibrierung ist ausschlaggebend, um die Formel (\ref{eq:basic_trans_complete}) benutzen zu können. Durch sie wird die Kamera-, Rotationsmatrix und der Translationsvektor gefunden. Dabei unterscheidet man zwischen intrinsische und extrinsischer Kalibrierung, bei denen auch ein unterschiedliches Kalibrierverfahren angewandt werden. Die intrinsische Kalibrierung beschäftigt sich mit der Kamera selbst, wobei die extrinsische Kalibrierung die Kamera zu den Laser kalibriert.
 		
 		\label{chap:kalibierung}
 		\subsubsection{Intrinsische Kalibrierung}
-		Die intrinsische Kalibrierung beschäftigt sich mit dem \textit{Inneren} der Kamera. Ergebnis der Kalibrierung ist die Kameramatrix \( A \). Die Kamerakalibrierung ist in OpenCv implementiert und wurde in diesem Projekt genutzt [OpenCv-CamCalib]. Die Implementierung richtet sich nach der Kamerakalibrierung nach Zhang [Zhang] und nach Bouguet [Bouguet]. \newline
-		Der grundlegende Vorgang ist es, ein bekanntes Muster in verschiedenen Positionen mit der Kamera aufzunehmen. So ein Muster ist beispielsweise ein Schachbrett, welches auch in dieser Arbeit für das Kalibrieren benutzt wurde. Die Maßen von den Kacheln sind dementsprechend dann bekannt und der Druck muss genau sein. Dabei muss es sich nicht um ein herkömmliches Schachbrett handeln. Die Größe und die Menge an Kachel kann zum kalibrieren angegeben werden. Man muss OpenCv also sagen, nach welchem Schachbrett der Algorithmus suchen muss.
+		Ergebnis der intrinsischen Kalibrierung ist die Kameramatrix \( A \). Die Kamerakalibrierung ist in OpenCv implementiert und wurde in diesem Projekt genutzt [OpenCv-CamCalib]. Die Implementierung richtet sich nach der Kamerakalibrierung nach Zhang [Zhang] und nach Bouguet [Bouguet]. \newline
+		Der grundlegende Vorgang ist es, ein bekanntes Muster in verschiedenen Positionen mit der Kamera aufzunehmen. So ein Muster ist beispielsweise ein Schachbrett, welches auch in dieser Arbeit für das Kalibrieren benutzt wurde. Die Maßen des Schachbrettes und der Kacheln sind bekannt. Dabei muss es sich bei der Anzahl der Kacheln nicht um ein herkömmliches Schachbrett handeln. Die Größe und die Menge an Kachel kann zum kalibrieren angegeben werden. Man muss OpenCv also sagen, nach welchem Schachbrett der Algorithmus suchen muss.
 		
 		\begin{figure}[h]
 			\centering
@@ -20,15 +20,15 @@
 			\label{fig:chessboards}
 		\end{figure}
 	
-		Die benutzte Methode heißt \textbf{calibrateCamera()}. Sie nimmt beliebig viele Bilder entgegen. In der eigenen Implementierung wurde gemäß [OpenCv-Cam] vorgegangen. Dabei handelt es sich um die offizielle Einführung zur Kamerakalibrierung von OpenCv.In dem Beispiel in Abb.: (\ref{fig:chessboards}) wurden der Einführung folgend auch die Ecken des definierten Schachbrettes eingezeichnet. Damit kann man im Grunde sichbar machen, dass der Algorithmus das Schachbrett richtig erkannt hat. Gemäß [OpenCv-Cam] werden mindestens 10 Bilder benötigt, um gute Ergebnisse zu liefern. Daran wurde sich ebenfalls gehalten. Die Methode gibt die folgenden Werte zurück:
+		Die benutzte Methode heißt \textbf{calibrateCamera()}. Sie nimmt beliebig viele Bilder entgegen. In der eigenen Implementierung wurde gemäß [OpenCv-Cam3d] vorgegangen. Dabei handelt es sich um die offizielle Einführung zur Kamerakalibrierung von OpenCv.In dem Beispiel in Abb.: (\ref{fig:chessboards}) wurden der Einführung folgend auch die Ecken des definierten Schachbrettes eingezeichnet. Damit kann man im Grunde sichbar machen, dass der Algorithmus das Schachbrett richtig erkannt hat. Gemäß [OpenCv-Cam3d] werden mindestens 10 Bilder benötigt, um gute Ergebnisse zu liefern. Daran wurde sich ebenfalls gehalten. Die Methode gibt die folgenden Werte zurück:
 		
 		$\underline{Kameramatrix}$
 		
 		Die \textbf{Kameramatrix} wird errechnet und ausgegeben. Dabei handelt es sich um die vollwertige Matrix \( A \) aus den Formeln (\ref{eq:basic_trans}) und (\ref{eq:basic_trans_complete}).
 		
-		$\underline{Distortion-Koeffizienten}$
+		$\underline{Verzerrungs-Koeffizienten}$
 		
-		Die Distortion-Koeffizienten werden gemäß [OpenCv-Cam] geliefert. Distortion bedeutet Verzerrung und bezieht sich auf das aufgenommene Bild. Dies Auswirkungen sind, dass aufgenommene gerade Linien in der Szene im Bild nicht mehr gerade dargestellt werden. Sie biegen sich bzw. sind verzerrt. Es gibt zwei verschiedene Verzerrungen, beschrieben in [Dist] und von OpenCv selbst in [OpenCv-CamCalib].
+		Die Verzerrungs-Koeffizienten (eng.: Distortion-Coefficient) werden gemäß [OpenCv-Cam3d] geliefert. Die Verzerrung bezieht sich auf das aufgenommene Bild. Die Auswirkungen sind, dass aufgenommene gerade Linien in der Szene im Bild nicht mehr gerade dargestellt werden. Sie biegen sich bzw. sind verzerrt. Es gibt zwei verschiedene Verzerrungen, beschrieben in [Dist S. 41] und von OpenCv selbst in [OpenCv-CamCalib].
 		
 		\begin{figure}[h]
 			\centering
@@ -36,11 +36,11 @@
 			\subfloat[]{\includegraphics[width=0.4\linewidth]{img/hauptteil/calibration/pinc_dist.png}
 				\label{subfig:pinc_dist}}
 			\caption[Verzerrung bei Bildern]{Verzerrung bei Bildern; \ref{subfig:barrel_dist} zeigt die Tonnen-Verzerrung (engl.: Barrel-Distortion) und \ref{subfig:pinc_dist} die Kissen-Verzerrung (engl.: Pincushion-Distortion)}
-			\captionsource{https://www.learningwithexperts.com/photography/blog/look-out-for-lens-distortion}
+			\captionsource{Bilder sind aus [Dist] entnommen}
 			\label{fig:distortion}
 		\end{figure}
 	
-		Um dieser Verzerrung entgegenzuwirken gibt es in OpenCv die Methode \textbf{undistort()}. Diese bringt ein Bild wieder in den normalen Zustand und benutzt dabei die gefunden Koeffizienten [OpenCv-Cam]. Das benutzen dieser Methode ist unumgänglich. Die Laserlinie ist bei einem ebenen Untergrund gerade. Wenn diese allerdings gebogen ist, führt das beim Aufspannen auf die Ebene zu Höhenunterschieden zwischen den Punkten. Die Verzerrung ist nicht Teil des Pinhole Camera Models und somit auch kein Teil der Formel (\ref{eq:basic_trans}). Bevor mit aufgenommenen Bildern gearbeitet wird, werden die jedoch mit der Methode \textbf{undistort()} entzerrt.
+		Um dieser Verzerrung entgegenzuwirken gibt es in OpenCv die Methode \textbf{undistort()}. Diese bringt ein Bild wieder in den normalen Zustand und benutzt dabei die gefunden Koeffizienten [OpenCv-Cam3d]. Das benutzen dieser Methode ist unumgänglich. Die Laserlinie ist bei einem ebenen Untergrund gerade. Wenn diese allerdings gebogen ist, führt das beim Aufspannen auf die Ebene zu Höhenunterschieden zwischen den Punkten. Die Verzerrung ist nicht Teil des Pinhole Camera Models und somit auch kein Teil der Formel (\ref{eq:basic_trans}). Bevor mit aufgenommenen Bildern gearbeitet wird, werden die jedoch mit der Methode \textbf{undistort()} entzerrt.
 		
 		\begin{figure}[h]
 			\centering
@@ -55,20 +55,18 @@
 		
 		$\underline{Rotationen \; und \; Translationen}$
 		
-		Die Methode gibt ebenfalls eine Rotationsmatrix und einen Translationsvektor für jedes übergebene Schachbrett zurück. Das sind extrinsische Parameter. In jedes Schachbrett wird ein Koordinatensystem gelegt. Die Rotation und Translation beschreiben dann die Transformation von der Kamera zu diesem Koordinatensystem. Es werden also auch schon extrinsische Parameter geliefert. Diese sind allerdings für den Lasertriangulationssensor selbst nicht ausschlaggebend. Damit dieser mit dem Laser kalibriert werden kann, also eine Ebenen-Gleichung für den Laser gefunden wird, muss der Laser mit auf den Bildern abgebildet sein. Dann kann man die Linie in Bezug auf das gefundene Weltkoordinatensystem weiterverwenden. Für die extrinsische Kalibrierung wurde eine extra Methode entwickelt, welche im nächsten Kapitel beschrieben wird. Die Rotation und Translation zu den verschiedenen Positionen des Schachbrettes sind nicht von Interesse. 
-		
-		Die intrinsische Kalibrierung ist nur dazu da, die Kameramatrix zu finden und die Distortion-Koeffizienten zu bestimmen, damit die verwendeten Bilder nicht verzerrt sind. Die Kameramatrix ist explizit für die Kamera gültig, mit welcher das Schachbrettmuster aufgenommen wurde. Sie kann also bestimmt werden und ist dann für alle folgenden Rechnungen gültig und unverändert. Genauso verhält es sich mit den Distortion-Koeffizienten. Das bedeutet, dann der Lasertriangulationssensor initial einmal mit dieser Methode kalibriert werden muss, um die intrinsischen Parameter zu bestimmen. Danach werden die Kameramatrix und die Distortion-Koeffizienten abgespeichert und die extrinsische Kalibrierung kann beginnen. 
+		Die Methode gibt ebenfalls eine Rotationsmatrix und einen Translationsvektor für jedes übergebene Schachbrett zurück. Das sind extrinsische Parameter. In jedes Schachbrett wird ein Koordinatensystem gelegt. Die Rotation und Translation beschreiben dann die Transformation von dem Kamerakoordinatensystem zu diesem Weltkoordinatensystem. Es werden also auch schon extrinsische Parameter geliefert. Diese sind allerdings für den Lasertriangulationssensor selbst nicht ausschlaggebend. Damit dieser mit dem Laser kalibriert werden kann, also eine Ebenen-Gleichung für den Laser gefunden wird, muss der Laser mit auf den Bildern abgebildet sein. Dann kann man die Laserlinie in Bezug auf das gefundene Weltkoordinatensystem weiterverwenden. Für die extrinsische Kalibrierung wurde eine extra Methode entwickelt, welche im nächsten Kapitel beschrieben wird. Die Rotation und Translation zu den verschiedenen Positionen des Schachbrettes sind nicht von Interesse. \newline
+		Die intrinsische Kalibrierung ist nur dazu da, die Kameramatrix zu finden und die Distortion-Koeffizienten zu bestimmen, damit die verwendeten Bilder nicht verzerrt sind. Die Kameramatrix ist explizit für die Kamera gültig, mit welcher das Schachbrettmuster aufgenommen wurde. Sie kann also bestimmt werden und ist dann für alle folgenden Rechnungen gültig und unverändert. Genauso verhält es sich mit den Distortion-Koeffizienten. Das bedeutet, dass der Lasertriangulationssensor initial einmal mit dieser Methode kalibriert werden muss, um die intrinsischen Parameter zu bestimmen. Danach werden die Kameramatrix und die Distortion-Koeffizienten abgespeichert und die extrinsische Kalibrierung kann beginnen. 
 			\label{chap:kalibrierung_intrinsisch}
 			
-		\newpage
 		\subsubsection{Extrinsische Kalibrierung}
-		Die extrinsische Kalibrierung beschäftigt sich allgemein damit die Kamera zu den eingebauten Linienlaser zu kalibrieren. Genauer gesagt geht es nicht konkret um den Laser, sondern die Laserlinie. Ziel dabei ist es, eine Ebenengleichung zu erhalten, die sich im Kamerakoordinatensystem befindet den Laser repräsentiert. Um sich das besser vorzustellen, kann nochmal Abb.: (\ref{fig:lasertriangulation}) eingesehen werden. Hier ist die symbolische Ebene des Lasers rot markiert. Die dazugehörige Gleichung beschreibt dann die Position des Laserlinienstrahls. Grundlegend richtet sich die Methode, um die Ebenen-Gleichung zu finden erneut nach Bajpai und Perelman [baj-per]. \newline
-		Bekannt ist, dass durch eine Kamerakalibrierung die Rotation und Translation herausgefunden werden können. Durch die intrinsische Kalibrierung ist die Kameramatrix bekannt. Dabei wurde ein Schachbrett aus verschiedenen Positionen aufgenommen. Ziel ist es nun ein Schachbrett mit einer Laserlinie aufzunehmen. Die allgemeine Transformationsformel (\ref{eq:basic_trans_complete}) kann gelöst werden. Mit dem im Kapitel \ref{chap:bildverarbeitung} vorgestellten Verfahren werden die Pixel, die die Laserlinie abbilden gefunden. Nur diese werden in die Formel (\ref{eq:basic_trans_complete}) eingesetzt. Dabei können jetzt die 3D-Punkte errechnet werden, welche sich in dem Weltkoordinatensystem befinden. Das Weltkoordinatensystem liegt dabei auf dem Schachbrett und ist durch die Rotationsmatrix und den Translationsvektor bestimmt. Aus einer Linie kann jedoch keine Ebene abgeleitet werden. Was ist aber, wenn sich im selben Bild ein zweites Schachbrett befindet, welches nicht eben, sondern in einem gewissen Winkel zu dem ersten befindet. Das zweite Schachbrett hat dabei dann ein eigenes Weltkoordinatensystem. Da jedoch alle Transformationen bekannt sind, ist es möglich die Laserlinien-Punkte des einen Koordinatensystem in das andere zu transformieren. Betrachtet werden nun zwei Laserlinien, die in einem Winkel zueinander in einem einheitlichen Koordinatensystem stehen. Mit dieser Ausgangslage ist es möglich eine Ebene in die Punkte zu legen. Dabei gibt es diverse Möglichkeiten eine Ebene an Punkte zu fitten und alle liefern eine Ebenengleichung. Rein logisch sind sogar nur mindestens drei Punkte notwendig, um in einem dreidimensionalen Raum eine Ebene zu beschreiben. In diesem Fall sind es weitaus mehr Punkte, die zum finden der Ebene berücksichtigt werden können. \newline
-		In [baj-per] wird dann bei jedem Durchgang, bei dem eine Laserlinie in eine Punktewolke übersetzt wird, eine aktuelle neue Ebenengleichung erstellt und die Oberflächenpunkte errechnet. Die Ausgangslage ist hier jedoch etwas anders. Die Idee ist es nach der intrinsischen Kalibrierung eine einmalige extrinsische Kalibrierung vorzunehmen. Es wurde schon erwähnt, dass sich Kamera und Laser in ihrer Position zueinander nicht verändern. Damit bleibt auch die Ebenen-Gleichung in Bezug zur Kamera immer gleich. Die einmal  gefundene Ebenengleichung ist also allgemeingültig für den folgenden Scann. Dieser Vorgang der extrinsischen Kalibrierung soll hier nochmal genau beschrieben werden.
+		Die extrinsische Kalibrierung beschäftigt sich allgemein damit, die Kamera zu den eingebauten Linienlaser zu kalibrieren. Ziel dabei ist es, eine Ebenengleichung zu erhalten, die sich im Kamerakoordinatensystem befindet und den Laser repräsentiert. Um sich das besser vorzustellen, kann nochmal Abbildung (\ref{fig:lasertriangulation}) oder (\ref{fig:lasertriangulation_position}) eingesehen werden. Hier ist die symbolische Ebene des Lasers rot markiert. Die dazugehörige Gleichung beschreibt dann die Position des Laserlinienstrahls. Grundlegend richtet sich die Methode, um die Ebenen-Gleichung zu finden erneut nach Bajpai und Perelman [baj-per]. \newline
+		Bekannt ist, dass durch eine Kamerakalibrierung die Rotation und Translation herausgefunden werden kann. Durch die intrinsische Kalibrierung ist die Kameramatrix bekannt. Dabei wurde ein Schachbrett aus verschiedenen Positionen aufgenommen. Dabei erhält man durch die Kalibrierung auch Rotion und Translation zu einen Weltkoordinatensystem, dass auf dem Schachbrett platziert wird. Ziel ist es nun ein Schachbrett mit einer Laserlinie aufzunehmen, um die Laserlinie mit dem Weltkoordinatensystem des Schachbrett in Verbindung bringen zu können. Die allgemeine Transformationsformel (\ref{eq:basic_trans_complete}) kann dann für die Laserlinien-Punkte gelöst werden. Mit dem im Kapitel \ref{chap:bildverarbeitung} vorgestellten Verfahren werden die Pixel, die die Laserlinie abbilden gefunden. Diese werden in die Formel (\ref{eq:basic_trans_complete}) eingesetzt. Dabei können jetzt die 3D-Punkte errechnet werden, welche sich in dem Weltkoordinatensystem befinden. Aus einer Linie kann jedoch keine Ebene abgeleitet werden. Dazu wird im selben Bild ein weiteres Schachbrett platziert, welches nicht eben, sondern sich in einem gewissen Winkel zu dem ersten befindet. Das zweite Schachbrett hat dabei dann ein eigenes Weltkoordinatensystem. Da jedoch alle Transformationen bekannt sind, ist es möglich die Laserlinien-Punkte des einen Koordinatensystem in das andere zu transformieren. Betrachtet werden nun zwei Laserlinien, die in einem Winkel zueinander in einem einheitlichen Koordinatensystem stehen. Mit dieser Ausgangslage ist es möglich eine Ebene in die Punkte zu legen. Dabei gibt es diverse Möglichkeiten eine Ebene an Punkte zu fitten und alle liefern eine Ebenengleichung. Theoretisch sind sogar nur mindestens drei Punkte notwendig, um in einem dreidimensionalen Raum eine Ebene zu beschreiben. In diesem Fall sind es weitaus mehr Punkte, die zum Finden der Ebene berücksichtigt werden können. \newline
+		In [baj-per] wird dann bei jedem Durchgang, bei dem eine Laserlinie in eine Punktewolke übersetzt wird, eine aktuelle neue Ebenengleichung erstellt und die Oberflächenpunkte errechnet. Ab diesem Punkt unterscheidet sich diese Arbeit von dem Vorgang im Paper. Die Idee ist es, nach der intrinsischen Kalibrierung eine einmalige extrinsische Kalibrierung vorzunehmen. Es wurde schon erwähnt, dass sich Kamera und Laser in ihrer Position zueinander nicht verändern. Damit bleibt auch die Ebenen-Gleichung in Bezug zur Kamera immer gleich. Die einmal gefundene Ebenengleichung ist also allgemeingültig für den folgenden Scan. Dieser Vorgang der extrinsischen Kalibrierung soll hier nochmal genau beschrieben werden.
 		
 		$\underline{Zwei \; Schachbretter \; in \; einem \; Bild}$
 		
-		Um die extrinsische Kalibrierung auszuführen soll also ein Bild von zwei Schachbrettern gemacht werden. Dabei ist es nötig, das sie in einem Winkel zueinander stehen. Das hat den Grund, dass die verschiedenen Laserlinien einen Winkel bilden müssen, um darin eine Ebene zu finden. Der Winkel ist dabei grundsätzlich egal. Jedoch sollte kein zu hoher oder zu niedriger Winkel gewählt werden, damit dieser nicht zu eng bzw. zu flach ausfällt. Zu diesem Zweck wurde eine eigene Unterlage designt.
+		Um die extrinsische Kalibrierung auszuführen, soll also ein Bild von zwei Schachbrettern gemacht werden. Dabei ist es nötig, das sie in einem Winkel zueinander stehen. Das hat den Grund, dass die verschiedenen Laserlinien einen Winkel bilden müssen, um darin eine Ebene zu finden. Der Winkel ist dabei grundsätzlich egal. Jedoch sollte kein zu hoher oder zu niedriger Winkel gewählt werden, damit dieser nicht zu eng bzw. zu flach ausfällt. Zu diesem Zweck wurde eine eigene Unterlage designt.
 		
 		\begin{figure}[h]
 			\centering
@@ -78,7 +76,9 @@
 			\label{fig:ext-calib-pattern}
 		\end{figure} 
 	
-		In diesem Fall wurde ein 90°-Winkel benutzt. Das Kalibrier-Brett ist über ein 3D-Drucker gedruckt wurden. Diese Bilder sind Beispielbilder. Der entwickelte Lasertriangulationssensor liefert während dem Kalibriervorgang Output-Bilder, die verschiedenen Arbeitsschritte untermalen.
+		Für die Unterlage wurde ein 90°-Winkel benutzt. Das Kalibrier-Brett ist über ein 3D-Drucker gedruckt wurden. Abbildung (\ref{fig:ext-calib-pattern}) zeigt Beispielbilder der verwendeten Kalibrier-Unterlage. Dabei ist der Laser auf der Unterlage erkennbar. \newline
+		Zusätzlich liefert der entwickelte Lasertriangulationssensor während dem Kalibriervorgang Output-Bilder, die die verschiedenen Arbeitsschritte untermalen. Dabei werden genau die Bilder abgespeichert, die auch für die Bildverarbeitung und Kalibrierung verwendet werden.
+		
 		\begin{figure}[h]
 			\centering
 			\subfloat[]{\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/charuco_board.png}
@@ -89,11 +89,13 @@
 			\label{fig:ext-calib-raw}
 		\end{figure} 
 	
-		Gemäß Kapitel \ref{chap:bildverarbeitung} wird ein Bild-Paar aufgenommen. In einem ist die Laserlinie sichtbar (Abbildung \ref{subfig:raw_laser})und in dem anderen nicht (Abbildung \ref{subfig:raw}).
+		Gemäß Kapitel \ref{chap:bildverarbeitung} wird ein Bild-Paar aufgenommen. In einem ist die Laserlinie sichtbar (Abbildung \ref{subfig:raw_laser}) und in dem anderen nicht (Abbildung \ref{subfig:raw}).
+		
+		\newpage
 		
 		$\underline{Unterscheidung \; der \; Schachbretter}$
 		
-		In den Vorherigen Abbildungen fällt auf, dass es sich bei den verwendeten Kalibriermuster nicht um ein herkömmliches Schachbrett handelt. Das verwendete Muster ist ein ChArUco-Board. Das Problem bei einem herkömmlichen Schachbrett ist, dass der Algorithmus für die Kamera-Kalibrierung in einem einzigen Bild nicht zwischen zwei Schachbrettern unterscheiden kann. Ein ChArUco-Board besitzt in den normal weißen Flächen eines Schachbretts sogenannte ArUco-Marker. Diese Marker können von der Kamera erkannt und eindeutig unterschieden werden. Das finden und unterscheiden der ChArUco-Board ist in OpenCv implementiert. Dabei definiert man, ähnlich zu dem Schachbrett aus der intrinsischen Kalibrierung \ref{chap:kalibrierung_intrinsisch}, im Vorhinein die Parameter des Boards. Dazu gehören nicht nur die Kachel, sondern auch eine gewisse ArUco-Bibliothek, welche die Marker beschreibt. Der Algorithmus kann nun in einem Bild die beiden Boards unterscheiden und platziert ein Koordinatensystem darauf. Vorausgesetzt wird dabei, das die Kameramatrix und die Distortion-Koeffizienten bereits bekannt sind. Da die intrinsische Kalibrierung initial durchgeführt wird, ist diese Voraussetzung erfüllt.  
+		In den vorherigen Abbildungen fällt auf, dass es sich bei den verwendeten Kalibriermuster nicht um ein herkömmliches Schachbrett handelt. Das verwendete Muster ist ein ChArUco-Board. Das Problem bei einem herkömmlichen Schachbrett ist, dass der Algorithmus für die Kamera-Kalibrierung in einem einzigen Bild nicht zwischen zwei Schachbrettern unterscheiden kann. Ein ChArUco-Board besitzt in den normal weißen Flächen eines Schachbretts sogenannte ArUco-Marker. Diese Marker können von der Kamera erkannt und eindeutig unterschieden werden. Das Finden und Unterscheiden der ChArUco-Board ist in OpenCv implementiert. Dabei definiert man, ähnlich zu dem Schachbrett aus der intrinsischen Kalibrierung \ref{chap:kalibrierung_intrinsisch}, im Vorhinein die Parameter des Boards. Dazu gehören nicht nur die Kachel, sondern auch eine gewisse ArUco-Bibliothek, welche die Marker beschreibt. Der Algorithmus kann nun in einem Bild die beiden Boards unterscheiden und platziert ein Koordinatensystem darauf. Vorausgesetzt wird dabei, das die Kameramatrix und die Distortion-Koeffizienten bereits bekannt sind. Da die intrinsische Kalibrierung initial durchgeführt wird, ist diese Voraussetzung erfüllt.  
 		
 		\begin{figure}[h]
 			\centering
@@ -103,12 +105,12 @@
 			\label{fig:ext-calib-poses}
 		\end{figure}
 	
-		Bekannt sind jetzt die Rotation und Translation von dem Kamerakoordinatensystem zu den zwei Weltkoordinatensystemen, die aus den ChArUco-Boards folgen.
+		Bekannt sind jetzt die Rotation und Translation von dem Kamerakoordinatensystem zu den zwei Weltkoordinatensystemen, die aus den ChArUco-Boards folgen. Abbildung (\ref{fig:ext-calib-poses}) zeigt die Koordinatenachsen. 
 		
-		$\underline{Finden \; der \; richtigen \; Laserlinie}$
+		$\underline{Finden \; der \; richtigen \; Laserlinie \; im \; Bild}$
 		
-		Der nächste Schritt muss es sein, die Laserlinie im Bild herauszuarbeiten. Wir wollen die 2D-Punkte der Laserlinie wissen und sie in die 3D-Repräsentation in dem Weltkoordinatensystem umwandeln. Kapitel \ref{chap:bildverarbeitung} beschreibt die Methodik. Das Problem ist, dass nur der Teil der Laserlinie benutzt werden darf, der sich auch tatsächlich auf den jeweiligen Schachbrett befindet. Das bedeutet, dass nur ein gewisser Ausschnitt aus dem Bild wichtig ist. Und zwar genau das zu untersuchende ChArUco-Board. \newline
-		Das ChArUco-Board selbst ist dabei die Lösung des Problems. OpenCv erkennt die sowohl die ArUco-Marker als auch die Ecken der Kachel. Dabei besitzen alle eine eindeutige ID. Über die Ecken kann also ein Bereich abgesteckt werden.
+		Der nächste Schritt muss es sein, die Laserlinie im Bild herauszuarbeiten. Dabei sollen die 2D-Punkte der Laserlinie herausgearbeitet und in die 3D-Repräsentation in dem Weltkoordinatensystem umgewandelt werden. Kapitel \ref{chap:bildverarbeitung} beschreibt die Methodik. Das Problem ist, dass nur der Teil der Laserlinie benutzt werden darf, der sich auch tatsächlich auf den jeweiligen ChArUco-Board befindet. Das bedeutet, dass nur ein gewisser Ausschnitt aus dem Bild wichtig ist. Und zwar genau die Laserlinie auf dem zu untersuchenden ChArUco-Board. \newline
+		Das ChArUco-Board selbst ist dabei die Lösung des Problems. OpenCv erkennt sowohl die ArUco-Marker, als auch die Ecken der Kachel. Dabei besitzen alle eine eindeutige ID. Über die Ecken kann also ein Bereich abgesteckt werden.
 		
 		\begin{figure}[h]
 			\centering
@@ -117,8 +119,8 @@
 			\label{fig:ext-calib-hull}
 		\end{figure}
 	
-		Um den wichtigen Bereich abzustecken sind die Eckpunkte des Bereiches mit den IDs 0, 5, 18 und 23 ausschlaggebend. Wegen Fehleranfälligkeit wurde jedoch davon abgesehen, genau diese Ecken anzusprechen. Falls in einem Bild eine der äußeren Ecken nicht erkannt wurde, könnten man so den Bereich nicht abstecken. Deswegen wird eine Konvexe Hülle benutzt. Damit werden immer die äußersten Punkte berücksichtigt. Fall gewisse Ecken wegen einer Unschärfe im Bild nicht erkannt werden, führt das nun nicht zu Fehlern. In Abb. (\ref{fig:ext-calib-hull}) ist die abgesteckte Fläche in Gelb eingezeichnet. Falls keine Ecke bzw. keine ID gefunden wurden, ist kein ChArUco-Board erkennbar und die Kalibrierung bricht ab. \newline
-		Mit den Bekannten Bereich kann eine Maske entwickelt werden, die auf das Bild angewandt werden kann. Die Maske besteht dabei aus einem schwarzen Bild, in dem der ausschlaggebende Bereich aus weißen Pixeln besteht. Wenn man das Ziel-Bild bitweise mit der Maske verundet, bleibt nur der markierte Bereich im bestehen. Alle andern Pixel sind schwarz. Ausgehend von den Ursprungsbildern (Abb. \ref{fig:ext-calib-raw}) werden für die verschiedenen ChArUco-Boards eine Maske entwickelt und angewandt. Das Ergebnis ist die folgende Abbildung.
+		Um den wichtigen Bereich abzustecken sind die Eckpunkte des Bereiches mit den IDs 0, 5, 18 und 23 ausschlaggebend. Wegen Fehleranfälligkeit wurde jedoch davon abgesehen, genau diese Ecken anzusprechen. Falls in einem Bild eine der äußeren Ecken nicht erkannt wurde, könnten man so den Bereich nicht abstecken. Deswegen wird eine konvexe Hülle benutzt. Damit werden immer die äußersten Punkte berücksichtigt. Fall gewisse Ecken wegen einer Unschärfe im Bild nicht erkannt werden, führt das nun nicht zu Fehlern. In Abb. (\ref{fig:ext-calib-hull}) ist die abgesteckte Fläche in Gelb eingezeichnet. Falls keine Ecke bzw. keine ID gefunden wurden, ist kein ChArUco-Board erkennbar und die Kalibrierung bricht ab. \newline
+		Mit den bekannten Bereich kann eine Maske entwickelt werden, die auf das Bild angewandt werden kann. Die Maske besteht dabei aus einem schwarzen Bild, in dem der ausschlaggebende Bereich aus weißen Pixeln besteht. Wenn man das Ziel-Bild bitweise mit der Maske verundet, bleibt nur der markierte Bereich bestehen. Alle andern Pixel sind schwarz. Ausgehend von den Ursprungsbildern (Abb. \ref{fig:ext-calib-raw}) werden für die verschiedenen ChArUco-Boards eine Maske entwickelt und angewandt. Das Ergebnis ist die folgende Abbildung.
 		
 		\begin{figure}[h]
 			\centering
@@ -129,9 +131,9 @@
 		\end{figure}
 	
 		Die Achsen des jeweiligen Koordinatensystems sind dabei nur zu Übersicht eingezeichnet und nicht Teil der Bildverarbeitung. Verdeutlicht werden soll jedoch, dass das Weltkoordinatensystem bekannt ist. \newline
-		Die erstellte Maske kann auch auf das Ursprungsbild ohne Laser angewandt werden. Die beiden ausgeschnittenen Bilder werden an den Algorithmus zum Finden der Laserlinie (Kapitel \ref{chap:bildverarbeitung}) weitergegeben. Die nächste Abbildung zeigt das Ergebnis des Subtrahierens der Bilder. Zur Übersicht sind wieder die Koordinatenachsen eingetragen. Tatsächlich sind an diesem Punkt als Ergebnis der Bildverarbeitung schon die Subpixel der Laserlinie bekannt. Subpixel sind schwierig in einem Bild darzustellen, deshalb wurde sich für das Zeigen des Zwischenschritts entschieden.
-	
-		\begin{figure}[h]
+		Die erstellte Maske kann auch auf das Ursprungsbild ohne Laser angewandt werden. Die beiden ausgeschnittenen Bilder werden an den Algorithmus zum Finden der Laserlinie (Kapitel \ref{chap:bildverarbeitung}) weitergegeben. Abbildung (\ref{fig:ext-calib-laserlines}) zeigt das Ergebnis des Subtrahierens der Bilder. Zur Übersicht sind wieder die Koordinatenachsen eingetragen. Tatsächlich sind an diesem Punkt als Ergebnis der Bildverarbeitung schon die Subpixel der Laserlinie bekannt. Subpixel sind schwierig in einem Bild darzustellen, deshalb wurde sich für das Zeigen des Zwischenschritts entschieden.
+		\newpage
+		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/laserline_primary.png}
 			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/laserline_secondary.png}
@@ -141,7 +143,7 @@
 	
 		$\underline{Der \; Scale-Factor}$
 		
-		An diesem Punkt kommt es zum Einsatz der Formel für die 3D-Weltkoordinaten (\ref{eq:basic_trans}). Wie in den Kapitel \ref{chap:transformationen} angemerkt, ist der Scale-Factor noch eine Unbekannte, die gefunden werden muss. Ohne sie wäre die Gleichung noch nicht lösbar. Dieses Problem kann wie folgt umgangen werden. Das Weltkoordinatensystem wird auf das ChArUco-Board gelegt. Die Laserlinie liegt ebenfalls genau auf dem Board. Das bedeutet, dass die Z-Koordinate der Laserlinien-Punkte 0 ist. Zu sehen ist das auch in Abb. \ref{fig:ext-calib-laserlines}. Die Laserlinie liegt in der XY-Ebene. Die Z-Koordinaten der Weltkoordinatenpunkte müssen 0 sein. Mit dem Ausgangspunkt von Gleichung (\ref{eq:pixel_zu_welt}) folgt daraus diese Umstellung:
+		An diesem Punkt kommt es zum Einsatz der Formel (\ref{eq:basic_trans}) für die 3D-Weltkoordinaten. Wie in den Kapitel \ref{chap:transformationen} angemerkt, ist der Scale-Factor noch eine Unbekannte, die gefunden werden muss. Ohne sie wäre die Gleichung noch nicht lösbar. Dieses Problem kann wie folgt umgangen werden. Das Weltkoordinatensystem wird auf das ChArUco-Board gelegt. Die Laserlinie liegt ebenfalls genau auf dem Board. Das bedeutet, dass die Z-Koordinate der Laserlinien-Punkte 0 ist. Zu sehen ist das auch in Abb. \ref{fig:ext-calib-laserlines}. Die Laserlinie liegt in der XY-Ebene. Die Z-Koordinaten der Weltkoordinatenpunkte müssen 0 sein. Mit dem Ausgangspunkt von Gleichung (\ref{eq:pixel_zu_welt}) folgt daraus diese Umstellung:
 		
 		\begin{equation}
 			\begin{aligned}
@@ -156,18 +158,11 @@
 			\end{aligned}
 		\end{equation}
 		
-		Damit ist die Basistransformationsgleichung lösbar und die 3D-Punkte können errechnet werden. Damit nun eine Ebene in die Punkte gelegt werden kann, müssen alle Punkte in ein einheitliches Koordinatensystem gelegt werden. Durch die bekannten Transformationen ist dies jedoch kein Problem. Zuerst werden mit (\ref{eq:welt_zu_kamera}) und der eigene Rotation und Translation die Weltpunkte der unteren Laserlinie in das Kamerakoordinatensystem transformiert. Danach wird (\ref{eq:kamera_zu_welt}) genutzt, um mit der Rotation und Translation der oberen Laserlinie die Punkte in das obere Koordinatensystem zu bringen. Die folgende Abbildung gilt als Symbolbild.
-	
-		\begin{figure}[h]
-			\centering
-			\includegraphics[width=0.85\linewidth]{img/hauptteil/ext-calib/laserline_together.png}
-			\caption{Laserlinien in einem Koordinatensystem}
-			\label{fig:ext-calib-laserlines-together}
-		\end{figure}
+		Damit ist die Basistransformationsgleichung lösbar und die 3D-Punkte können errechnet werden. Um nun eine Ebene in die Punkte zu legen, müssen sich alle Punkte in einem einheitlichen Koordinatensystem befinden. Durch die bekannten Transformationen ist dies jedoch kein Problem. Zuerst werden mit (\ref{eq:welt_zu_kamera}) und der eigene Rotation und Translation die Weltpunkte der unteren Laserlinie in das Kamerakoordinatensystem transformiert. Danach wird (\ref{eq:kamera_zu_welt}) genutzt, um mit der Rotation und Translation der oberen Laserlinie die Punkte in das obere Koordinatensystem zu bringen.
 	
 		$\underline{Das \; Bestimmen \; der \; Ebenengleichung}$
 		
-		Mit dem letzten Schritt wird die gesuchte Ebenengleichung gefunden. Alle Vorbereitungen sind abgeschlossen. Die richtigen Punkte der zwei nicht parallelen Laserlinien sind in einem einheitlichen Koordinatensystem. Im letzten Schritt muss in diese Punkte eine Ebene gefittet werden. Der Ebenen-Fit wird über die Singular Value Decomposition (SVD) oder auch Singulärwertzerlegung realisiert \citep[Vgl. S. 349 ff]{liesen_lineare_2021}. Sie ist über die Numpy-Bibliothek in Python implementiert und nutzbar. Die Singulärwertzerlegung wird auf die Punkte angewandt und zelegt diese in drei Matrizen. Die erste dieser Matrizen ist per Definition eine orthogonale n x n-Matrix, wobei n die Dimension ist, in der sich die Punkte befinden. Da diese im Dreidimensionalen Raum sind erhält man eine 3 x 3-Matrix. In dieser Spannen die ersten beiden Spalten-Vektoren die Ebene auf. Da alle Vektoren in der Matrix orthogonal zueinander sind, entspricht der dritte und letzte Vektor der Matrix dem Normalenvektor ($ \vec{n} $) auf der Ebene, die am besten zu den übergebenen Punkten passt. Mit dem bekannten Normalenvektor kann eine Ebenengleichung als Koordinatenform ermittelt werden. 
+		Mit dem letzten Schritt wird die gesuchte Ebenengleichung gefunden. Alle Vorbereitungen sind abgeschlossen. Die richtigen Punkte der zwei nicht parallelen Laserlinien sind in einem einheitlichen Koordinatensystem. Im letzten Schritt muss in diese Punkte eine Ebene gefittet werden. Der Ebenen-Fit wird über die Singular Value Decomposition (SVD) oder auch Singulärwertzerlegung realisiert \citep[Vgl.][S. 349 ff]{liesen_lineare_2021}. Sie ist über die Numpy-Bibliothek in Python implementiert und nutzbar. Die Singulärwertzerlegung wird auf die Punkte angewandt und zerlegt diese in drei Matrizen. Diese beschreiben die am besten passende Lösung zu den übergebenen Punkten. Die erste dieser Matrizen ist per Definition eine orthogonale n x n-Matrix, wobei n die Dimension ist, in der sich die Punkte befinden. Da diese im dreidimensionalen Raum sind, erhält man eine 3 x 3-Matrix. Diese Matrix besteht aus drei Vektoren. Die ersten beiden Spalten-Vektoren spannen die Ebene auf, die am besten zu den übergebenen Punkten passt. Da alle Vektoren in der Matrix orthogonal zueinander sind, liegt der letzte Vektor der Matrix orthogonal auf der Ebene. Damit entspricht der dritte und letzte Vektor der Matrix dem Normalenvektor ($ \vec{n} $) auf der gesuchten Ebene. Mit dem bekannten Normalenvektor kann eine Ebenengleichung als Koordinatenform ermittelt werden. 
 		
 		\begin{equation}
 			\begin{aligned}
@@ -180,13 +175,14 @@
 			\end{aligned}
 		\end{equation}
 		
-		Um D zu erhalten kann ein zufälliger Punkt aus den Laserlinien-Punkten ausgewählt werden. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das Finden der Laser-Ebene abgeschlossen. 
+		Um D zu erhalten, wählt man ein zufälligen Punkt aus den Laserlinien-Punkten aus. Dieser wird dann für x, y und z eingesetzt und D kann errechnet werden. Damit ist das Finden der Laser-Ebene abgeschlossen. 
 		\label{chap:kalibrierung_extrinsisch}
+		\newpage
 		
 	\subsection{Das Erzeugen einer Punktewolke}
 	Mit Beendigung von diesem Schritt ist die komplette Kalibrierung des Lasertriangulationssensors beendet. Bekannt ist nun die Laserebene. Mit Aufnahme der Laserlinie von einer Oberfläche kann nun eine Punktewolke erzeugt werden.
 		\subsubsection{Die 3D-Koordinaten}
-	Das Erzeugen der Punktewolke fängt ähnlich an, wie die extrinsische Kalibrierung. Die Grundlage sind wieder zwei Bilder. Aus diesen zwei Bildern werden die Laserlinien-Subpixel nach Kapitel \ref{chap:erkennen_der_laserlinie} errechnet. Diese Pixel werden mithilfe der Ebenengleichung in die tatsächlichen 3D-Punkte aus Sicht des Kamerakoordinatensystem umgewandelt. Grundlage sind wieder die Transformationen aus Kapitel \ref{chap:transformationen}. Bei der extrinsischen Kalibrierung konnte der Scale-Faktor (\( s \)) nur mit der Annahme errechnet werden, dass in der X-Y-Ebene mit einer Z-Koordinate gleich 0 liegen. Diese Annahme gilt hier nicht mehr. Sicher ist jedoch jetzt, dass die Punkte in der gefundenen Ebenen-Gleichung liegen. Damit gibt es eine vierte geltende Gleichung und alle Unbekannten können errechnet werden. Die folgende Umstellung erläutert die geltenden Gleichungen. Die Ausgangsbasis ist erneut:
+	Das Erzeugen der Punktewolke fängt ähnlich an, wie die extrinsische Kalibrierung. Die Grundlage sind wieder zwei Bilder. Aus diesen zwei Bildern werden die Laserlinien-Subpixel nach Kapitel \ref{chap:erkennen_der_laserlinie} errechnet. Diese Pixel werden mithilfe der Ebenengleichung in die tatsächlichen 3D-Punkte aus Sicht des Kamerakoordinatensystem umgewandelt. Grundlage sind wieder die Transformationen aus Kapitel \ref{chap:transformationen}. Bei der extrinsischen Kalibrierung konnte der Scale-Faktor (\( s \)) nur mit der Annahme errechnet werden, dass die resultierenden Punkte in der X-Y-Ebene mit einer Z-Koordinate gleich 0 liegen. Diese Annahme gilt hier nicht mehr. Sicher ist jedoch jetzt, dass die Punkte in der gefundenen Ebenen-Gleichung liegen. Damit gibt es eine vierte geltende Gleichung und alle Unbekannten können errechnet werden. Die folgende Umstellung erläutert die geltenden Gleichungen. Die Ausgangsbasis ist erneut:
 	
 	\begin{equation}
 		\begin{aligned}
@@ -200,7 +196,7 @@
 		\end{aligned}
 	\end{equation}
 	
-	Der ausschlaggebende Wert ist der Scale-Faktor. Dieser kann über ein einsetzten der Koordinaten in die Ebenengleichung bestimmt werden:
+	Der ausschlaggebende Wert ist der Scale-Faktor. Dieser kann über ein Einsetzten der Koordinaten in die Ebenengleichung bestimmt werden:
 	
 	\begin{equation}
 		\begin{aligned}
@@ -223,20 +219,21 @@
 	\subsubsection{Das Finden der Farbinformationen}
 	
 	Zusätzlich gefordert zu den reinen 3D-Informationen waren auch Farbinformationen. Diese können ebenfalls über das grundlegende Bild-Paar gefunden werden. Das Bild, welches ohne das Einschalten des Lasers aufgenommen wird, beinhaltet die gesuchten Farbinformationen. Gesucht wird nur nach der Farbe an der richtigen Stelle. Die Pixel-Werte der Laserlinie sind bekannt. In dem Ursprungsbild muss an genau der Stelle, an der sich ein Laserpixel befindet die Farbe ausgelesen werden und für den jeweiligen Punkt abgespeichert werden. Problem hierbei ist, dass die Laserpixel Subpixel sind und sich demnach zwischen zwei Pixeln befinden. Für die endgültige Farbe werden dann die zwei umrandenden Pixel gewichtet zusammengerechnet.
-	\begin{figure}
+	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.85\linewidth]{img/hauptteil/bildverarbeitung/weighted_pixel.png}
 		\caption{Gewichtete Pixel für den x-Wert 11,4}
 		\label{fig:weighted_pixel}
 	\end{figure}
+
 	Die Abbildung \ref{fig:weighted_pixel} zeigt den Vorgang an einem simplen Beispiel für ein Subpixel in einer beliebigen Reihe (y-Wert) mit einem beispielhaften x-Wert von 11,4. Der nähere Pixel (11) fließt mit höheren Gewicht in die resultierende Farbe ein, als der Pixel weiter weg (12). Die y-Werte der Pixel können keinen ungeraden Wert beinhalten, da der Algorithmus zum Finden der Laser-Pixel (Kapitel \ref{chap:erkennen_der_laserlinie}) jede Pixel-Zeile im Bild durchläuft und dort einen neuen x-Wert errechnet.
 	
-	Dieser komplette Vorgang transformiert genau eine aufgenommene Laserlinie in eine Punktewolke. Um eine ganze Oberfläche zu rekonstruieren muss sich die Position der des Sensors um eine bekannte Länge und Richtung verschieben. Die neu Punktewolke, die aus der neu aufgenommenen Laserlinie resultiert, muss dann entsprechend zu einer Gesamt-Punktewolke ergänzt werden. Um die neuen Punkte korrekt einzufügen, ist es zwingend erforderlich, dass die Bewegung genau bekannt ist. 
+	Dieser komplette Vorgang transformiert genau eine aufgenommene Laserlinie in eine Punktewolke. Um eine ganze Oberfläche zu rekonstruieren muss sich die Position des Sensors um eine bekannte Länge und Richtung verschieben. Die neu Punktewolke, die aus der neu aufgenommenen Laserlinie resultiert, muss dann entsprechend zu einer Gesamt-Punktewolke ergänzt werden. Um die neuen Punkte korrekt einzufügen, ist es zwingend erforderlich, dass die Bewegung genau bekannt ist. 
 	
 	\newpage
 	
-	\subsection{Aufbau / Hardware}
-	Für den Lasertiangulationssensor wurde verschiedene Hardware verwendet. Dies soll im Folgendem beschrieben werden. Dabei gibt es zwei verschiedene Abschnitte zu betrachten. Zum einen der Lasertriangulationsensor an sich, der nur in der Lage ist eine Laserlinie in eine Punktewolke umzusetzen. Zum anderen wurde ein Versuchsaufbau angefertigt, um ein Objekt unter dem Sensor entlang zu bewegen. Dabei soll der Sensor regelmäßig eine Punktewolke erstellen. Die zusammengefügte Punktewolke ist dann die Aufnahme der Oberfläche. 
+	\subsection{Aufbau - Hardware}
+	Für den Lasertriangulationssensor wurde verschiedene Hardware verwendet. Diese soll im Folgendem beschrieben werden. Dabei gibt es zwei verschiedene Abschnitte zu betrachten. Zum einen der Lasertriangulationsensor an sich, der nur in der Lage ist eine Laserlinie in eine Punktewolke umzusetzen. Zum anderen wurde ein Versuchsaufbau angefertigt, um ein Objekt unter dem Sensor entlang zu bewegen. Dabei soll der Sensor regelmäßig eine Punktewolke erstellen. Die zusammengefügte Punktewolke ist dann die Aufnahme der Oberfläche. 
 	
 		\subsubsection{Hardware-Aufbau des Lasertriangulationssensors}
 		Die Hardware des Lasertriangulationssensor besteht grundsätzlich aus einer Kamera und einem Laser.
@@ -248,8 +245,8 @@
 			\label{fig:aufbau_sensor}
 		\end{figure}
 		Für die Kamera wurde die Basler a2A1920-160ucPRO verwendet. Dabei handelt es sich um eine Industriekamera mit einer Auflösung von 1920 x 1200 Pixeln. Sie ist eine Farbkamera und kann bis zu 164 Bilder pro Sekunde aufnehmen. Die Spezifikationen sind gemäß \citep{noauthor_a2a1920-160ucpro_nodate} angeben. Wichtig ist, dass die Kamera über USB 3.0 angesprochen werden kann. So kann sie über Software auf einem PC oder ähnlichem angesteuert werden. Mit dem Software-Paket Pylon liefert Basler eine eigene Umgebung um die Kamer zu benutzen und einzustellen. Zusätzlich wird mit Pypylon eine Pythonbibliothek gestellt. Diese gilt als Schnittstelle zwischen Kamera und Python. So kann über direkten Python-Code die Kamera eingebunden werden. \newline
-		Das zweite Bauteil ist der Laser. Dabei handelt es sich um einen herkömmlichen roten Laser. Der Lichtstrahl des Lasers wird durch diffraktive optische Elemente (DOE) zu einer Linie geformt. Wie in Abb. \ref{fig:aufbau_sensor} gezeigt werden dann Kamera und Laser an eine Halterung in entsprechender Position befestigt. \newline
-		Die Kamera hat ein ansteuerbares Output-Signal. Dieses Signal kann genutzt werden, um den Laser direkt anzusprechen. Dabei wird ein MOSFET (Metal Oxide Semiconductor Field-Effect Transistors) verwendet. So kann das Output-Signal angesprochen werden, um über den MOSFET den Strom des Lasers an und aus zu stellen. Es ist damit möglich, für die Kamera selbst einen Ablauf zu definieren, in dem sie zuerst ein Bild aufnimmt, dann den Laser anschaltet und anschließend ein zweites Bild aufnimmt. Zuletzt muss der Laser wieder ausgeschaltet werden. So werden von der Kamera die geforderten Bildpaare aufgenommen. Mit Pypylon können diese Bilden in Python und mit OpenCv weiterverwendet werden.
+		Das zweite Bauteil ist der Laser. Dabei handelt es sich um einen herkömmlichen roten Laser. Der Lichtstrahl des Lasers wird durch diffraktive optische Elemente (DOE) zu einer Linie geformt. Wie in Abb. \ref{fig:aufbau_sensor} gezeigt, werden dann Kamera und Laser an eine Halterung in entsprechender Position befestigt. \newline
+		Die Kamera hat ein ansteuerbares Output-Signal. Dieses Signal kann genutzt werden, um den Laser direkt anzusprechen. Dabei wird ein MOSFET (Metal Oxide Semiconductor Field-Effect Transistors) verwendet. So kann das Output-Signal angesprochen werden, um über den MOSFET den Strom des Lasers an und aus zu stellen. Es ist damit möglich, für die Kamera selbst einen Ablauf zu definieren, in dem sie zuerst ein Bild aufnimmt, dann den Laser anschaltet und anschließend ein zweites Bild aufnimmt. Zuletzt muss der Laser wieder ausgeschaltet werden. So werden von der Kamera die geforderten Bildpaare aufgenommen. Mit Pypylon können diese Bilder in Python und mit OpenCv weiterverwendet werden.
 		
 		\subsubsection{Der Versuchsaufbau}
 		Das Ziel des Versuchsaufbau ist es Bewegung in die aufgenommene Szene zu bringen. Dabei soll die zurückgelegte Bewegung zwischen den Aufnahmen der Oberfläche bekannt sein. So kann die neue Punktewolke der Laserlinie passend angefügt werden. Andernfalls würde man immer den Querschnitt der aktuellen Oberfläche an der Position des Lasers beobachten. Die einfachste Möglichkeit das zu realisieren ist, wenn sich die Szene in genau eine definierte Richtung mit genauen definierten Abstand bewegt. Dazu wurde eine Linear-Führung benutzt. Diese Funktioniert über ein Schrittmotor und bewegt eine Fläche mit einer linearen Bewegung. Der Schrittmotor kann dabei genau angesprochen werden und das Objekt um in unseren Fall genau einen Millimeter weiter schieben.
@@ -266,15 +263,15 @@
 			\caption{Arduino mit CNC-Shield}
 			\label{fig:arduino}
 		\end{figure}
-		Mit diesem Aufbau kann über die Bibliothek \textit{serial} in Python eine sogenannte \glqq Serial Connection\grqq{} aufgebaut werden. Damitaab kann direkt über ein USB-Anschluss auch der Motor angesprochen werden. Über die Serial Connection werden dann GRBL-Befehle an den Motor gesendet. Diese sind einfache Befehle wie \glqq Startposition festlegen!\grqq{}, \glqq 1mm bewegen\grqq{} oder \glqq Zur Startposition zurückkehren!\grqq{}.
+		Mit diesem Aufbau kann über die Bibliothek \textit{serial} in Python eine sogenannte \glqq Serial Connection\grqq{} aufgebaut werden. Damit kann direkt über ein USB-Anschluss auch der Motor angesprochen werden. Über die Serial Connection werden dann GRBL-Befehle an den Motor gesendet. Diese sind einfache Befehle wie \glqq Startposition festlegen!\grqq{}, \glqq 1mm bewegen\grqq{} oder \glqq Zur Startposition zurückkehren!\grqq{}.
 		
 	
 	\label{chap:aufbau_hardware}
 	
 	\newpage
 	
-	\subsection{Aufbau / Software}
-	Die Software des Lasertriangulationssensor gliedert sich in zwei Bereiche. Zum einen wurde eine Python-Bibliothek entwickelt. Diese wurde Objektorientiert mit diversen Klassen, die den Lasertriangulationssensor repräsentieren entwickelt. Grundlegende Aufgabe der Python-Bibliothek sind die elementaren Berechnungen, um eine Punktewolke aus einem Bild-Paar zu erhalten. Das bedeutet, dass ein Konstrukt erstellt werden kann, welches Kalibriert werden kann und darauf folgend Punktewolken liefert. \newline
+	\subsection{Aufbau - Software}
+	Die Software des Lasertriangulationssensor gliedert sich in zwei Bereiche. Zum einen wurde eine Python-Bibliothek entwickelt. Diese wurde Objektorientiert mit diversen Klassen, die den Lasertriangulationssensor repräsentieren entwickelt. Grundlegende Aufgabe der Python-Bibliothek sind die elementaren Berechnungen, um eine Punktewolke aus einem Bild-Paar zu erhalten. Das bedeutet, dass ein Konstrukt erstellt werden kann, welches mit der Eingabe eines Bildpaares eine Punktewolken liefert. \newline
 	Der andere große Bereich ist die Umsetzung in ROS2. ROS2 liefert das Betriebssystem des Scanners. Alle verschiedenen Elemente sollen zu einem Gesamtprodukt zusammengefügt werden. Dazu gehört die Ansteuerung der Kamera und des Lasers. Schwerpunkt ist auch die Kommunikation zwischen einzelnen Elementen. Beispiele sind dabei das Aufnehmen der Bilder für die Kalibrierung oder das Erstellen der Punktewolke und die Weiterleitung an die entsprechenden Methoden aus den Klassen der Python-Bibliothek.
 		\subsubsection{Python (Bibliothek)}
 		Die Python-Bibliothek besteht grundlegend aus vier Klassen. Die Scanner-, Kamera-, Laser-, und LaserLine-Klasse. Dabei ist die Scanner-Klasse die volle Repräsentation des Lasertriangulationssensors, die in ROS2 eingebunden wird.
@@ -286,7 +283,7 @@
 			\label{fig:scanner_uml}
 		\end{figure}
 		Der Scanner beschreibt den Lasertriangulationssensor. Er besitzt eine Kamera und einen Laser. Zusätzlich wird als Variable die Punktewolke der Oberfläche und auch direkt deren Punkte und Farben abgespeichert. Hinzu kommt ein Boolean-Flag um zu kennzeichnen, ob der Scanner kalibriert ist. Der xStep ist für den Versuchsaufbau wichtig. Über die Liniarführung wird das Objekt in x-Richung unter dem Sensor durch bewegt. Die jeweiligen Millimeter-Schritte müssen entsprechend einbezogen werden. Dazu wird diese Variable genutzt. \newline
-		Zusätzlich stellt die Scanner-Klasse die grundlegenden Methoden, die die Funktionalität des Triangulationssensors wieder spiegel, zur Verfügung. Diese umfassen zum einen das komplette kalibrieren des Scanners. Dazu wird eine Liste von Bildern für die intrinsische Kalibrierung und ein Bildpaar des ChArUco-Boards für die extrinsische Kalibrierung benötigt. Hinzu kommt eine abgewandelte Version der Kalibrier-Methode, in der die intrinsische Kalibrierung durch das Importieren der Kameradaten ersetzt wird. Hinzu kommt die Methode zum Erstellen einer Punktewolke. Sie bekommt ein entsprechendes Bildpaar von der Oberfläche übergeben und errechnet die Punktewolke. Wenn der Scanner sich gerade in einem Scanvorgang befindet wird die neue Punktewolke entsprechend an die gesamte Punktewolke angehängt. Die Scanner-Klasse besitzt zusätzlich noch Hilfsmethoden die Zugriff von außen auf den Scanner Status und die Punktewolke geben oder die Punktewolke selbst erneuern oder aktualisieren.
+		Zusätzlich stellt die Scanner-Klasse die grundlegenden Methoden, die die Funktionalität des Triangulationssensors widerspiegelt zur Verfügung. Diese umfassen zum einen das komplette kalibrieren des Scanners. Dazu wird eine Liste von Bildern für die intrinsische Kalibrierung und ein Bildpaar des ChArUco-Boards für die extrinsische Kalibrierung benötigt. Hinzu kommt eine abgewandelte Version der Kalibrier-Methode, in der die intrinsische Kalibrierung durch das Importieren der Kameradaten ersetzt wird. Zusätzlich gibt es eine Methode zum Erstellen einer Punktewolke. Sie bekommt ein entsprechendes Bildpaar von der Oberfläche übergeben und errechnet die Punktewolke. Wenn der Scanner sich gerade in einem Scanvorgang befindet wird die neue Punktewolke entsprechend an die gesamte Punktewolke angehängt. Die Scanner-Klasse besitzt zusätzlich noch Hilfsmethoden die Zugriff von außen auf den Scanner Status und die Punktewolke geben oder die Punktewolke selbst erneuern oder aktualisieren.
 		
 		\begin{figure}[h]
 			\centering
@@ -294,7 +291,7 @@
 			\caption{Die Kamera-Klasse als UML-Diagramm}
 			\label{fig:kamera_uml}
 		\end{figure}
-		Die Kamera selbst besitzt auch eine Repräsentation in Form einer Klasse. Diese Klasse fungiert als Speicher für die Kameradaten. Gespeichert werden die Kamera-Matrix die Distortion-Koeffizienten und die Rotationsmatrizen sowie die Translationsvektoren der Bilder von der intrinsischen Kalibrierung. Also alle Daten, die aus der intrinsische Kalibrierung hervorgehen. Hierbei ist wichtig hervorzuheben, dass die Klasse keine Bilder aufnehmen kann bzw kein Zugriff auf die tatsächliche Kamera im Triangulationssensor hat. Sie is lediglich für das Ablegen der Daten und die intrinsische Kalibrierung zuständig.
+		Die Kamera besitzt ebenfalls eine Repräsentation in Form einer Klasse. Diese Klasse fungiert als Speicher für die Kameradaten. Gespeichert werden die Kamera-Matrix die Distortion-Koeffizienten und die Rotationsmatrizen sowie die Translationsvektoren der Bilder von der intrinsischen Kalibrierung. Also alle Daten, die aus der intrinsische Kalibrierung hervorgehen. Hierbei ist wichtig hervorzuheben, dass die Klasse keine Bilder aufnehmen kann bzw kein Zugriff auf die tatsächliche Kamera im Triangulationssensor hat. Sie is lediglich für das Ablegen der Daten und die intrinsische Kalibrierung zuständig. Zusätzlich beinhaltet sie den Kalibrier-Algorithmus, um die Kameradaten zu erzeugen. 
 		\newpage
 		\begin{figure}[h]
 			\centering
@@ -302,7 +299,7 @@
 			\caption{Die LaserLine-Klasse als UML-Diagramm}
 			\label{fig:laser_line_uml}
 		\end{figure}
-		Die Klasse LaserLine beschreibt eine aufgenommene Laserlinie. Information die dafür als Variablen gespeichert werden sind das Differenz-Bild, die errechneten 3D-Punkte der Linie und die entsprechende Rotation und Translation zu dem Weltkoordinatensystem, in dem sich die Laserlinie befindet. Zum initialisieren der LaserLine-Klasse wird das aufgenommene Bildpaar und die Rotation und Translation zu dem jeweiligen Weltkoordinatensystem benötigt. Die Klasse errechnet dann noch im Konstruktor die Bild-Differenz und die Laserlinienpunkte.\nocite{*}
+		Die Klasse LaserLine beschreibt eine aufgenommene Laserlinie. Information die dafür als Variablen gespeichert werden sind das Differenz-Bild, die errechneten 3D-Punkte der Linie und die entsprechende Rotation und Translation zu dem Weltkoordinatensystem, in dem sich die Laserlinie befindet. Zum Initialisieren der LaserLine-Klasse wird das aufgenommene Bildpaar und die Rotation und Translation zu dem jeweiligen Weltkoordinatensystem benötigt. Die Klasse errechnet dann noch im Konstruktor die Bild-Differenz und die Laserlinienpunkte.\nocite{*}
 		
 		\begin{figure}[h]
 			\centering
@@ -310,7 +307,7 @@
 			\caption{Die Laser-Klasse als UML-Diagramm}
 			\label{fig:laser_uml}
 		\end{figure}
-		So wie die Kamera-Klasse die Daten der intrinsischen Kalibrierung beinhaltet, beinhaltet die Laser-Klasse die Daten der extrinsischen Kalibrierung. Dazu benötigt sie zwei Laserlinien der Klasse LaserLine, die zur Unterscheidung als \glqq oben\grqq{} und \glqq unten\grqq{} definiert sind. Aus diesen kann die Ebenengleichung bestimmt werden. Dazu wird eine eigene Methode bereitgestellt in der erst die Punkte in ein einheitliches Koordinatensystem zusammengefasst und dann eine Ebene an die Punkte gefittet wird. Die vereinheitlichten Punkte und die Ebenengleichung werden von der Klasse gespeichert.
+		So wie die Kamera-Klasse die Daten der intrinsischen Kalibrierung beinhaltet, beinhaltet die Laser-Klasse die Daten der extrinsischen Kalibrierung. Dazu benötigt sie zwei Laserlinien der Klasse LaserLine, die zur Unterscheidung als \glqq oben\grqq{} und \glqq unten\grqq{} definiert sind. Aus diesen kann die Ebenengleichung bestimmt werden. Dazu wird eine eigene Methode bereitgestellt, in der erst die Punkte in ein einheitliches Koordinatensystem zusammengefasst werde und darauf folgend dann eine Ebene an die Punkte gefittet wird. Die vereinheitlichten Punkte und die Ebenengleichung werden von der Klasse gespeichert.
 		\newpage
 		\begin{figure}[h]
 			\centering
@@ -324,7 +321,7 @@
 		
 		\subsubsection{ROS2}
 		
-		Übergeordnet über der Python-Bibliothek befindet sich die ROS2-Implementierung, mit der letztendlich der Triangulationssensor bedient wird. Mit ROS2 erstellt man sogenannte \textbf{Nodes}, die verschiedene Möglichkeiten bereitstellen miteinander zu kommunizieren. Dazu gehören zum einen \textbf{Services}. Services sind am ehesten mit Methoden einer Klasse zu vergleichen, wobei dann die Nodes eine Klasse darstellen. Eine Node stellt ein Service bereit. Dieser kann aufgerufen werden und man erhält eine Antwort zurück. Der Triangulationssensor selbst ist auch über Nodes umgesetzt. Dabei sind die beiden ausschlaggebenden Nodes die Scanner-Node und die Kamera-Node. Die Scanner-Node enthält die vorgestellte Python-Bibliothek und damit eine Instanz von der Scanner-Klasse. Die Instanzen von der Scanner-Klasse selbst, also der Laser und die Kamera sind nach Initialisierung noch nicht mit Daten gefüllt. Das liegt daran, dass die Kalibrierung noch nicht stattgefunden hat. Dazu gibt es die Kamera-Node, die nun konkrete Bilder liefern kann. Die Kamera-Node hat Zugriff auf die Pypylon-Bibliothek \citep{noauthor_getting_2022} und damit auf die Repräsentation der Basler-Kamera. Die Node beinhaltet eine Funktion, die das gewünschte Bildpaar liefert. Da der Linienlaser selbst über den Output der Kamera gesteuert wird, kann dieser auch direkt in der Kamera-Node angesprochen werden. So stellt die Kamera ein Service bereit, der ein Bildpaar aufnimmt und dieses an den Scanner weiterleiten kann. Genauso stellt sie einen Service bereit, der mehrere Bilder aufnimmt und diese als Liste weiterleitet. Damit ist auch für die intrinsische Kalibrierung gesorgt. \newline
+		Übergeordnet über der Python-Bibliothek befindet sich die ROS2-Implementierung. Damit wird letztendlich der Triangulationssensor bedient. Mit ROS2 erstellt man sogenannte \textbf{Nodes}, die verschiedene Möglichkeiten bereitstellen miteinander zu kommunizieren. Dazu gehören zum einen \textbf{Services}. Services sind am ehesten mit Methoden einer Klasse zu vergleichen, wobei dann die Nodes eine Klasse darstellen. Eine Node stellt ein Service bereit. Dieser kann aufgerufen werden und man erhält eine Antwort zurück. Der Triangulationssensor selbst ist auch über Nodes umgesetzt. Dabei sind die beiden ausschlaggebenden Nodes die Scanner-Node und die Kamera-Node. Die Scanner-Node enthält die vorgestellte Python-Bibliothek und damit eine Instanz von der Scanner-Klasse. Die Instanzen von der Scanner-Klasse selbst, also der Laser und die Kamera sind nach Initialisierung noch nicht mit Daten gefüllt. Das liegt daran, dass die Kalibrierung noch nicht stattgefunden hat. Dazu gibt es die Kamera-Node, die nun konkrete Bilder liefern kann. Die Kamera-Node hat Zugriff auf die Pypylon-Bibliothek und damit auf die Repräsentation der Basler-Kamera. Die Node beinhaltet eine Funktion, die das gewünschte Bildpaar liefert. Da der Linienlaser selbst über den Output der Kamera gesteuert wird, kann dieser auch direkt in der Kamera-Node angesprochen werden. So stellt die Kamera ein Service bereit, der ein Bildpaar aufnimmt und dieses an den Scanner weiterleiten kann. Genauso stellt sie einen Service bereit, der mehrere Bilder aufnimmt und diese als Liste weiterleitet. Damit ist auch für die intrinsische Kalibrierung gesorgt. \newline
 		Diese Kommunikation funktioniert in ROS2 über \textbf{Topics}. Topics beschreiben eine Nachricht. Eine Node hat die Möglichkeit eine Nachricht über ein gewähltes Topic zu veröffentlichen (publish). Ebenfalls gibt es die Möglichkeit , dass eine Node Nachrichten über ein gewähltes Topic empfängt (subscribe). Der Service hier nimmt ein Bildpaar auf und veröffentlicht es über das jeweilige Topic. Was die Scanner-Node beim Eintreffen der Bilder macht, ist für den Service selbst nicht mehr von Belangen.\newline
 		In der Kommunikation muss zusätzlich festgehalten werden, welchen Datentyp die Nachricht bzw. das Topic verwenden soll. In ROS2 wird das über einen \textbf{Message}-Type realisiert. Hierbei kann man selbst eine Message erstellen oder man benutzt Vorgefertigte, die von ROS2 bereitgestellt werden. Für ein Bild gibt es einen vorgefertigten Message-Type. Da jedoch zwei Bilder auf einmal geschickt werden sollen, wurde hier ein eigener Typ (img\_pair.msg) erstellt. Ähnlich verhält es sich bei dem Schicken der Kalibrierungsbilder für die intrinsische Kalibrierung. Hier wird ein Message-Type erstellt, der eine Liste an Bildern beinhaltet (cam\_calib\_imgs.msg). Die Kamera nimmt demnach bei einem Aufruf des Services die Bilder auf und veröffentlicht sie über das jeweilige Topic. Der Scanner ist ein Subscriber zu diesem Topic und empfängt sie. Dabei wird in der Node eine Callback-Function aufgerufen, die auf dieses Empfangen reagiert. Der Scanner selbst speichert die für die Kalibrierung gesendeten Bild erst einmal nur ab. Zusätzlich hat ein Service in ROS2 dei Möglichkeit ein Feedback zurückzugeben. Diese Möglichkeit wird hier genutzt, damit die Kamera zeigen kann, dass die Bilder erfolgreich aufgenommen und veröffentlicht wurden.\newline
 		Die Scanner-Node stellt einen eigenen Service bereit, der den Scanner Kalibriert. Dazu werden die Methoden, die die Scanner-Klasse bereitstellt genutzt. Überprüft wird hierbei, ob dem Scanner schon die benötigten Bilder bereitstehen. Falls das nicht der Fall ist, wird über die Antwort des Services darauf hingewiesen und der Aufruf des Services schlägt fehl. Andernfalls kann die Node den Scanner Kalibrieren und ein Scan kann gestartet werden. \newline
@@ -338,19 +335,19 @@
 		Der selbe Vorgang passiert bei der Funktion \textbf{extr\_calib\_imgs}. Der Unterschied besteht darin, dass der Client ein anderen Service (\textbf{send\_laser\_calib\_imgs}) aufruft. Der Benutzer muss hier das Kalibrier-Brett mit dem ChArUco-Board vor die Kamera halten. \newline
 		Der Scanner ist nun im Besitzt der benötigten Bilder. Mit der Funktion \textbf{calibrate} wird ein Client gestartet, der den Service \textbf{calibrate\_laser} der Scanner-Node aufruft. Das veranlasst die Scanner-Node dazu, die Funktion \textit{calibrate\_scanner()} der internen Scanner-Klasse aufzurufen. Für die Visualisierung und zum Überprüfen erstellt die Scanner-Node eine Punktewolke, die die Laserebene darstellt und veröffentlicht sie über ein Topic. Über Rviz2 kann dann das Ergebnis der Kalibrierung angesehen werden.
 		
-		$\underline{Vorgang\;des\;Scannabblauf}$
+		$\underline{Vorgang\;des\;Scan-Abblauf}$
 		
 		Die jetzt beschriebenen Vorgänge sind im Anhang unter \ref{anhang-d} in einem Sequenz-Diagramm visualisiert. \newline
 		Nachdem der Scanner kalibriert ist, kann ein Scann-Vorgang, zugeschnitten auf den Versuchsaufbau vorgenommen werden. Hierbei wird kein konkreter Service der Scanner-Node benutzt. Die Scanner-Node weiß viel mehr, dass das gesendete Bild-Paar von der Oberfläche aufgenommen wurde und eine Punktewolke errechnet werden soll. Das verwendete Topic (\textit{ImgPair}) hat einen Message-Type, der zwei Bilder beinhaltet. Dieser kann somit sowohl für die extrinsische Kalibrierung, als auch für ein Bildpaar von der Oberfläche genutzt werden. Hier wurde ein Boolean-Flag eingebaut, der zeigt, ob das Bild-Paar für die Kalibrierung oder zur Oberflächenrekonstruktion benutzt werden soll. Somit weiß die Scanner-Node genau, wie sie weiterzuarbeiten hat. Falls die Scanner-Node ein Bildpaar zur Oberflächenrekonstruktion erhält, aber nicht kalibriert ist, wird der Fehlerfall mit einer entsprechenden Warnung behandelt. \newline
-		Die Funktion \textbf{start\_scan} starten einen Client, der zum Anfang der Scanner-Node über das Topic \textbf{ScannerStatus} signalisiert, dass sie sich jetzt im laufenden Scann befindet. Der Scann startet damit, dass der Service \textbf{send\_img\_pair\_surface} der Kamera aufgerufen wird. Die Kamera nimmt ein Bild-Paar auf und veröffentlicht es. Der Scanner reagiert darauf, in dem er das Bildpaar in eine Punktewolke umsetzt. Diese wird dann ebenfalls veröffentlicht und in Rviz2 dargestellt. Mit dem Senden des Bild-Paares schickt die Kamera ein positives Feedback an den Client zurück. Der Client signalisiert dann der Serial-Connection über die Sprache Grbl, dass sich die Linearführung um einen Millimeter bewegen soll. Danach wiederholt sich der Vorgang mit dem Aufrufen des Services der Kamera. Dabei bestimmt der Client wie oft sich der Vorgang wiederholt. Im Versuchsaufbau bewegt sich die Linear-Führung 290mm, somit wird der Vorgang 290 mal wiederholt. Die Scanner-Node selbst zählt auch mit, wie oft ein Bild-Paar veröffentlicht wurde und rechnet die Verschiebung mit ein. Die aktualisierte Punktewolke wird dabei immer selbst neu veröffentlicht und in Rviz2 aktualisiert. \newline
-		Nachdem alle Wiederholungen durchgeführt wurden signalisiert der Client der Scanner-Node, dass der Scann fertig ist. Daraufhin wird der Scanner die finale Punktewolke in einem (.ply)-File speichern und dann die intern gespeicherte Punktewolke auf null setzten. Damit ist er bereit führ einen erneuten Scann und behält seine Kalibrierung bei.
+		Die Funktion \textbf{start\_scan} starten einen Client, der zum Anfang der Scanner-Node über das Topic \textbf{ScannerStatus} signalisiert, dass sie sich jetzt im laufenden Scan befindet. Der Scan startet damit, dass der Service \textbf{send\_img\_pair\_surface} der Kamera aufgerufen wird. Die Kamera nimmt ein Bild-Paar auf und veröffentlicht es. Der Scanner reagiert darauf, in dem er das Bildpaar in eine Punktewolke umsetzt. Diese wird dann ebenfalls veröffentlicht und in Rviz2 dargestellt. Mit dem Senden des Bild-Paares schickt die Kamera ein positives Feedback an den Client zurück. Der Client signalisiert dann der Serial-Connection über die Sprache Grbl, dass sich die Linearführung um einen Millimeter bewegen soll. Danach wiederholt sich der Vorgang mit dem Aufrufen des Services der Kamera. Dabei bestimmt der Client wie oft sich der Vorgang wiederholt. Im Versuchsaufbau bewegt sich die Linear-Führung 290mm, somit wird der Vorgang 290 mal wiederholt. Die Scanner-Node selbst zählt auch mit, wie oft ein Bild-Paar veröffentlicht wurde und rechnet die Verschiebung mit ein. Die aktualisierte Punktewolke wird dabei immer selbst neu veröffentlicht und in Rviz2 aktualisiert. \newline
+		Nachdem alle Wiederholungen durchgeführt wurden signalisiert der Client der Scanner-Node, dass der Scan fertig ist. Daraufhin wird der Scanner die finale Punktewolke in einem (.ply)-File speichern und dann die intern gespeicherte Punktewolke auf null setzten. Damit ist er bereit führ einen erneuten Scan und behält seine Kalibrierung bei.
 		
 		\newpage
 		
 		
 	\subsection{Qualitative Ergebnisse}\label{chap:qual_ergeb}
 	
-	In diesem Abschnitt sollen qualitative Ergebnisse von einem Scann-Vorgang gezeigt werden.
+	In diesem Abschnitt sollen qualitative Ergebnisse von einem Scan-Vorgang gezeigt werden.
 	
 	\begin{figure}[h]
 		\centering
@@ -365,83 +362,4 @@
 		\caption[Qualitative Ergebnisse]{Schachbrett-Kalibrierung mit dem Schachbrett aus verschieden Positionen}
 		\label{fig:scan_imgs}
 	\end{figure}
-	Die aufgenommenen Bilder stammen aus Rviz2. Im Anhang unter \ref{anhang-e} befinden sich weitere Aufnahmen, in dem der Scann näher betrachtet wird. Dabei kann man genau die einzelnen Linien erkennen, die zusammengefügt die komplette Oberflächenrekonstruktion ergeben. 
-	\newpage
-	
-	\subsection{Evaluation}
-		
-		Der Lasertriangulationssensor wurde nun komplett vorgestellt. Es soll nun eine Evaluation folgen. Dabei wird zuerst eine Methode vorgestellt, die die Genauigkeit eines Scann berechnen kann. Nachdem werden zusätzlich aufgekommene Probleme und Schwierigkeiten erläutert.   
-		\subsubsection{Testen von Genauigkeit}
-		Ziel ist es die aufgenommene Punktewolke zu testen. Dazu muss das \glqq Ist\grqq{} mit einem \glqq Soll\grqq{} verglichen werden. Hierbei ist es schwierig ein \glqq Soll\grqq{} für einen beliebigen Scann zu finden. Für Beispielsweise Aufnahmen von einem Holzstück oder andere Figuren müsste dann im vornherein schon ein genaues 3D-Modell vorliegen. Daraus ergibt sich, dass zum Vergleichen ein bekanntes Objekt gewählt werden muss. Grundsätzlich soll damit die relative Genauigkeit der Punkte ermittelt werden. Damit ist gemeint, wie genau die Punkte zueinander liegen. Die genaue Position im Raum ist erst einmal unabhängig zu betrachten. Eine gängige Methode dafür ist, das gescannte Objekt in die Punkte des Scann zu fitten un diese am besten zu den Punkten passende Version als \glqq Soll\grqq{} zu verwenden \citep{bart_accuracy_nodate} \citep{song_multi-view_2019}. Dabei ist es Notwendig ein Form zu wählen, die sich in Punkte fitten lässt. Am naheliegendsten sind dabei Geometrische Formen, wie zum Beispiel eine Ebene, eine Linie oder auch eine Kugel. Genau diese drei Formen wurden auch hier zur Genauigkeitsbestimmung gewählt. Ausgehend von einer Ebene ist die  Vorgehensweise demnach ein Scann der eine Ebene durchzuführen. In die Punktewolke der Ebene wird dann, ähnlich wie in Kapitel \ref{chap:kalibrierung_extrinsisch} das Finden der Laser-Ebene, eine perfekt passende neue Ebene gefittet. Diese wird als \glqq Soll\grqq{} angesehen. Der eigentliche Vergleich findet dann statt, indem die Abstände der einzelnen Punkte zu der \glqq Soll\grqq-Ebene errechnet werden. Der Durchschnitt dieser Abstände ist der \textit{Mean Squeared Error} (MSE) und gibt die Genauigkeit an. Die selbe Methode wurde auch für eine einfache Linie und eine Kugel genutzt. Um eine höhere Genauigkeit der Messung zu erlangen, wird für eine bestimmte Szene dreimal ein Scann durchgeführt. Die gewollte Form wird dann über den Least-Squares-Algorithmus in die Punkte gefittet. Sobald das geschehen ist, können die Abstände der Punkte zu der Form berechnet werden. Der erste Versuch ist mit einer Linie gemacht worden. Dazu wurde eine einzelne Laserlinie von einer geraden Fläche aufgenommen.  
-		
-		\begin{table}[h]
-			\centering
-			
-			\begin{tabular}[h]{c|c|c|c||c}
-				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
-				\hline
-				MSE & 74,69 $\mu$m & 85,75 $\mu$m & 82,05 $\mu$m & 80,83 $\mu$m \\
-				\hline
-			\end{tabular}
-		
-			\caption{Messungen einer Linie}
-			\label{tab:linie}
-			
-		\end{table}
-	
-		Die zweite Messung betrachtet eine Ebene. Der Versuchsaufbau selbst bietet dazu gute Möglichkeiten, da die Grundlage der Linear-Führung eben ist. Diese wird in einem kompletten Scann-Ablauf aufgenommen. Da durch den Versuchsaufbau auch einzelne Objekte links und recht der Linear-Führung aufgenommen werden (siehe \ref{chap:qual_ergeb}), muss die Punktewolke etwas zugeschnitten werden. In die resultierenden Punkte kann dann eine Ebene gefittet werden. Berücksichtigt werden dann die Abstände der Punkte zu der Ebene.
-		
-		\begin{table}[h]
-			\centering
-			
-			\begin{tabular}[h]{c|c|c|c||c}
-				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
-				\hline
-				MSE & 121,92 $\mu$m & 121,59 $\mu$m & 113,37 $\mu$m & 118,96 $\mu$m \\
-				\hline
-			\end{tabular}
-		
-			\caption{Messungen einer Ebene}
-			\label{tab:ebene}
-			
-		\end{table}
-	
-		Für die dritte Messung wurde eine Kugel benutzt. Der Unterschied zu den vorherigen Messungen ist, dass hier die tatsächliche Größe des Objektes mit evaluiert wird. Beim fitten einer Kugel wird Radius ausgegeben. Die verwendete Kugel hat einen Radius von 5 cm. Diese 5 cm sollten sich auch in der optimal gefitteten Kugel widerspiegeln. Zusätzlich wird der MSE berechnet.
-	
-		\begin{table}[h]
-			\centering
-			
-			\begin{tabular}[h]{c|c|c|c||c}
-				Messung & Scann 1 & Scann 2 & Scann 3 & Durchschnitt \\
-				\hline
-				MSE & 356,08 $\mu$m & 354,62 $\mu$m & 339,45 $\mu$m & 350,05 $\mu$m \\
-				\hline
-				Radius & 4,80014 cm & 4,80705 cm & 4,80895 cm & 4,80538 cm \\
-				\hline
-			\end{tabular}
-		
-			\caption{Messungen einer Kugel}
-			\label{tab:sphere}
-			
-		\end{table}
-	
-		An der durchgeführten Messung fällt auf, dass der Radius zu klein ist. Er ist zwischen 1 bis 2 Millimeter zu kurz. Der MSE für die gefittete Kugel ist, wie bei den anderen Messungen, jedoch wieder in einem vergleichbaren Mikrometer-Bereich. Die Varianz der Punkte um das \glqq Soll\grqq{} ist also gering, jedoch ist die Kugel an sich zu klein. Dabei sind 1 bis 2 Millimeter bei einem Soll von 50 Millimetern ein vergleichsweise großer Fehler. 
-		
-		\subsubsection{Probleme und Schwierigkeiten}\label{chap:probleme_schwierigkeiten}
-		Bei der Entwicklung und beim Testen des Lasertriangulationssensors sind einige Probleme und Schwierigkeiten aufgetreten. Die ausschlaggebenden sollen hier angesprochen werden.
-		
-		$\underline{Die \; Beleuchtung}$
-		
-		Für das Erkennen der Farbinformation ist eine ausreichende Beleuchtung wichtig. Schnell passiert es, dass die Beleuchtung zu dunkel ausfällt und die Farben nicht gut erkennbar sind. Grundsätzlich ist das ein schnell behebbares Problem. Über Pylon kann die verwendete Basler-Kamera an die aktuelle Beleuchtung angepasst werden. Das Dilemma zum Thema der Beleuchtung ist viel mehr, dass je heller das Bild wird, um so weniger ist die Laserlinie erkennbar. An hellen Stellen, auch zu sehen bei den Qualitativen Ergebnissen in \ref{chap:qual_ergeb}, wird die Laserlinie nicht mehr erkannt. Dort ist es so hell, das kein ausreichender Unterschied in der Differenz des Bildpaares auffindbar ist. Gerade in \ref{subfig:scan_0} und \ref{subfig:scan_3} ist dieses Problem eindeutig am Rand der Unterlage des Holzes zu sehen. Sobald man die Kamera etwas dunkler Einstellt, werden die Farben des Holzes weniger gut erkannt. Es ist demnach notwendig die Kamera immer an die aktuelle Beleuchtung anzupassen. Die Anpassung muss so eingestellt sein, dass der Laser gut erkannt wird und gleichzeitig die Farben gut erkennbar sind. Ein automatisches Einstellen der Kamera ist bisher nicht implementiert.
-		
-		$\underline{\ddot{A}nderung \; im \; Bildpaar}$
-		
-		Der Lasertriangulationssensor ist sehr Anfällig auf jegliche Änderung der Szene, die zwischen den beiden Aufnahmen des Bildpaares stattfinden. Nach Plan darf sich hier nur das Einschalten des Laser ändern. Falls sich etwas anderes in Szene ändert, wird dies eindeutig in der Differenz der Bilder erkennbar sein. Da der Algorithmus immer bei der höchsten Intensität ansetzt ist er grundsätzlich robust und wird den Punkt der Laserlinie wählen. Sobald der Unterschied größer ist, kommt es zu ausschlaggebenden Fehlern. Auch hier ist die Beleuchtung wieder eine Fehlerquelle. Die Kamera kann ein Lichtflackern aufnehmen, welches für das menschliche Auge nicht sichtbar ist. Sobald dann ein Bild heller oder dunkler ausfällt, erhält man ein fehlerhaftes Differenz-Bild.
-		
-		$\underline{Fehlerquellen \; im \; Versuchsaufbau}$
-		
-		Als zusätzliche Fehlerquelle ist noch der Versuchsaufbau zu nennen. Die Möglichkeit den verwendeten Schrittmotor anzusteuern ist begrenzt. Hier ist es möglich den Schrittmotor den Befehl sich zu bewegen zu senden. Dabei gibt es kein Feedback, welches erhalten werden kann, sobald die Bewegung abgeschlossen ist. Die Ausführung des Codes muss aber warten, dass die Bewegung tatsächlich abgeschlossen ist. Sonst könne es passieren, dass in der Ausführung der Triangulationssensor davon ausgeht, dass sich die Szene um einen Millimeter weiterbewegt hat, aber die eigentliche Bewegung ist noch nicht abgeschlossen. Die Ausführung und Ermittlung der Punktewolken ist dabei schnell genug , um zweimal innerhalb der Bewegung von einen Millimeter zu erfolgen. Der erste Fehler der hierbei passieren kann, ist, dass die Szene zwischen den Aufnahmen in Bewegung ist und dadurch das Differenz-Bild fehlerhaft ist. Der zweite Fehler ist, dass die Laserlinie in der resultierenden Punktewolke an falscher Position eingefügt wird. Für diese Fehlerquellen wurde der Versuchsaufbau schon so angepasst, dass im Code, nachdem der Befehl für die Bewegung gesendet wurde, eine Sekunde gewartet wird. So ist die Bewegung sicher abgeschlossen, bevor die nächsten Aufnahmen gemacht werden. Nachteil dadurch ist, dass der Scann vergleichsweise langsam aufgenommen wird. Trotzdem bleibt ein kleiner Fehler in der Position. Beim Anhängen der neuen Laserlinie wird genau ein Millimeter in x-Richtung aufaddiert. Hierbei ist ohne größeren Aufwand nicht überprüfbar, ob sich die Linear-Führung genau um einen Millimeter bewegt. Das hängt davon ab, wie genau der Schritt-Motor kalibriert ist. Die Varianz der Laserlinie ist gering und kann somit vernachlässigt werden. Es ist wahrscheinlicher, dass die Kalibrierung des Schritt-Motors für kleine Fehler verantwortlich ist. Diese Fehler können sich in der Oberflächenrekonstruktion aufaddieren und dazu führen, dass die gesamte Punktewolke in x-Richtung fehlerhaft ist. Hiermit wäre auch die der fehlerhafte Radius der gescannten Kugel erklärbar.
-		
-		$\underline{Spiegelung \; und \; schlechte \; Reflektion \; der \; Laserlinie}$
-		
-		Für einen Lasertriangulationssensor ist grundlegend vorausgesetzt, dass die Laserlinie auf den Objekt sichtbar ist. Das bedeutet, dass sie gut reflektiert wird. Wenn das nicht der Fall ist, kommt es zu Fehlern. Durchsichtige oder nicht reflektierende Oberflächen können vom Sensor nicht erfasst werden. Zu Fehlern kommt es auch, wenn sich das Laserlicht an einer Oberfläche spiegelt. Dadurch kann es passieren, dass rotes Licht an stellen erscheint, die gar nicht zur eigentlichen Laserlinie gehören. Da dieses Licht vom Laser selbst kommt, ist es auch im Differenz-Bild eindeutig erkennbar. Da alle erfassten Pixel des Lasers auf die Laser-Ebene gespannt werden, erscheinen diese Fehlerhaften Stellen dann in der Oberflächenrekonstruktion über oder unter den Objekt als Rauschen. 
+	Die aufgenommenen Bilder stammen aus Rviz2. Im Anhang unter \ref{anhang-e} befinden sich weitere Aufnahmen, in dem der Scan näher betrachtet wird. Dabei kann man genau die einzelnen Linien erkennen, die zusammengefügt die komplette Oberflächenrekonstruktion ergeben.

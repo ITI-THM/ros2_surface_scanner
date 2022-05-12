@@ -108,7 +108,7 @@ class Scanner:
 
         assert surface_img is not None, "WARNING: Image at 'surface_img' could not be loaded!"
         assert surface_img_laser is not None, "WARNING: Image at 'surface_img_laser' could not be loaded!"
-        assert len(self.__laser.get_plane_eq()) is not 0, "WARNING: Laser is not calibrated!"
+        assert len(self.__laser.get_plane_eq()) != 0, "WARNING: Laser is not calibrated!"
 
         # undistort surface images
         surface_img = cv.undistort(surface_img, self.__camera.get_cam_mtx(), self.__camera.get_dist(), None)
@@ -178,8 +178,14 @@ class Scanner:
         plt.title('Laserlinien', fontsize='xx-large', fontweight='bold')
 
         points = self.__laser.get_plane_points()
-        plt.plot(points[0, :], points[1, :], points[2, :],
-                 '.', label='Laser')
+        lines_in_cam_coord = world2cam(
+            pts=points,
+            rot_matrix=self.__laser.get_up().get_rot_matrix(),
+            trans_vec=self.__laser.get_up().get_tvec()
+        )
+
+        plt.plot(lines_in_cam_coord[0, :], lines_in_cam_coord[1, :], lines_in_cam_coord[2, :],
+                 '.', label='Laser', c='red')
 
         # plt.plot(surface_points[0, :], surface_points[1, :], surface_points[2, :],
         #          '.', label='Surface')
@@ -191,8 +197,17 @@ class Scanner:
         # plot the plane
         # ax.plot_surface(x, y, z, alpha=0.5)
 
+        ax.set_xlim3d(0, 0.15)
+        ax.set_ylim3d(0, 0.15)
+        ax.set_zlim3d(0, 0.4)
+
         # rotate the axes and update.
-        ax.view_init(20, 70)
+        ax.view_init(165, 35)
+
+        # pcd_laser = o3d.geometry.PointCloud()
+        # pcd_laser.points = o3d.utility.Vector3dVector(lines_in_cam_coord.T)
+        # pcd_laser.paint_uniform_color([1, 0, 0])
+        # o3d.io.write_point_cloud("./out/plots/laserlines.ply", pcd_laser)
 
         plt.legend()
         plt.savefig('./out/plots/laserlines.png')

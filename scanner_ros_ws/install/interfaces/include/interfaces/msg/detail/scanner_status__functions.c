@@ -28,6 +28,32 @@ interfaces__msg__ScannerStatus__fini(interfaces__msg__ScannerStatus * msg)
   // is_scanner_active
 }
 
+bool
+interfaces__msg__ScannerStatus__are_equal(const interfaces__msg__ScannerStatus * lhs, const interfaces__msg__ScannerStatus * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // is_scanner_active
+  if (lhs->is_scanner_active != rhs->is_scanner_active) {
+    return false;
+  }
+  return true;
+}
+
+bool
+interfaces__msg__ScannerStatus__copy(
+  const interfaces__msg__ScannerStatus * input,
+  interfaces__msg__ScannerStatus * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  // is_scanner_active
+  output->is_scanner_active = input->is_scanner_active;
+  return true;
+}
+
 interfaces__msg__ScannerStatus *
 interfaces__msg__ScannerStatus__create()
 {
@@ -135,4 +161,61 @@ interfaces__msg__ScannerStatus__Sequence__destroy(interfaces__msg__ScannerStatus
     interfaces__msg__ScannerStatus__Sequence__fini(array);
   }
   free(array);
+}
+
+bool
+interfaces__msg__ScannerStatus__Sequence__are_equal(const interfaces__msg__ScannerStatus__Sequence * lhs, const interfaces__msg__ScannerStatus__Sequence * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!interfaces__msg__ScannerStatus__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+interfaces__msg__ScannerStatus__Sequence__copy(
+  const interfaces__msg__ScannerStatus__Sequence * input,
+  interfaces__msg__ScannerStatus__Sequence * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(interfaces__msg__ScannerStatus);
+    interfaces__msg__ScannerStatus * data =
+      (interfaces__msg__ScannerStatus *)realloc(output->data, allocation_size);
+    if (!data) {
+      return false;
+    }
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!interfaces__msg__ScannerStatus__init(&data[i])) {
+        /* free currently allocated and return false */
+        for (; i-- > output->capacity; ) {
+          interfaces__msg__ScannerStatus__fini(&data[i]);
+        }
+        free(data);
+        return false;
+      }
+    }
+    output->data = data;
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!interfaces__msg__ScannerStatus__copy(
+        &(input->data[i]), &(output->data[i])))
+    {
+      return false;
+    }
+  }
+  return true;
 }

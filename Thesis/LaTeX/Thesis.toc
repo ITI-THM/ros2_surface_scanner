@@ -3,7 +3,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {1}Einleitung}{1}{section.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1}Aufgabe / Motivation}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.1}Aufgabe - Motivation}{1}{subsection.1.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {1.2}Stand der Technik}{2}{subsection.1.2}%
 \defcounter {refsection}{0}\relax 
@@ -19,9 +19,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.1}Bibliotheken}{6}{subsection.2.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.2}Der Grundlegende Aufbau}{6}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.2}Der grundlegende Aufbau}{6}{subsection.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {2.3}OpenCv Pinhole Camera Model}{7}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.3}Pinhole Camera Model}{7}{subsection.2.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {2.4}Mathematische Grundlage}{9}{subsection.2.4}%
 \defcounter {refsection}{0}\relax 
@@ -39,27 +39,27 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {2.5.4}Das Erstellen von Subpixeln}{17}{subsubsection.2.5.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Hauptteil - Projektbeschreibung und Projektergebnisse}{20}{section.3}%
+\contentsline {section}{\numberline {3}Projektumsetzung}{21}{section.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}Kalibrierung}{20}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.1}Kalibrierung}{21}{subsection.3.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.1.1}Intrinsische Kalibrierung}{20}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Intrinsische Kalibrierung}{21}{subsubsection.3.1.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.1.2}Extrinsische Kalibrierung}{24}{subsubsection.3.1.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}Das Erzeugen einer Punktewolke}{30}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.2}Das Erzeugen einer Punktewolke}{31}{subsection.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.2.1}Die 3D-Koordinaten}{30}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1}Die 3D-Koordinaten}{31}{subsubsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.2.2}Das Finden der Farbinformationen}{32}{subsubsection.3.2.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}Aufbau / Hardware}{34}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.3}Aufbau - Hardware}{34}{subsection.3.3}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.3.1}Hardware-Aufbau des Lasertriangulationssensors}{34}{subsubsection.3.3.1}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.3.2}Der Versuchsaufbau}{35}{subsubsection.3.3.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Aufbau / Software}{37}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.4}Aufbau - Software}{37}{subsection.3.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {3.4.1}Python (Bibliothek)}{37}{subsubsection.3.4.1}%
 \defcounter {refsection}{0}\relax 
@@ -67,15 +67,17 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.5}Qualitative Ergebnisse}{45}{subsection.3.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.6}Evaluation}{46}{subsection.3.6}%
+\contentsline {section}{\numberline {4}Evaluation}{46}{section.4}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.6.1}Testen von Genauigkeit}{46}{subsubsection.3.6.1}%
+\contentsline {subsection}{\numberline {4.1}Testen von Genauigkeit}{46}{subsection.4.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {3.6.2}Probleme und Schwierigkeiten}{47}{subsubsection.3.6.2}%
+\contentsline {subsection}{\numberline {4.2}Bewertung}{47}{subsection.4.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Zusammenfassung}{50}{section.4}%
+\contentsline {subsection}{\numberline {4.3}Probleme und Schwierigkeiten}{48}{subsection.4.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Ausblick}{52}{section.5}%
+\contentsline {section}{\numberline {5}Zusammenfassung}{51}{section.5}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6}Ausblick}{53}{section.6}%
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {A}Anhang}{55}{appendix.A}%
 \defcounter {refsection}{0}\relax 
@@ -89,12 +91,10 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {A.5}Anhang E}{59}{subsection.A.5}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\nonumberline Abbildungsverzeichnis}{61}{section*.45}%
+\contentsline {subsection}{\numberline {A.6}Anhang F}{60}{subsection.A.6}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\nonumberline Tabellenverzeichnis}{62}{section*.46}%
+\contentsline {section}{\nonumberline Abbildungsverzeichnis}{61}{section*.46}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\nonumberline Quellcodeverzeichnis}{63}{section*.47}%
+\contentsline {section}{\nonumberline Tabellenverzeichnis}{62}{section*.47}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Abkürzungsverzeichnis}{64}{section*.48}%
-\defcounter {refsection}{0}\relax 
-\contentsline {section}{\nonumberline Literatur}{65}{section*.49}%
+\contentsline {section}{\nonumberline Literatur}{63}{section*.48}%

@@ -2182,10 +2182,10 @@
     <bcf:datasource type="file" datatype="bibtex">bib/Hauptteil.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">liesen_lineare_2021</bcf:citekey>
-    <bcf:citekey order="2">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
+    <bcf:citekey order="1">otsu_tlreshold_nodate</bcf:citekey>
+    <bcf:citekey order="2">liesen_lineare_2021</bcf:citekey>
+    <bcf:citekey order="3">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
     <bcf:citekey order="0" nocite="1">*</bcf:citekey>
-    <bcf:citekey order="3">noauthor_getting_2022</bcf:citekey>
     <bcf:citekey order="4">bart_accuracy_nodate</bcf:citekey>
     <bcf:citekey order="5">song_multi-view_2019</bcf:citekey>
   </bcf:section>

@@ -1,19 +1,20 @@
 [0] Config.pm:304> INFO - This is Biber 2.14 (beta)
 [0] Config.pm:307> INFO - Logfile is 'Thesis.blg'
-[63] biber:322> INFO - === Thu May  5, 2022, 14:10:12
-[74] Biber.pm:415> INFO - Reading 'Thesis.bcf'
-[129] Biber.pm:940> INFO - Using all citekeys in bib section 0
-[140] Biber.pm:4256> INFO - Processing section 0
-[141] Utils.pm:75> INFO - Globbing data source 'bib/Hauptteil.bib'
-[141] Utils.pm:91> INFO - Globbed data source 'bib/Hauptteil.bib' to bib/Hauptteil.bib
-[149] Biber.pm:4455> INFO - Looking for bibtex format file 'bib/Hauptteil.bib' for section 0
-[151] bibtex.pm:1653> INFO - LaTeX decoding ...
-[172] bibtex.pm:1471> INFO - Found BibTeX data source 'bib/Hauptteil.bib'
-[235] Utils.pm:293> WARN - ISBN '978-3-662-62741-9 978-3-662-62742-6' in entry 'liesen_lineare_2021' is invalid - run biber with '--validate_datamodel' for details.
-[257] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[257] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[257] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[257] Biber.pm:4090> INFO - No sort tailoring available for locale 'de-DE'
-[271] bbl.pm:652> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
-[277] bbl.pm:755> INFO - Output to Thesis.bbl
-[277] Biber.pm:128> INFO - WARNINGS: 1
+[62] biber:322> INFO - === Fri May 13, 2022, 16:21:02
+[73] Biber.pm:415> INFO - Reading 'Thesis.bcf'
+[130] Biber.pm:943> INFO - Found 22 citekeys in bib section 0
+[141] Biber.pm:4256> INFO - Processing section 0
+[141] Utils.pm:75> INFO - Globbing data source 'bib/literatur.bib'
+[141] Utils.pm:91> INFO - Globbed data source 'bib/literatur.bib' to bib/literatur.bib
+[150] Biber.pm:4455> INFO - Looking for bibtex format file 'bib/literatur.bib' for section 0
+[152] bibtex.pm:1653> INFO - LaTeX decoding ...
+[180] bibtex.pm:1471> INFO - Found BibTeX data source 'bib/literatur.bib'
+[228] Utils.pm:293> WARN - ISBN '978-3-658-28704-7 978-3-658-28705-4' in entry 'nischwitz_bildverarbeitung_2020' is invalid - run biber with '--validate_datamodel' for details.
+[244] Utils.pm:293> WARN - ISBN '978-3-662-62741-9 978-3-662-62742-6' in entry 'liesen_lineare_2021' is invalid - run biber with '--validate_datamodel' for details.
+[294] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[294] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[295] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[295] Biber.pm:4090> INFO - No sort tailoring available for locale 'de-DE'
+[313] bbl.pm:652> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
+[322] bbl.pm:755> INFO - Output to Thesis.bbl
+[322] Biber.pm:128> INFO - WARNINGS: 2

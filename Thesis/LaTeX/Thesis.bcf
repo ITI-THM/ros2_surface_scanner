@@ -2179,15 +2179,46 @@
   <!-- CITATION DATA -->
   <!-- SECTION 0 -->
   <bcf:bibdata section="0">
-    <bcf:datasource type="file" datatype="bibtex">bib/Hauptteil.bib</bcf:datasource>
+    <bcf:datasource type="file" datatype="bibtex">bib/literatur.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1">otsu_tlreshold_nodate</bcf:citekey>
-    <bcf:citekey order="2">liesen_lineare_2021</bcf:citekey>
-    <bcf:citekey order="3">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
-    <bcf:citekey order="0" nocite="1">*</bcf:citekey>
-    <bcf:citekey order="4">bart_accuracy_nodate</bcf:citekey>
-    <bcf:citekey order="5">song_multi-view_2019</bcf:citekey>
+    <bcf:citekey order="1">noauthor_rinntech_nodate</bcf:citekey>
+    <bcf:citekey order="2">noauthor_rinntech_nodate</bcf:citekey>
+    <bcf:citekey order="3">noauthor_rinntech_nodate</bcf:citekey>
+    <bcf:citekey order="4">zollhofer_state_2018</bcf:citekey>
+    <bcf:citekey order="5">zollhofer_state_2018</bcf:citekey>
+    <bcf:citekey order="6">noauthor_3d-bildverarbeitung_nodate</bcf:citekey>
+    <bcf:citekey order="7">noauthor_prinzip_nodate</bcf:citekey>
+    <bcf:citekey order="8">noauthor_opencv_nodate-2</bcf:citekey>
+    <bcf:citekey order="9">dawson-howe_simple_1994</bcf:citekey>
+    <bcf:citekey order="10">noauthor_opencv_nodate-2</bcf:citekey>
+    <bcf:citekey order="11">dawson-howe_simple_1994</bcf:citekey>
+    <bcf:citekey order="12">pinhole_camera_model</bcf:citekey>
+    <bcf:citekey order="13">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="14">dawson-howe_simple_1994</bcf:citekey>
+    <bcf:citekey order="15">bajpai_cross-platform_nodate</bcf:citekey>
+    <bcf:citekey order="16">noauthor_opencv_nodate</bcf:citekey>
+    <bcf:citekey order="17">nischwitz_bildverarbeitung_2020</bcf:citekey>
+    <bcf:citekey order="18">otsu_tlreshold_nodate</bcf:citekey>
+    <bcf:citekey order="19">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="20">zhang_flexible_2000</bcf:citekey>
+    <bcf:citekey order="21">noauthor_camera_nodate</bcf:citekey>
+    <bcf:citekey order="22">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="23">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="24">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="25">measurement_1995</bcf:citekey>
+    <bcf:citekey order="26">noauthor_opencv_nodate-2</bcf:citekey>
+    <bcf:citekey order="27">measurement_1995</bcf:citekey>
+    <bcf:citekey order="28">noauthor_opencv_nodate-1</bcf:citekey>
+    <bcf:citekey order="29">bajpai_cross-platform_nodate</bcf:citekey>
+    <bcf:citekey order="30">liesen_lineare_2021</bcf:citekey>
+    <bcf:citekey order="31">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
+    <bcf:citekey order="32">bart_accuracy_nodate</bcf:citekey>
+    <bcf:citekey order="33">song_multi-view_2019</bcf:citekey>
+    <bcf:citekey order="34">noauthor_camera_nodate-1</bcf:citekey>
+    <bcf:citekey order="35">grunnet-jepsen_best-known-methods_nodate</bcf:citekey>
+    <bcf:citekey order="36">lourenco_intel_2021</bcf:citekey>
+    <bcf:citekey order="37">lourenco_intel_2021</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

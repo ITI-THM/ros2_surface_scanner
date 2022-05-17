@@ -2211,14 +2211,15 @@
     <bcf:citekey order="27">measurement_1995</bcf:citekey>
     <bcf:citekey order="28">noauthor_opencv_nodate-1</bcf:citekey>
     <bcf:citekey order="29">bajpai_cross-platform_nodate</bcf:citekey>
-    <bcf:citekey order="30">liesen_lineare_2021</bcf:citekey>
-    <bcf:citekey order="31">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
-    <bcf:citekey order="32">bart_accuracy_nodate</bcf:citekey>
-    <bcf:citekey order="33">song_multi-view_2019</bcf:citekey>
-    <bcf:citekey order="34">noauthor_camera_nodate-1</bcf:citekey>
-    <bcf:citekey order="35">grunnet-jepsen_best-known-methods_nodate</bcf:citekey>
-    <bcf:citekey order="36">lourenco_intel_2021</bcf:citekey>
+    <bcf:citekey order="30">bajpai_cross-platform_nodate</bcf:citekey>
+    <bcf:citekey order="31">liesen_lineare_2021</bcf:citekey>
+    <bcf:citekey order="32">noauthor_a2a1920-160ucpro_nodate</bcf:citekey>
+    <bcf:citekey order="33">bart_accuracy_nodate</bcf:citekey>
+    <bcf:citekey order="34">song_multi-view_2019</bcf:citekey>
+    <bcf:citekey order="35">noauthor_camera_nodate-1</bcf:citekey>
+    <bcf:citekey order="36">grunnet-jepsen_best-known-methods_nodate</bcf:citekey>
     <bcf:citekey order="37">lourenco_intel_2021</bcf:citekey>
+    <bcf:citekey order="38">lourenco_intel_2021</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

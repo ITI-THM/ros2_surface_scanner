@@ -162,8 +162,6 @@
       \field{abstract}{This paper presents an accuracy verification test method for laser line scanners on coordinate measuring machines ({CMMs}). Recent evolutions improved laser line scanners to the extent that verification is increasingly important. A sphere beam with optically cooperative spheres is proposed as verification object. The ideal verification object excludes many influencing factors, e.g. specular reflection issues. The scanner sphere probing test describes a method to determine the scanner accuracy, the scanner ball bar test checks the integration of the scanner on the {CMM}. The experimental results show a scanner accuracy of about 8µm (sphere best fit {RMS} value) and a total accuracy below 14µm on a measuring length of 1m.}
       \field{langid}{english}
       \field{title}{Accuracy verification of a laser line scanner probe}
-      \field{pages}{10}
-      \range{pages}{1}
       \verb{file}
       \verb Bart et al. - Accuracy verification of a laser line scanner prob.pdf:/home/tristan/Zotero/storage/J3VZG3KR/Bart et al. - Accuracy verification of a laser line scanner prob.pdf:application/pdf
       \endverb
@@ -569,8 +567,6 @@
       \field{abstract}{A nonparametric and unsupervised method of automatic threshold selection for picture segmentation is presented. An optimal threshold is selected by the discriminant criterion, namely, so as to maximize the separability of the resultant classes in gray levels. The procedure is very simple, utilizing only the zeroth- and the first-order cumulative moments of the gray-level histogram. It is t straightforward to extend the method to multithreshold problems.}
       \field{langid}{english}
       \field{title}{A Tlreshold Selection Method from Gray-Level Histograms}
-      \field{pages}{5}
-      \range{pages}{1}
       \verb{file}
       \verb Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:/home/tristan/Zotero/storage/MKCN88W5/Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:application/pdf
       \endverb

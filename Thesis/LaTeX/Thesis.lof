@@ -7,81 +7,81 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {3}{\ignorespaces Pinhole Camera Model\relax }}{8}{figure.caption.9}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {4}{\ignorespaces Transformationen}}{11}{figure.caption.10}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Transformationen}}{10}{figure.caption.10}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {5}{\ignorespaces Subtraktion der Bilder\relax }}{14}{figure.caption.11}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Subtraktion der Bilder\relax }}{13}{figure.caption.11}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{14}{subfigure.5.1}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{13}{subfigure.5.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{14}{subfigure.5.2}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{13}{subfigure.5.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{14}{subfigure.5.3}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{13}{subfigure.5.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {6}{\ignorespaces Pixel-Werte der Laserlinie}}{15}{figure.caption.12}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Pixel-Werte der Laserlinie}}{14}{figure.caption.12}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {7}{\ignorespaces Pixel-Werte im Grauwertbild}}{16}{figure.caption.13}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Pixel-Werte im Grauwertbild}}{15}{figure.caption.13}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {8}{\ignorespaces Parabel für die Intensitäten}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Parabel für die Intensitäten}}{18}{figure.caption.14}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {9}{\ignorespaces Subpixel im Koordinatensystem}}{20}{figure.caption.15}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Subpixel im Koordinatensystem}}{19}{figure.caption.15}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {10}{\ignorespaces Schachbrett-Kalibrierung}}{21}{figure.caption.16}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Schachbrett-Kalibrierung}}{20}{figure.caption.16}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {11}{\ignorespaces Verzerrung bei Bildern}}{22}{figure.caption.17}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Verzerrung bei Bildern}}{21}{figure.caption.17}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{22}{subfigure.11.1}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{21}{subfigure.11.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{22}{subfigure.11.2}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{21}{subfigure.11.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {12}{\ignorespaces Beispiel für die Verzerrung in Bildern}}{23}{figure.caption.18}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Beispiel für die Verzerrung in Bildern}}{22}{figure.caption.18}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{23}{subfigure.12.1}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{22}{subfigure.12.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{23}{subfigure.12.2}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{22}{subfigure.12.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {13}{\ignorespaces Unterlage zum Kalibrieren\relax }}{25}{figure.caption.19}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Unterlage zum Kalibrieren\relax }}{24}{figure.caption.19}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {14}{\ignorespaces Ausgangsbilder der extrinsischen Kalibrierung\relax }}{26}{figure.caption.20}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Ausgangsbilder der extrinsischen Kalibrierung\relax }}{25}{figure.caption.20}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{26}{subfigure.14.1}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{25}{subfigure.14.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{26}{subfigure.14.2}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{25}{subfigure.14.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {15}{\ignorespaces Weltkoordinatensysteme im ChArUco-Board\relax }}{26}{figure.caption.21}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Weltkoordinatensysteme im ChArUco-Board\relax }}{25}{figure.caption.21}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {16}{\ignorespaces Point of Interest im Bild\relax }}{27}{figure.caption.22}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Point of Interest im Bild\relax }}{26}{figure.caption.22}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {17}{\ignorespaces Ausgeschnitten Laserlinien\relax }}{28}{figure.caption.23}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Ausgeschnitten Laserlinien\relax }}{27}{figure.caption.23}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {18}{\ignorespaces Herausgearbeitete Laserlinien\relax }}{29}{figure.caption.24}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Herausgearbeitete Laserlinien\relax }}{28}{figure.caption.24}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {19}{\ignorespaces Gewichtete Pixel für den x-Wert 11,4\relax }}{33}{figure.caption.25}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Gewichtete Pixel für den x-Wert 11,4\relax }}{32}{figure.caption.25}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {20}{\ignorespaces Der Lasertriangulationssensor\relax }}{34}{figure.caption.26}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Der Lasertriangulationssensor\relax }}{33}{figure.caption.26}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {21}{\ignorespaces Der Lasertriangulationssensor\relax }}{35}{figure.caption.27}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Der Lasertriangulationssensor\relax }}{34}{figure.caption.27}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {22}{\ignorespaces Arduino mit CNC-Shield\relax }}{36}{figure.caption.28}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Arduino mit CNC-Shield\relax }}{35}{figure.caption.28}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {23}{\ignorespaces Die Scanner-Klasse als UML-Diagramm\relax }}{37}{figure.caption.29}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Die Scanner-Klasse als UML-Diagramm\relax }}{36}{figure.caption.29}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {24}{\ignorespaces Die Kamera-Klasse als UML-Diagramm\relax }}{38}{figure.caption.30}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Die Kamera-Klasse als UML-Diagramm\relax }}{37}{figure.caption.30}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {25}{\ignorespaces Die LaserLine-Klasse als UML-Diagramm\relax }}{39}{figure.caption.31}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Die LaserLine-Klasse als UML-Diagramm\relax }}{38}{figure.caption.31}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {26}{\ignorespaces Die Laser-Klasse als UML-Diagramm\relax }}{39}{figure.caption.32}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Die Laser-Klasse als UML-Diagramm\relax }}{38}{figure.caption.32}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {27}{\ignorespaces Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse\relax }}{40}{figure.caption.33}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Die Hilfsmethoden ohne Zugehörigkeit zu einer Klasse\relax }}{39}{figure.caption.33}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {28}{\ignorespaces Qualitative Ergebnisse}}{45}{figure.caption.34}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Qualitative Ergebnisse}}{44}{figure.caption.34}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{45}{subfigure.28.1}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{44}{subfigure.28.1}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{45}{subfigure.28.2}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{44}{subfigure.28.2}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{45}{subfigure.28.3}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{44}{subfigure.28.3}%
 \defcounter {refsection}{0}\relax 
-\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{45}{subfigure.28.4}%
+\contentsline {subfigure}{\numberline {(d)}{\ignorespaces {}}}{44}{subfigure.28.4}%
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {29}{\ignorespaces UML-Klassendiagramm des Lasertriangulationssensor\relax }}{55}{figure.caption.38}%
 \defcounter {refsection}{0}\relax 
@@ -89,9 +89,9 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {figure}{\numberline {31}{\ignorespaces Vorgang der Kalibrierung\relax }}{57}{figure.caption.40}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {32}{\ignorespaces Vorgang des Scannen\relax }}{58}{figure.caption.41}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Der Scan-Vorgang\relax }}{58}{figure.caption.41}%
 \defcounter {refsection}{0}\relax 
-\contentsline {figure}{\numberline {33}{\ignorespaces Qualitativer Scann aus der Nähe\relax }}{59}{figure.caption.42}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Qualitativer Scan aus der Nähe\relax }}{59}{figure.caption.42}%
 \defcounter {refsection}{0}\relax 
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{59}{subfigure.33.1}%
 \defcounter {refsection}{0}\relax 

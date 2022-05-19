@@ -1,20 +1,19 @@
 [0] Config.pm:304> INFO - This is Biber 2.14 (beta)
 [0] Config.pm:307> INFO - Logfile is 'Thesis.blg'
-[70] biber:322> INFO - === Tue May 17, 2022, 12:06:43
-[86] Biber.pm:415> INFO - Reading 'Thesis.bcf'
-[147] Biber.pm:943> INFO - Found 22 citekeys in bib section 0
-[158] Biber.pm:4256> INFO - Processing section 0
-[158] Utils.pm:75> INFO - Globbing data source 'bib/literatur.bib'
-[158] Utils.pm:91> INFO - Globbed data source 'bib/literatur.bib' to bib/literatur.bib
-[167] Biber.pm:4455> INFO - Looking for bibtex format file 'bib/literatur.bib' for section 0
-[171] bibtex.pm:1653> INFO - LaTeX decoding ...
-[200] bibtex.pm:1471> INFO - Found BibTeX data source 'bib/literatur.bib'
-[253] Utils.pm:293> WARN - ISBN '978-3-658-28704-7 978-3-658-28705-4' in entry 'nischwitz_bildverarbeitung_2020' is invalid - run biber with '--validate_datamodel' for details.
-[272] Utils.pm:293> WARN - ISBN '978-3-662-62741-9 978-3-662-62742-6' in entry 'liesen_lineare_2021' is invalid - run biber with '--validate_datamodel' for details.
-[326] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[326] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[326] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
-[326] Biber.pm:4090> INFO - No sort tailoring available for locale 'de-DE'
-[351] bbl.pm:652> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
-[363] bbl.pm:755> INFO - Output to Thesis.bbl
-[363] Biber.pm:128> INFO - WARNINGS: 2
+[66] biber:322> INFO - === Thu May 19, 2022, 16:56:16
+[78] Biber.pm:415> INFO - Reading 'Thesis.bcf'
+[138] Biber.pm:943> INFO - Found 23 citekeys in bib section 0
+[150] Biber.pm:4256> INFO - Processing section 0
+[151] Utils.pm:75> INFO - Globbing data source 'bib/literatur.bib'
+[151] Utils.pm:91> INFO - Globbed data source 'bib/literatur.bib' to bib/literatur.bib
+[159] Biber.pm:4455> INFO - Looking for bibtex format file 'bib/literatur.bib' for section 0
+[163] bibtex.pm:1653> INFO - LaTeX decoding ...
+[191] bibtex.pm:1471> INFO - Found BibTeX data source 'bib/literatur.bib'
+[289] Utils.pm:293> WARN - I didn't find a database entry for 'zollhofer_state_2018' (section 0)
+[314] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[314] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[314] Biber.pm:4084> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'de-DE'
+[314] Biber.pm:4090> INFO - No sort tailoring available for locale 'de-DE'
+[332] bbl.pm:652> INFO - Writing 'Thesis.bbl' with encoding 'UTF-8'
+[343] bbl.pm:755> INFO - Output to Thesis.bbl
+[343] Biber.pm:128> INFO - WARNINGS: 1

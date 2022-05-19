@@ -99,7 +99,7 @@
       \verb https://docs.baslerweb.com/a2a1920-160ucpro
       \endverb
     \endentry
-    \entry{bajpai_cross-platform_nodate}{article}{}
+    \entry{baj-per}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=6ad6555a5fed5515cead75612a54ef4c}{%
            family={Bajpai},
@@ -122,90 +122,103 @@
       \field{sortinithash}{8de16967003c7207dae369d874f1456e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{This paper introduces a cross-platform low-cost system for 3D object reconstruction using a projection-based laser scanner. It uses contact-free measurement techniques for 3D object reconstruction and fast surface registration using Iterative Closest Point ({ICP}) [1]. The only hardware requirements are a simple hand-held laser line projector, a calibration rig and a standard camera. The camera is initially calibrated using Zhang’s camera calibration method so that its external and internal parameters are known. The visible intersection with the known background is used to ﬁnd the 3D pose of the laser plane. This laser plane is used to triangulate new 3D point coordinates of the object’s surface. The point clouds obtained are processed using the "3DTK - The 3D Toolkit" [2] which includes an automatic high-accurate registration process and a fast 3D viewer.}
-      \field{langid}{english}
+      \field{eventtitle}{3rd IEEE Germany Students Conference 2012 (GSC 2012)}
+      \field{month}{11}
       \field{title}{A Cross-Platform Open Source 3D Object Reconstruction System using a Laser Line Projector}
-      \field{pages}{5}
-      \range{pages}{1}
-      \verb{file}
-      \verb Bajpai and Perelman - A Cross-Platform Open Source 3D Object Reconstruct.pdf:/home/tristan/Zotero/storage/TSNMSXSR/Bajpai and Perelman - A Cross-Platform Open Source 3D Object Reconstruct.pdf:application/pdf
-      \endverb
+      \field{year}{2012}
     \endentry
-    \entry{bart_accuracy_nodate}{article}{}
+    \entry{boeckmans_accuracy_2013}{inproceedings}{}
       \name{author}{3}{}{%
-        {{hash=c7d5363a920c2714638e9535312685da}{%
-           family={Bart},
+        {{hash=f270c0736f42853785754d168ca44ed4}{%
+           family={Boeckmans},
            familyi={B\bibinitperiod},
-           given={Boeckmans},
+           given={Bart},
            giveni={B\bibinitperiod}}}%
-        {{hash=7db8d345e981616feddab13c941f609e}{%
-           family={Frank},
-           familyi={F\bibinitperiod},
-           given={Welkenhuyzen},
-           giveni={W\bibinitperiod}}}%
-        {{hash=197837db005b44235937bb614919dd1c}{%
-           family={Jean-Pierre},
-           familyi={J\bibinithyphendelim P\bibinitperiod},
-           given={Kruth},
-           giveni={K\bibinitperiod}}}%
+        {{hash=b46a7ecc7a9e449d390958ff5d4fa0e2}{%
+           family={Welkenhuyzen},
+           familyi={W\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+        {{hash=20ff922f6e184edb37e98896a89171bf}{%
+           family={Kruth},
+           familyi={K\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
       }
-      \strng{namehash}{ada6c7465db44e3ed9a0a9a7173ac439}
-      \strng{fullhash}{ada6c7465db44e3ed9a0a9a7173ac439}
-      \strng{bibnamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
-      \strng{authorbibnamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
-      \strng{authornamehash}{ada6c7465db44e3ed9a0a9a7173ac439}
-      \strng{authorfullhash}{ada6c7465db44e3ed9a0a9a7173ac439}
+      \strng{namehash}{c4c2640737c38e45b634ff238314eaf4}
+      \strng{fullhash}{c4c2640737c38e45b634ff238314eaf4}
+      \strng{bibnamehash}{c4c2640737c38e45b634ff238314eaf4}
+      \strng{authorbibnamehash}{c4c2640737c38e45b634ff238314eaf4}
+      \strng{authornamehash}{c4c2640737c38e45b634ff238314eaf4}
+      \strng{authorfullhash}{c4c2640737c38e45b634ff238314eaf4}
       \field{sortinit}{B}
       \field{sortinithash}{8de16967003c7207dae369d874f1456e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{This paper presents an accuracy verification test method for laser line scanners on coordinate measuring machines ({CMMs}). Recent evolutions improved laser line scanners to the extent that verification is increasingly important. A sphere beam with optically cooperative spheres is proposed as verification object. The ideal verification object excludes many influencing factors, e.g. specular reflection issues. The scanner sphere probing test describes a method to determine the scanner accuracy, the scanner ball bar test checks the integration of the scanner on the {CMM}. The experimental results show a scanner accuracy of about 8µm (sphere best fit {RMS} value) and a total accuracy below 14µm on a measuring length of 1m.}
-      \field{langid}{english}
+      \field{booktitle}{Laser Metrology and Machine Performance X}
+      \field{eventtitle}{Lamdamap, Date: 2013/03/01 - 2013/03/01, Location: Buckinghamshire, {UK}}
+      \field{month}{3}
       \field{title}{Accuracy verification of a laser line scanner probe}
-      \verb{file}
-      \verb Bart et al. - Accuracy verification of a laser line scanner prob.pdf:/home/tristan/Zotero/storage/J3VZG3KR/Bart et al. - Accuracy verification of a laser line scanner prob.pdf:application/pdf
+      \field{year}{2013}
+      \field{dateera}{ce}
+      \field{pages}{279\bibrangedash 288}
+      \range{pages}{10}
+    \endentry
+    \entry{bouguet}{book}{}
+      \name{author}{1}{}{%
+        {{hash=2084284d3010648735279863dd4ed659}{%
+           family={Bouguet},
+           familyi={B\bibinitperiod},
+           given={Jean-Yves},
+           giveni={J\bibinithyphendelim Y\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {CaltechDATA}%
+      }
+      \strng{namehash}{2084284d3010648735279863dd4ed659}
+      \strng{fullhash}{2084284d3010648735279863dd4ed659}
+      \strng{bibnamehash}{2084284d3010648735279863dd4ed659}
+      \strng{authorbibnamehash}{2084284d3010648735279863dd4ed659}
+      \strng{authornamehash}{2084284d3010648735279863dd4ed659}
+      \strng{authorfullhash}{2084284d3010648735279863dd4ed659}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This is a release of a Camera Calibration Toolbox for Matlab with a complete documentation. This document may also be used as a tutorial on camera calibration since it includes general information about calibration, references and related links.}
+      \field{month}{5}
+      \field{title}{Camera Calibration Toolbox for Matlab}
+      \field{year}{2022}
+      \verb{doi}
+      \verb 10.22002/D1.20164
+      \endverb
+      \verb{urlraw}
+      \verb https://data.caltech.edu/records/20164
+      \endverb
+      \verb{url}
+      \verb https://data.caltech.edu/records/20164
       \endverb
     \endentry
     \entry{pinhole_camera_model}{online}{}
       \field{sortinit}{C}
       \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
       \field{labeltitlesource}{title}
-      \field{abstract}{Camera calibration In our vision task at hand, recovering geometry in the scene, we will employ the pinhole camera model, which is a big simplification of the way images … - Selection from Mastering {OpenCV} 4 - Third Edition [Book]}
       \field{langid}{english}
-      \field{note}{{ISBN}: 9781789533576}
-      \field{title}{Camera calibration - Mastering {OpenCV} 4 - Third Edition [Book]}
+      \field{title}{Camera calibration - Mastering OpenCV}
       \field{titleaddon}{{OREILLY}}
       \field{urlday}{13}
       \field{urlmonth}{5}
       \field{urlyear}{2022}
       \field{urldateera}{ce}
-      \verb{file}
-      \verb Snapshot:/home/tristan/Zotero/storage/XPJ2MHQA/848e4e77-32ec-499d-9945-cb0352e28236.html:text/html
-      \endverb
       \verb{urlraw}
       \verb https://www.oreilly.com/library/view/mastering-opencv-4/9781789533576/848e4e77-32ec-499d-9945-cb0352e28236.xhtml
       \endverb
       \verb{url}
       \verb https://www.oreilly.com/library/view/mastering-opencv-4/9781789533576/848e4e77-32ec-499d-9945-cb0352e28236.xhtml
-      \endverb
-    \endentry
-    \entry{noauthor_camera_nodate}{online}{}
-      \field{sortinit}{C}
-      \field{sortinithash}{4c244ceae61406cdc0cc2ce1cb1ff703}
-      \field{labeltitlesource}{title}
-      \field{title}{Camera Calibration Toolbox for Matlab}
-      \field{urlday}{29}
-      \field{urlmonth}{3}
-      \field{urlyear}{2022}
-      \field{urldateera}{ce}
-      \verb{file}
-      \verb Camera Calibration Toolbox for Matlab:/home/tristan/Zotero/storage/FRQKWFL9/calib_doc.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb http://www.vision.caltech.edu/bouguetj/calib_doc/
-      \endverb
-      \verb{url}
-      \verb http://www.vision.caltech.edu/bouguetj/calib_doc/
       \endverb
     \endentry
     \entry{noauthor_camera_nodate-1}{online}{}
@@ -257,32 +270,18 @@
       \field{issn}{1098-1098}
       \field{journaltitle}{International Journal of Imaging Systems and Technology}
       \field{langid}{english}
-      \field{note}{\_eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1002/ima.1850050102}
       \field{number}{1}
       \field{title}{Simple pinhole camera calibration}
-      \field{urlday}{13}
-      \field{urlmonth}{5}
-      \field{urlyear}{2022}
       \field{volume}{5}
       \field{year}{1994}
       \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{1\bibrangedash 6}
       \range{pages}{6}
       \verb{doi}
       \verb 10.1002/ima.1850050102
       \endverb
-      \verb{file}
-      \verb Full Text PDF:/home/tristan/Zotero/storage/QNBJXDQ7/Dawson-Howe and Vernon - 1994 - Simple pinhole camera calibration.pdf:application/pdf;Snapshot:/home/tristan/Zotero/storage/RKB6W9T4/ima.html:text/html
-      \endverb
-      \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/ima.1850050102
-      \endverb
-      \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/ima.1850050102
-      \endverb
     \endentry
-    \entry{grunnet-jepsen_best-known-methods_nodate}{article}{}
+    \entry{grunnet-jepsen_tuning}{online}{}
       \name{author}{3}{}{%
         {{hash=81e82c706525a3feccc93af8e18804d6}{%
            family={Grunnet-Jepsen},
@@ -310,12 +309,22 @@
       \field{sortinithash}{62eb2aa29549e4fdbd3cb154ec5711cb}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
+      \field{abstract}{Revision 2.0}
       \field{langid}{english}
-      \field{title}{Best-Known-Methods for Tuning Intel® {RealSense}™ D400 Depth Cameras for Best Performance}
-      \field{pages}{10}
-      \range{pages}{1}
+      \field{title}{Tuning depth cameras for best performance}
+      \field{titleaddon}{Intel® {RealSense}™ Developer Documentation}
+      \field{urlday}{19}
+      \field{urlmonth}{5}
+      \field{urlyear}{2022}
+      \field{urldateera}{ce}
       \verb{file}
-      \verb Grunnet-Jepsen et al. - Best-Known-Methods for Tuning Intel® RealSense™ D4.pdf:/home/tristan/Zotero/storage/Z7TYJ45B/Grunnet-Jepsen et al. - Best-Known-Methods for Tuning Intel® RealSense™ D4.pdf:application/pdf
+      \verb Snapshot:/home/tristan/Zotero/storage/Y9FL3NXF/tuning-depth-cameras-for-best-performance.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://dev.intelrealsense.com/docs/tuning-depth-cameras-for-best-performance
+      \endverb
+      \verb{url}
+      \verb https://dev.intelrealsense.com/docs/tuning-depth-cameras-for-best-performance
       \endverb
     \endentry
     \entry{liesen_lineare_2021}{book}{}
@@ -347,84 +356,56 @@
       \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{isbn}{978-3-662-62741-9 978-3-662-62742-6}
       \field{langid}{german}
       \field{shorttitle}{Lineare Algebra}
       \field{title}{Lineare Algebra: Ein Lehrbuch über die Theorie mit Blick auf die Praxis}
-      \field{urlday}{5}
-      \field{urlmonth}{5}
-      \field{urlyear}{2022}
       \field{year}{2021}
       \field{dateera}{ce}
-      \field{urldateera}{ce}
       \verb{doi}
       \verb 10.1007/978-3-662-62742-6
       \endverb
       \verb{file}
       \verb Liesen and Mehrmann - 2021 - Lineare Algebra Ein Lehrbuch über die Theorie mit.pdf:/home/tristan/Zotero/storage/DWJV9RWZ/Liesen and Mehrmann - 2021 - Lineare Algebra Ein Lehrbuch über die Theorie mit.pdf:application/pdf
       \endverb
-      \verb{urlraw}
-      \verb https://link.springer.com/10.1007/978-3-662-62742-6
-      \endverb
-      \verb{url}
-      \verb https://link.springer.com/10.1007/978-3-662-62742-6
-      \endverb
     \endentry
-    \entry{lourenco_intel_2021}{inproceedings}{}
+    \entry{visapp21}{inproceedings}{}
       \name{author}{2}{}{%
-        {{hash=7cbd5d6302f804ea1f41e1843ef69af2}{%
-           family={Lourenço},
+        {{hash=21ab0789e5b5f8fa28988136754f3729}{%
+           family={LourenÇo.},
            familyi={L\bibinitperiod},
            given={Francisco},
            giveni={F\bibinitperiod}}}%
         {{hash=a291bfbded8f0f002c8e5b41b2c90623}{%
-           family={Araujo},
+           family={Araujo.},
            familyi={A\bibinitperiod},
            given={Helder},
            giveni={H\bibinitperiod}}}%
       }
-      \list{location}{1}{%
-        {Online Streaming, --- Select a Country ---}%
+      \list{organization}{1}{%
+        {INSTICC}%
       }
-      \list{publisher}{2}{%
-        {{SCITEPRESS} - Science}%
-        {Technology Publications}%
+      \list{publisher}{1}{%
+        {SciTePress}%
       }
-      \strng{namehash}{9a6972c7c9a31ba434e98a125fda55c4}
-      \strng{fullhash}{9a6972c7c9a31ba434e98a125fda55c4}
-      \strng{bibnamehash}{9a6972c7c9a31ba434e98a125fda55c4}
-      \strng{authorbibnamehash}{9a6972c7c9a31ba434e98a125fda55c4}
-      \strng{authornamehash}{9a6972c7c9a31ba434e98a125fda55c4}
-      \strng{authorfullhash}{9a6972c7c9a31ba434e98a125fda55c4}
+      \strng{namehash}{86e2ca53e7120925a2df58d6957a63a2}
+      \strng{fullhash}{86e2ca53e7120925a2df58d6957a63a2}
+      \strng{bibnamehash}{86e2ca53e7120925a2df58d6957a63a2}
+      \strng{authorbibnamehash}{86e2ca53e7120925a2df58d6957a63a2}
+      \strng{authornamehash}{86e2ca53e7120925a2df58d6957a63a2}
+      \strng{authorfullhash}{86e2ca53e7120925a2df58d6957a63a2}
       \field{sortinit}{L}
       \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{shorttitle}
-      \field{booktitle}{Proceedings of the 16th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications}
-      \field{eventtitle}{16th International Conference on Computer Vision Theory and Applications}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 16th International Joint Conference on Computer Vision, Imaging and Computer Graphics Theory and Applications - Volume 4: VISAPP,}
       \field{isbn}{978-989-758-488-6}
-      \field{langid}{english}
-      \field{shorttitle}{Intel {RealSense} {SR}305, D415 and L515}
-      \field{title}{Intel {RealSense} {SR}305, D415 and L515: Experimental Evaluation and Comparison of Depth Estimation:}
-      \field{urlday}{10}
-      \field{urlmonth}{5}
-      \field{urlyear}{2022}
+      \field{issn}{2184-4321}
+      \field{title}{Intel RealSense SR305, D415 and L515: Experimental Evaluation and Comparison of Depth Estimation}
       \field{year}{2021}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{362\bibrangedash 369}
       \range{pages}{8}
       \verb{doi}
       \verb 10.5220/0010254203620369
-      \endverb
-      \verb{file}
-      \verb Lourenço and Araujo - 2021 - Intel RealSense SR305, D415 and L515 Experimental.pdf:/home/tristan/Zotero/storage/B8R4K3MK/Lourenço and Araujo - 2021 - Intel RealSense SR305, D415 and L515 Experimental.pdf:application/pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://www.scitepress.org/DigitalLibrary/Link.aspx?doi=10.5220/0010254203620369
-      \endverb
-      \verb{url}
-      \verb https://www.scitepress.org/DigitalLibrary/Link.aspx?doi=10.5220/0010254203620369
       \endverb
     \endentry
     \entry{nischwitz_bildverarbeitung_2020}{book}{}
@@ -466,27 +447,13 @@
       \field{sortinithash}{98cf339a479c0454fe09153a08675a15}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
-      \field{isbn}{978-3-658-28704-7 978-3-658-28705-4}
       \field{langid}{german}
       \field{shorttitle}{Bildverarbeitung}
       \field{title}{Bildverarbeitung: Band {II} des Standardwerks Computergrafik und Bildverarbeitung}
-      \field{urlday}{5}
-      \field{urlmonth}{4}
-      \field{urlyear}{2022}
       \field{year}{2020}
       \field{dateera}{ce}
-      \field{urldateera}{ce}
       \verb{doi}
       \verb 10.1007/978-3-658-28705-4
-      \endverb
-      \verb{file}
-      \verb Nischwitz et al. - 2020 - Bildverarbeitung Band II des Standardwerks Comput.pdf:/home/tristan/Zotero/storage/N4G2CKPI/Nischwitz et al. - 2020 - Bildverarbeitung Band II des Standardwerks Comput.pdf:application/pdf
-      \endverb
-      \verb{urlraw}
-      \verb http://link.springer.com/10.1007/978-3-658-28705-4
-      \endverb
-      \verb{url}
-      \verb http://link.springer.com/10.1007/978-3-658-28705-4
       \endverb
     \endentry
     \entry{noauthor_opencv_nodate-1}{online}{}
@@ -546,7 +513,7 @@
       \verb https://docs.opencv.org/4.x/de/d25/imgproc_color_conversions.html#color_convert_rgb_gray
       \endverb
     \endentry
-    \entry{otsu_tlreshold_nodate}{article}{}
+    \entry{otsu_tresh}{article}{}
       \name{author}{1}{}{%
         {{hash=4c9490b4888796e772e507d10bb89b3f}{%
            family={Otsu},
@@ -564,11 +531,15 @@
       \field{sortinithash}{ff8d4eeb5101e3cf3809959b3592d942}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{A nonparametric and unsupervised method of automatic threshold selection for picture segmentation is presented. An optimal threshold is selected by the discriminant criterion, namely, so as to maximize the separability of the resultant classes in gray levels. The procedure is very simple, utilizing only the zeroth- and the first-order cumulative moments of the gray-level histogram. It is t straightforward to extend the method to multithreshold problems.}
-      \field{langid}{english}
-      \field{title}{A Tlreshold Selection Method from Gray-Level Histograms}
-      \verb{file}
-      \verb Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:/home/tristan/Zotero/storage/MKCN88W5/Otsu - A Tlreshold Selection Method from Gray-Level Histo.pdf:application/pdf
+      \field{journaltitle}{IEEE Transactions on Systems, Man, and Cybernetics}
+      \field{number}{1}
+      \field{title}{A Threshold Selection Method from Gray-Level Histograms}
+      \field{volume}{9}
+      \field{year}{1979}
+      \field{pages}{62\bibrangedash 66}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/TSMC.1979.4310076
       \endverb
     \endentry
     \entry{noauthor_prinzip_nodate}{online}{}
@@ -610,7 +581,7 @@
       \verb http://www.rinntech.de/
       \endverb
     \endentry
-    \entry{song_multi-view_2019}{article}{}
+    \entry{song_multi-view_stereo_measurment}{article}{}
       \name{author}{6}{}{%
         {{hash=64d1a4a683c51a92ede4376e626f2e17}{%
            family={Song},
@@ -653,28 +624,15 @@
       \field{sortinithash}{c319cff79d99c853d775f88277d4e45f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{A new solution to the high-quality 3D reverse modeling problem of complex surfaces for fine workpieces is presented using a laser line-scanning sensor. Due to registration errors, measurement errors, deformations, etc., a fast and accurate method is important in machine vision measurement. This paper builds a convenient and economic multi-view stereo ({MVS}) measurement system based on a linear stage and a rotary stage to reconstruct the measured object surface completely and accurately. In the proposed technique, the linear stage is used to generate the trigger signal and synchronize the laser sensor scanning; the rotary stage is used to rotate the object and obtain multi-view point cloud data, and then the multi-view point cloud data are registered and integrated into a 3D model. The measurement results show a measurement accuracy of 0.075 mm for a 360° reconstruction in 34 s, and some evaluation experiments were carried out to demonstrate the validity and practicability of the proposed technique.}
+      \field{abstract}{A new solution to the high-quality 3D reverse modeling problem of complex surfaces for fine workpieces is presented using a laser line-scanning sensor. Due to registration errors, measurement errors, deformations, etc., a fast and accurate method is important in machine vision measurement. This paper builds a convenient and economic multi-view stereo (MVS) measurement system based on a linear stage and a rotary stage to reconstruct the measured object surface completely and accurately. In the proposed technique, the linear stage is used to generate the trigger signal and synchronize the laser sensor scanning; the rotary stage is used to rotate the object and obtain multi-view point cloud data, and then the multi-view point cloud data are registered and integrated into a 3D model. The measurement results show a measurement accuracy of 0.075 mm for a 360&deg; reconstruction in 34 s, and some evaluation experiments were carried out to demonstrate the validity and practicability of the proposed technique.}
       \field{issn}{1424-8220}
       \field{journaltitle}{Sensors}
-      \field{langid}{english}
-      \field{month}{1}
-      \field{note}{Number: 2 Publisher: Multidisciplinary Digital Publishing Institute}
       \field{number}{2}
       \field{title}{A Multi-View Stereo Measurement System Based on a Laser Scanner for Fine Workpieces}
-      \field{urlday}{3}
-      \field{urlmonth}{5}
-      \field{urlyear}{2022}
       \field{volume}{19}
       \field{year}{2019}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
-      \field{pages}{381}
-      \range{pages}{1}
       \verb{doi}
       \verb 10.3390/s19020381
-      \endverb
-      \verb{file}
-      \verb Full Text PDF:/home/tristan/Zotero/storage/GQL7AAYF/Song et al. - 2019 - A Multi-View Stereo Measurement System Based on a .pdf:application/pdf;Snapshot:/home/tristan/Zotero/storage/CL786NUB/htm.html:text/html
       \endverb
       \verb{urlraw}
       \verb https://www.mdpi.com/1424-8220/19/2/381
@@ -682,7 +640,6 @@
       \verb{url}
       \verb https://www.mdpi.com/1424-8220/19/2/381
       \endverb
-      \keyw{calibration,laser sensor,multi-view 3D reconstruction,point clouds,workpiece measurement}
     \endentry
     \entry{zhang_flexible_2000}{article}{}
       \name{author}{1}{}{%
@@ -722,7 +679,7 @@
       \endverb
       \keyw{Cameras,Calibration,Closed-form solution,Computer simulation,Computer vision,Layout,Lenses,Maximum likelihood estimation,Nonlinear distortion,Testing}
     \endentry
-    \entry{zollhofer_state_2018}{article}{}
+    \entry{state_of_art_zoll}{article}{}
       \name{author}{7}{}{%
         {{hash=3d2caa0b4dc1eee50a8a852c5c89bb5d}{%
            family={Zollhöfer},
@@ -770,37 +727,30 @@
       \field{sortinithash}{8f7b480688e809b50b6f6577b16f3db5}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{The advent of aﬀordable consumer grade {RGB}-D cameras has brought about a profound advancement of visual scene reconstruction methods. Both computer graphics and computer vision researchers spend signiﬁcant eﬀort to develop entirely new algorithms to capture comprehensive shape models of static and dynamic scenes with {RGB}-D cameras. This led to signiﬁcant advances of the state of the art along several dimensions. Some methods achieve very high reconstruction detail, despite limited sensor resolution. Others even achieve real-time performance, yet possibly at lower quality. New concepts were developed to capture scenes at larger spatial and temporal extent. Other recent algorithms ﬂank shape reconstruction with concurrent material and lighting estimation, even in general scenes and unconstrained conditions. In this state-of-the-art report, we analyze these recent developments in {RGB}-D scene reconstruction in detail and review essential related work. We explain, compare, and critically analyze the common underlying algorithmic concepts that enabled these recent advancements. Furthermore, we show how algorithms are designed to best exploit the beneﬁts of {RGB}-D data while suppressing their often non-trivial data distortions. In addition, this report identiﬁes and discusses important open research questions and suggests relevant directions for future work.}
-      \field{issn}{01677055}
+      \field{abstract}{Abstract The advent of affordable consumer grade RGB-D cameras has brought about a profound advancement of visual scene reconstruction methods. Both computer graphics and computer vision researchers spend significant effort to develop entirely new algorithms to capture comprehensive shape models of static and dynamic scenes with RGB-D cameras. This led to significant advances of the state of the art along several dimensions. Some methods achieve very high reconstruction detail, despite limited sensor resolution. Others even achieve real-time performance, yet possibly at lower quality. New concepts were developed to capture scenes at larger spatial and temporal extent. Other recent algorithms flank shape reconstruction with concurrent material and lighting estimation, even in general scenes and unconstrained conditions. In this state-of-the-art report, we analyze these recent developments in RGB-D scene reconstruction in detail and review essential related work. We explain, compare, and critically analyze the common underlying algorithmic concepts that enabled these recent advancements. Furthermore, we show how algorithms are designed to best exploit the benefits of RGB-D data while suppressing their often non-trivial data distortions. In addition, this report identifies and discusses important open research questions and suggests relevant directions for future work.}
       \field{journaltitle}{Computer Graphics Forum}
-      \field{langid}{english}
-      \field{month}{5}
       \field{number}{2}
-      \field{shortjournal}{Computer Graphics Forum}
-      \field{title}{State of the Art on 3D Reconstruction with {RGB}-D Cameras}
-      \field{urlday}{2}
-      \field{urlmonth}{3}
-      \field{urlyear}{2022}
+      \field{title}{State of the Art on 3D Reconstruction with RGB-D Cameras}
       \field{volume}{37}
       \field{year}{2018}
-      \field{dateera}{ce}
-      \field{urldateera}{ce}
       \field{pages}{625\bibrangedash 652}
       \range{pages}{28}
       \verb{doi}
-      \verb 10.1111/cgf.13386
+      \verb https://doi.org/10.1111/cgf.13386
       \endverb
-      \verb{file}
-      \verb Zollhöfer et al. - 2018 - State of the Art on 3D Reconstruction with RGB-D C.pdf:/home/tristan/Zotero/storage/JSXIGCQZ/Zollhöfer et al. - 2018 - State of the Art on 3D Reconstruction with RGB-D C.pdf:application/pdf
+      \verb{eprint}
+      \verb https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.13386
       \endverb
       \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/10.1111/cgf.13386
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.13386
       \endverb
       \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/10.1111/cgf.13386
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.13386
       \endverb
+      \keyw{CCS Concepts,•Computing methodologies,…,Reconstruction,Appearance and texture representations,Motion capture}
     \endentry
   \enddatalist
+  \missing{zollhofer_state_2018}
 \endrefsection
 \endinput
 

@@ -5,7 +5,7 @@
 	Um die Vorgänge und die Funktionsweise des Lasertriangulationssensors genau zu verstehen, sollen zuvor einige Grundlagen für den Lösungsansatz erläutert werden. Angefangen wird mit der mathematischen Grundlage, um die internen Berechnungen nachzuvollziehen. Danach wird der Algorithmus besprochen, der zum Finden der Laserlinien-Pixel benutzt wird. Da dabei gewisse Bibliotheken mit Python zum Einsatz gekommen sind, sollen diese im ersten Schritt kurz erwähnt werden.
 	
 	\subsection{Bibliotheken}
-	Der Lasertriangulationssensor wurde vor Allem mit OpenCv und ROS2 entwickelt. OpenCv bietet die perfekte Unterstützung für die benötigte Bildverarbeitung. Diverse Funktionen, um Bilder zu bearbeiten, zur Kamerakalibrierung und zum Errechnen der Ebenengleichung sind in OpenCv implementiert. \newline
+	Der Lasertriangulationssensor wurde vor allem mit OpenCv und ROS2 entwickelt. OpenCv bietet die perfekte Unterstützung für die benötigte Bildverarbeitung. Diverse Funktionen, um Bilder zu bearbeiten, zur Kamerakalibrierung und zum Errechnen der Ebenengleichung sind in OpenCv implementiert. \newline
 	ROS2 kümmert sich um die Automatisierung und den generellen Ablauf eines Scanvorgangs. In dem Forschung- und Entwicklungs-Projekt mit RINNTECH wird zusätzlich auch ROS2 als übergeordnetes System genutzt. Deshalb war ROS2 auch eine Anforderung an das Projekt. Die vorher benutzte RGB-D-Kamera Intel RealSense ist ebenfalls in der Lage über ROS2 angesprochen zu werden. Da der OpenSource-Lasertriangulationssensor diese ersetzten soll, ist die Verwendung von ROS2 ein logischer Schritt. \newline
 	Erwähnenswert  ist ebenfalls die junge Bilbiothek Open3D. Sie wird benötigt, um mit Punktewolken zu arbeiten.
 	
@@ -149,11 +149,11 @@
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.75\linewidth]{img/hauptteil/bildverarbeitung/pixel_values.png}
-		\caption[Pixel-Werte der Laserlinie]{Pixel-Werte in einem Ausschnitt aus \ref{subfig:surface_diff} am Rand der Laserlinie}
+		\caption[Pixel-Werte der Laserlinie]{Pixel-Werte in einem Ausschnitt aus (\ref{subfig:surface_diff}) am Rand der Laserlinie}
 		\label{fig:pix_values}
 	\end{figure} 
 	
-	Die Abbildung zeigt gut die Pixel der Laserlinie unten links. Die verschiedenen Farbbereiche sind stark vertreten, vor allem der Rote. Die Pixel, die kein Teil der Laserlinie sind, besitzen nur sehr schwache Werte in den drei Farbbereichen. Nach einer Regelung muss hier immer noch genau festgelegt werden, welche Pixel für die Laserlinie ausgewählt werden. Die Differenz von den zwei Bildern macht dies allerdings einfacher. Gleichbleibende Stellen zwischen den beiden Bildern wie zum Beispiel sehr helle Stellen oder auch andere rote Stellen sind in dem Differenz-Bild nicht mehr erkennbar. Ohne diesen Schritt wären diese womöglich nicht genau von der Laserlinie zu unterscheiden. \newline
+	Die Abbildung zeigt gut die Pixel der Laserlinie unten links. Die verschiedenen Farbbereiche sind stark vertreten, vor allem der rote Bereich. Die Pixel, die kein Teil der Laserlinie sind, besitzen nur sehr schwache Werte in den drei Farbbereichen. Nach einer Regelung muss hier immer noch genau festgelegt werden, welche Pixel für die Laserlinie ausgewählt werden. Die Differenz von den zwei Bildern macht dies allerdings einfacher. Gleichbleibende Stellen zwischen den beiden Bildern wie zum Beispiel sehr helle Stellen oder auch andere rote Stellen sind in dem Differenz-Bild nicht mehr erkennbar. Ohne diesen Schritt wären diese womöglich nicht genau von der Laserlinie zu unterscheiden. \newline
 	Als zweiter Schritt wird das Bild zu einem Grauwert-Bild konvertiert. Vorteil davon ist, dass nicht mehr der RGB-Wert mit drei eigenen Werten ausschlaggebend ist, sondern nur noch die Intensität, bzw. der Grauwert eines Pixels. Die jeweilige Intensität für einen Pixel berechnet OpenCv nach der folgenden Formel \cite[Vgl.][]{noauthor_opencv_nodate}:
 	\begin{equation}
 	Y = 0.299 \cdot R + 0.587 \cdot G + 0.114 \cdot B
@@ -171,7 +171,7 @@
 	Die Abbildungen (\ref{fig:pix_values}) und (\ref{fig:pix_values_gray}) zeigen auch, dass eine Laserlinie bis zu 4 oder 5 Pixel breit sein kann. Für die Weiterverarbeitung soll sie allerdings nur eine Breite von einem Pixel haben. Dazu wird in jeder Pixel-Zeile in einem Bild nach der höchsten Intensität gesucht. Das ist jedoch nur sinnvoll, wenn die Laserlinie im Bild von oben nach unten geht. Der Laser muss demnach entsprechend zur Kamera angebracht werden. Diese Anforderung kann schon im Aufbau des Sensors beachtet werden. Im Kapitel \ref{chap:grundlegender_aufbau} wurde beschrieben, dass Kamera und Laser zueinander in der gleichen Position bleiben. Demnach kann der Laser entsprechend so angebracht werden, dass er im Kamerabild entsprechend aufgenommen wird.
 	
 	\subsubsection{Gauß-Filter}
-	Die einfachste Methode wäre also jede Zeile nach der höchsten Intensität zu suchen und den betreffenden Pixel auszuwählen. Dieser Pixel befindet sich je nach Aufnahme jedoch nicht genau in der Mitte der Laserlinie. Die erarbeiteten Linien können so sehr \glqq wellig\grqq{} werden, da Pixel untereinander zum Teil stark in ihrer Position in der Zeile abweichen. Den Pixel mit der höchsten Intensität als Ausgangspunkt zu nehmen ist gut, jedoch sollen die umliegenden Pixel einen Einfluss machen können, um die Genauigkeit der Laserlinie zu erhöhen. Dazu wurden zwei Vorgänge entwickelt. \newline
+	Die einfachste Methode wäre also jede Zeile nach der höchsten Intensität zu suchen und den betreffenden Pixel auszuwählen. Dieser Pixel befindet sich je nach Aufnahme jedoch nicht genau in der Mitte der Laserlinie. Die erarbeiteten Linien können so sehr \glqq wellig\grqq{} werden, da Pixel untereinander zum Teil stark von ihrer Position in der Zeile abweichen. Den Pixel mit der höchsten Intensität als Ausgangspunkt zu nehmen ist gut, jedoch sollen die umliegenden Pixel einen Einfluss nehmen können, um die Genauigkeit der Laserlinie zu erhöhen. Dazu wurden zwei Vorgänge entwickelt. \newline
 	Die erste Methode ist es, einen Gauß-Filter über das Grauwert-Bild zu legen. Ein Gauß-Filter ist ein Weichzeichner, der umgangssprachlich ein Bild verwischt oder unscharf macht bzw. das Grauwertbild glättet \citep[vgl.][S. 134ff]{nischwitz_bildverarbeitung_2020}. Der Gauß-Filter wird auf jeden Pixel im Bild angewandt. Dabei ändert er den Wert des ausgewählten Pixels in Abhängigkeit der umliegenden Pixel. In diesem Projekt wird er dabei in einer Reichweite von einem 5x5-Feld definiert. Das bedeutet, dass ausgehend von dem ausgewählten Pixel ein 5x5-Feld betrachtet wird. Der Gauß-Filter ist ein Tiefpassfilter und wirkt damit möglichem Rauschen im Bild entgegen. Wenn ein einzelner Pixel ein hohen Wert aufweist, jedoch alle anderen um diesen herum im Vergleich niedriger sind, wird der Pixel-Wert nach der Filter-Operation niedriger ausfallen. So werden demnach vereinzelte Pixel mit hoher Intensität dunkler gemacht. Bei Gruppen von Pixeln werden die Intensitäten aneinander angepasst.
 	
 	\subsubsection{Das Erstellen von Subpixeln}
@@ -234,7 +234,7 @@
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.7\linewidth]{img/hauptteil/bildverarbeitung/parable_intensities.png}
-		\caption[Parabel für die Intensitäten]{Parabel für die Intensitäten. Die Blauen Punkte kennzeichnen einen Pixel und seine jeweilige Intensität. Die Parabel wird durch den Punkt mit der höchsten Intensität und seine Nachbarn gelegt.}
+		\caption[Angewandte Parabel auf die Intensitäten]{Parabel für die Intensitäten. Die Blauen Punkte kennzeichnen einen Pixel und seine jeweilige Intensität. Die Parabel wird durch den Punkt mit der höchsten Intensität und seine Nachbarn gelegt.}
 		\captionsource{Der gezeigte Ausschnitt stammt aus einer ausgewählten Zeile in Abb. (\ref{subfig:surface_diff})}
 		\label{fig:parable}
 	\end{figure} 

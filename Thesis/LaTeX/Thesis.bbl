@@ -127,6 +127,33 @@
       \field{title}{A Cross-Platform Open Source 3D Object Reconstruction System using a Laser Line Projector}
       \field{year}{2012}
     \endentry
+    \entry{bijman_3d_2017}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=eb9df249f13f443d04d21f12a9e978b0}{%
+           family={{Bijman}},
+           familyi={B\bibinitperiod},
+           given={A.L.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{eb9df249f13f443d04d21f12a9e978b0}
+      \strng{fullhash}{eb9df249f13f443d04d21f12a9e978b0}
+      \strng{bibnamehash}{eb9df249f13f443d04d21f12a9e978b0}
+      \strng{authorbibnamehash}{eb9df249f13f443d04d21f12a9e978b0}
+      \strng{authornamehash}{eb9df249f13f443d04d21f12a9e978b0}
+      \strng{authorfullhash}{eb9df249f13f443d04d21f12a9e978b0}
+      \field{sortinit}{B}
+      \field{sortinithash}{8de16967003c7207dae369d874f1456e}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A low cost 3D laser-line scanner for facial acquisitio}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb http://essay.utwente.nl/72064/
+      \endverb
+      \verb{url}
+      \verb http://essay.utwente.nl/72064/
+      \endverb
+    \endentry
     \entry{boeckmans_accuracy_2013}{inproceedings}{}
       \name{author}{3}{}{%
         {{hash=f270c0736f42853785754d168ca44ed4}{%
@@ -281,6 +308,49 @@
       \verb 10.1002/ima.1850050102
       \endverb
     \endentry
+    \entry{franca_3d_2005}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=26d9fdb4053955c06b1bb60a6d2bc286}{%
+           family={Franca},
+           familyi={F\bibinitperiod},
+           given={J.G.D.M.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=8971f848e040bb21664bc52654b604e7}{%
+           family={Gazziro},
+           familyi={G\bibinitperiod},
+           given={M.A.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=9c69db05f7fe98edffd1e5b83ac4bc9d}{%
+           family={Ide},
+           familyi={I\bibinitperiod},
+           given={A.N.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ed6938707cde1bf2dca643676dcde229}{%
+           family={Saito},
+           familyi={S\bibinitperiod},
+           given={J.H.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{4935a9e8b56c208712f85ef81eec112e}
+      \strng{fullhash}{d595337cfae40fe9582ca1a80a1813fc}
+      \strng{bibnamehash}{4935a9e8b56c208712f85ef81eec112e}
+      \strng{authorbibnamehash}{4935a9e8b56c208712f85ef81eec112e}
+      \strng{authornamehash}{4935a9e8b56c208712f85ef81eec112e}
+      \strng{authorfullhash}{d595337cfae40fe9582ca1a80a1813fc}
+      \field{sortinit}{F}
+      \field{sortinithash}{fb0c0faa89eb6abae8213bf60e6799ea}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE International Conference on Image Processing 2005}
+      \field{title}{A 3D scanning system based on laser triangulation and variable field of view}
+      \field{volume}{1}
+      \field{year}{2005}
+      \field{pages}{I\bibrangedash 425}
+      \range{pages}{425}
+      \verb{doi}
+      \verb 10.1109/ICIP.2005.1529778
+      \endverb
+    \endentry
     \entry{grunnet-jepsen_tuning}{online}{}
       \name{author}{3}{}{%
         {{hash=81e82c706525a3feccc93af8e18804d6}{%
@@ -407,6 +477,42 @@
       \verb{doi}
       \verb 10.5220/0010254203620369
       \endverb
+    \endentry
+    \entry{malhotra_3d_2011}{article}{}
+      \name{author}{3}{}{%
+        {{hash=760f377d104299ae0d1ba6cc312652a2}{%
+           family={Malhotra},
+           familyi={M\bibinitperiod},
+           given={Akash},
+           giveni={A\bibinitperiod}}}%
+        {{hash=635392fc0e121802abb541a790d1ea75}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Kunal},
+           giveni={K\bibinitperiod}}}%
+        {{hash=f7149c86727d35c697f446b53266a0db}{%
+           family={Kant},
+           familyi={K\bibinitperiod},
+           given={Kamal},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Citeseer}%
+      }
+      \strng{namehash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \strng{fullhash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \strng{bibnamehash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \strng{authorbibnamehash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \strng{authornamehash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \strng{authorfullhash}{54fb40b4384ddfd67b4c1ada1ed868e7}
+      \field{sortinit}{M}
+      \field{sortinithash}{2e5c2f51f7fa2d957f3206819bf86dc3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Computer Applications}
+      \field{number}{8}
+      \field{title}{Laser triangulation for 3D profiling of target}
+      \field{volume}{35}
     \endentry
     \entry{nischwitz_bildverarbeitung_2020}{book}{}
       \name{author}{4}{}{%
@@ -641,6 +747,46 @@
       \verb https://www.mdpi.com/1424-8220/19/2/381
       \endverb
     \endentry
+    \entry{david_scanner}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=7d97c22a1a3d4e9203a40abbe7c5c849}{%
+           family={Winkelbach},
+           familyi={W\bibinitperiod},
+           given={Simon},
+           giveni={S\bibinitperiod}}}%
+        {{hash=49311e76b7617436ceecf11e60236397}{%
+           family={Molkenstruck},
+           familyi={M\bibinitperiod},
+           given={Sven},
+           giveni={S\bibinitperiod}}}%
+        {{hash=8b22732ab09bcf68d0aa5f42185f2346}{%
+           family={Wahl},
+           familyi={W\bibinitperiod},
+           given={Friedrich},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \strng{fullhash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \strng{bibnamehash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \strng{authorbibnamehash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \strng{authornamehash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \strng{authorfullhash}{68cdd993a6c1ebe0491e9192c343bb24}
+      \field{sortinit}{W}
+      \field{sortinithash}{1af34bd8c148ffb32de1494636b49713}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-3-540-44412-1}
+      \field{journaltitle}{Pattern Recognition, Dagm Symposium}
+      \field{month}{09}
+      \field{title}{Low-Cost Laser Range Scanner and Fast Surface Registration Approach}
+      \field{volume}{4174}
+      \field{year}{2006}
+      \field{pages}{718\bibrangedash 728}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1007/11861898_72
+      \endverb
+    \endentry
     \entry{zhang_flexible_2000}{article}{}
       \name{author}{1}{}{%
         {{hash=5ee5d3d5470ac29a2e7c8df70ed54725}{%
@@ -750,7 +896,6 @@
       \keyw{CCS Concepts,•Computing methodologies,…,Reconstruction,Appearance and texture representations,Motion capture}
     \endentry
   \enddatalist
-  \missing{zollhofer_state_2018}
 \endrefsection
 \endinput
 

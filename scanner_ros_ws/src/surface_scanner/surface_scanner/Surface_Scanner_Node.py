@@ -27,8 +27,6 @@ from .src_scanner.Scanner import Scanner
 """
 References:
 https://github.com/SebastianGrans/ROS2-Point-Cloud-Demo
-
-
 """
 
 
@@ -199,12 +197,11 @@ class Surface_Scanner_Node(Node):
     def image_pair_callback(self, img_pair):
 
         if img_pair.is_for_laser_calib:
+            # this option is only for debugging purposes
+            # only one line will be transformed to a point cloud
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
-
-            # origin_img = cv.imread("/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser0.png")
-            # laser_img = cv.imread("/home/tristan/Praktikum/scanner_ros_ws/src/surface_scanner/data/images/input/calibration_img_laser1.png")
-
+            
             self.__origin_img = origin_img
             self.__laser_img = laser_img
             self.get_logger().info(f'Recieved image pair to calibrate laser! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')

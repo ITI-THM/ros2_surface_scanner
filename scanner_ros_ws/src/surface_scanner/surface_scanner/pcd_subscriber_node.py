@@ -18,6 +18,9 @@ from sensor_msgs.msg import PointCloud2, PointField
 
 class PCDListener(Node):
 
+    # Only for testing purposes
+    # The common used pcd subscriber is Rviz2
+
     def __init__(self):
         super().__init__('pcd_subscriber_node')
 

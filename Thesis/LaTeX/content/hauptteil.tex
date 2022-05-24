@@ -115,7 +115,7 @@
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.8\linewidth]{img/hauptteil/ext-calib/charuco_convex_hull_primary.png}
-			\caption{Point of Interest im Bild}
+			\caption{Region of Interest im Bild}
 			\label{fig:ext-calib-hull}
 		\end{figure}
 	
@@ -130,9 +130,8 @@
 			\label{fig:ext-calib-cut}
 		\end{figure}
 	
-		Die Achsen des jeweiligen Koordinatensystems sind dabei nur zu Übersicht eingezeichnet und nicht Teil der Bildverarbeitung. Verdeutlicht werden soll jedoch, dass das Weltkoordinatensystem bekannt ist. \newline
-		Die erstellte Maske kann auch auf das Ursprungsbild ohne Laser angewandt werden. Die beiden ausgeschnittenen Bilder werden an den Algorithmus zum Finden der Laserlinie (Kapitel \ref{chap:bildverarbeitung}) weitergegeben. Abb. (\ref{fig:ext-calib-laserlines}) zeigt das Ergebnis des Subtrahierens der Bilder. Zur Übersicht sind wieder die Koordinatenachsen eingetragen. Tatsächlich sind an diesem Punkt als Ergebnis der Bildverarbeitung schon die Subpixel der Laserlinie bekannt. Subpixel sind schwierig in einem Bild darzustellen, deshalb wurde sich für das Zeigen des Zwischenschritts entschieden.
-		\newpage
+		Die Achsen des jeweiligen Koordinatensystems sind dabei nur zu Übersicht eingezeichnet und nicht Teil der Bildverarbeitung. Verdeutlicht werden soll jedoch, dass das Weltkoordinatensystem bekannt ist. 
+		
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[width=0.49\linewidth]{img/hauptteil/ext-calib/laserline_primary.png}
@@ -140,7 +139,10 @@
 			\caption{Herausgearbeitete Laserlinien}
 			\label{fig:ext-calib-laserlines}
 		\end{figure}
-	
+		
+		Die erstellte Maske kann auch auf das Ursprungsbild ohne Laser angewandt werden. Die beiden ausgeschnittenen Bilder werden an den Algorithmus zum Finden der Laserlinie (Kapitel \ref{chap:bildverarbeitung}) weitergegeben. Abb. (\ref{fig:ext-calib-laserlines}) zeigt das Ergebnis des Subtrahierens der Bilder. Zur Übersicht sind wieder die Koordinatenachsen eingetragen. Tatsächlich sind an diesem Punkt als Ergebnis der Bildverarbeitung schon die Subpixel der Laserlinie bekannt. Subpixel sind schwierig in einem Bild darzustellen, deshalb wurde sich für das Zeigen des Zwischenschritts entschieden.
+		\newpage
+		
 		$\underline{Der \; Scale-Factor}$
 		
 		An diesem Punkt kommt es zum Einsatz der Formel (\ref{eq:basic_trans}) für die 3D-Weltkoordinaten. Wie in den Kapitel \ref{chap:transformationen} angemerkt, ist der Scale-Factor noch eine Unbekannte, die gefunden werden muss. Ohne sie wäre die Gleichung noch nicht lösbar. Dieses Problem kann wie folgt umgangen werden. Das Weltkoordinatensystem wird auf das ChArUco-Board gelegt. Die Laserlinie liegt ebenfalls genau auf dem Board. Das bedeutet, dass die Z-Koordinate der Laserlinien-Punkte 0 ist. Zu sehen ist das auch in Abb. (\ref{fig:ext-calib-laserlines}). Die Laserlinie liegt in der XY-Ebene. Die Z-Koordinaten der Weltkoordinatenpunkte müssen 0 sein. Mit dem Ausgangspunkt von Gleichung (\ref{eq:pixel_zu_welt}) folgt daraus diese Umstellung:

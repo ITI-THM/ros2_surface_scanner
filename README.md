@@ -1,6 +1,6 @@
-# Entwicklung eines Lasertriangulationssensors zur Oberflächenrekonstruktion mit ROS2
+# A lasertriangulation  sensor with ROS2
 
-**Autor:** Tristan Elias Wolfram
+**Author:** Tristan Elias Wolfram
 
-Im Rahmen der Bachelor-Thesis wurde ein Lasertriangulationssensor entwickelt. Die Thesis wurde am Institut für Technik und Informatik an der Technischen Hochschule Mittelhessen durchgeführt.
-In diesem Repository sollen die Pakete, die die Softwares des Sensors beinhalten vorgestellt werden
+This Repository introduces the sofware packages for a laser triangulation sensor. Thhes sensor is used to rekonstruct surfaces of wood slices.  
+

@@ -1,3 +1,0 @@
-bool is_for_laser_calib
-sensor_msgs/Image origin_img
-sensor_msgs/Image laser_img

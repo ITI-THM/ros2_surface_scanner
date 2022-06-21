@@ -1,4 +1,4 @@
-# A lasertriangulation  sensor with ROS2
+# A laser triangulation  sensor with ROS2
 
 **Author:** Tristan Elias Wolfram
 

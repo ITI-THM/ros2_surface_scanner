@@ -11,4 +11,4 @@ Here some example scans:
 <img src="doc_imgs/scan_img_2.png" alt="scan2" width="240" height="160">
 </p>
 
-For more information about running and installation see [scanner_ros_ws/readme.md](scanner_ros_ws/README.md) 
+For more information about running and installation see [scanner_ros_ws](scanner_ros_ws) 

@@ -4,7 +4,6 @@ import rclpy
 from rclpy.node import Node
 
 from interfaces.msg import ScannerStatus
-from interfaces.srv import CalibrateLaserImport
 
 from std_srvs.srv import Trigger
 
@@ -56,10 +55,10 @@ class Calibration_Client_Import(Node):
 
     def __init__(self):
         super().__init__('calibration_import_node')
-        self.client = self.create_client(CalibrateLaserImport, 'calibrate_with_import')
+        self.client = self.create_client(Trigger, 'calibrate_with_import')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
-        self.request = CalibrateLaserImport.Request()
+        self.request = Trigger.Request()
 
     def send_request(self):
         self.request.file = sys.argv[1]

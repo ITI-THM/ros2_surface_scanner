@@ -13,7 +13,6 @@ from std_srvs.srv import Trigger
 from std_msgs.msg import String
 from interfaces.msg import ImagePair, ScannerStatus
 from interfaces.msg import CameraCalibrationImgs
-from interfaces.srv import CalibrateLaserImport
 
 from cv_bridge import CvBridge
 
@@ -46,7 +45,7 @@ class Surface_Scanner_Node(Node):
 
         # SERVICE: calibrate laser with import of camera params
         self.calibrate_laser_with_import_srv = self.create_service(
-            CalibrateLaserImport, 
+            Trigger, 
             'calibrate_with_import', 
             self.calibrate_with_import_srv_callback
         )

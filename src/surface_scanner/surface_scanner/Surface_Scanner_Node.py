@@ -13,6 +13,7 @@ from std_srvs.srv import Trigger
 from std_msgs.msg import String
 from interfaces.msg import ImagePair, ScannerStatus
 from interfaces.msg import CameraCalibrationImgs
+from interfaces.srv import CalibrateLaserImport
 
 from cv_bridge import CvBridge
 
@@ -45,7 +46,7 @@ class Surface_Scanner_Node(Node):
 
         # SERVICE: calibrate laser with import of camera params
         self.calibrate_laser_with_import_srv = self.create_service(
-            Trigger, 
+            CalibrateLaserImport, 
             'calibrate_with_import', 
             self.calibrate_with_import_srv_callback
         )
@@ -251,7 +252,7 @@ class Surface_Scanner_Node(Node):
         self.__scanner_status = status_msg.is_scanner_active
         if status_msg.is_scanner_active == False:
             pcd = self.scanner.get_point_cloud()
-            o3d.io.write_point_cloud("./src/surface_scanner/out/surface_reconstructed/surface.ply", pcd)
+            o3d.io.write_point_cloud("./ros2_surface_scanner/src/surface_scanner/out/surface_reconstructed/surface.ply", pcd)
             self.scanner.reset_pcd()
 
     def refresh_img_pair_fields(self):

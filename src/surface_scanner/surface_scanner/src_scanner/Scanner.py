@@ -6,8 +6,6 @@ from .Camera import Camera
 from .Laser import Laser, bild2world, world2cam
 from .Laser_Line import LaserLine
 
-import matplotlib.pyplot as plt
-
 
 class Scanner:
 
@@ -79,7 +77,7 @@ class Scanner:
             surface_pcd.points = o3d.utility.Vector3dVector(surface_koords.T)
             surface_pcd.colors = o3d.utility.Vector3dVector(point_colors)
 
-            o3d.io.write_point_cloud("./src/surface_scanner/out/single_lines/surface_line.ply",surface_pcd)
+            o3d.io.write_point_cloud("./ros2_surface_scanner/src/surface_scanner/out/single_lines/surface_line.ply",surface_pcd)
         else:
             # part of the scan-process. A point cloud will be created out of the image pair. The point cloud is added to the 
             # to the whole point cloud that represents the surface
@@ -159,56 +157,6 @@ class Scanner:
         else:
             print("WARNING: Point cloud is empty!")
 
-    def __generate_plot(self, surface_points):
-
-        '''
-        Only for debugging purposes
-        '''
-
-        # 3D Bild ausgeben
-        plt.figure(figsize=(10, 10))
-        plt.subplot(111, projection='3d')
-        ax = plt.gca()
-        ax.set_xlabel('X-Achse', fontsize='large', fontweight='bold')
-        ax.set_ylabel('Y-Achse', fontsize='large', fontweight='bold')
-        ax.set_zlabel('Z-Achse', fontsize='large', fontweight='bold')
-        plt.title('Laserlinien', fontsize='xx-large', fontweight='bold')
-
-        points = self.__laser.get_plane_points()
-        lines_in_cam_coord = world2cam(
-            pts=points,
-            rot_matrix=self.__laser.get_up().get_rot_matrix(),
-            trans_vec=self.__laser.get_up().get_tvec()
-        )
-
-        plt.plot(lines_in_cam_coord[0, :], lines_in_cam_coord[1, :], lines_in_cam_coord[2, :],
-                 '.', label='Laser', c='red')
-
-        # plt.plot(surface_points[0, :], surface_points[1, :], surface_points[2, :],
-        #          '.', label='Surface')
-
-        # plane = self.__laser.get_plane_eq()
-        # x, y = np.meshgrid(range(-100, 101), range(-100, 101))
-        # z = ((-1 * plane[3]) - (plane[0] * x) - (plane[1] * y)) / plane[2]
-
-        # plot the plane
-        # ax.plot_surface(x, y, z, alpha=0.5)
-
-        ax.set_xlim3d(0, 0.15)
-        ax.set_ylim3d(0, 0.15)
-        ax.set_zlim3d(0, 0.4)
-
-        # rotate the axes and update.
-        ax.view_init(165, 35)
-
-        # pcd_laser = o3d.geometry.PointCloud()
-        # pcd_laser.points = o3d.utility.Vector3dVector(lines_in_cam_coord.T)
-        # pcd_laser.paint_uniform_color([1, 0, 0])
-        # o3d.io.write_point_cloud("./src/surface_scanner/out/plots/laserlines.ply", pcd_laser)
-
-        plt.legend()
-        plt.savefig('./src/surface_scanner/out/plots/laserlines.png')
-
     def __calibrate_laser(self,
                           calibration_img,
                           calibration_img_with_laser):
@@ -232,8 +180,8 @@ class Scanner:
 
         # generate output images
         #--------------------------------------------------------------------------------------        
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_board.png', charuco_board)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_board_laser.png', charuco_board_laser)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_board.png', charuco_board)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_board_laser.png', charuco_board_laser)
         #--------------------------------------------------------------------------------------  
 
         # Create parameter for detecting the boards
@@ -277,24 +225,24 @@ class Scanner:
         aruco.drawAxis(charuco_drawn_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         charuco_drawn_secondary = charuco_board.copy()
         aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
 
         charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
         copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
         laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
         aruco.drawAxis(laserline_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/laserline_primary.png', laserline_primary)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_primary.png', laserline_primary)
 
         charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
         copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
         laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
         laserline_together = laserline_primary + laserline_secondary
         aruco.drawAxis(laserline_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
-        cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/laserline_together.png', laserline_together)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
+        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_together.png', laserline_together)
         #--------------------------------------------------------------------------------------------------------------------------------------------
 
         # fill in laser-line parameter in laser
@@ -321,8 +269,6 @@ class Scanner:
         # print("INFO: 'down' ready!")
 
         self.__laser.make_plane_eq(camera_matrix=self.__camera.get_cam_mtx())
-
-        self.__generate_plot(surface_points=self.__laser.get_plane_points())
 
         plane_eq = self.__laser.get_plane_eq()
         print(f"INFO: Laser-plane calibrated with equation: \n '{plane_eq[0]} * X  +  {plane_eq[1]} * Y  + { plane_eq[2]} * Z  =  {plane_eq[3]}'!")
@@ -356,9 +302,9 @@ class Scanner:
                 aruco.drawDetectedCornersCharuco(charuco_drawn, charuco_corners , charuco_ids ,(0, 255, 0))
                 
                 if primary:
-                    cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_primary.png', charuco_drawn)
+                    cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_primary.png', charuco_drawn)
                 else:
-                    cv.imwrite('./src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_secondary.png', charuco_drawn)
+                    cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_secondary.png', charuco_drawn)
                 #-----------------------------------------------------------------------------------------------
 
 

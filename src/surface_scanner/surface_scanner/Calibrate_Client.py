@@ -4,6 +4,7 @@ import rclpy
 from rclpy.node import Node
 
 from interfaces.msg import ScannerStatus
+from interfaces.srv import CalibrateLaserImport
 
 from std_srvs.srv import Trigger
 
@@ -55,10 +56,10 @@ class Calibration_Client_Import(Node):
 
     def __init__(self):
         super().__init__('calibration_import_node')
-        self.client = self.create_client(Trigger, 'calibrate_with_import')
+        self.client = self.create_client(CalibrateLaserImport, 'calibrate_with_import')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
-        self.request = Trigger.Request()
+        self.request = CalibrateLaserImport.Request()
 
     def send_request(self):
         self.request.file = sys.argv[1]
@@ -187,11 +188,12 @@ def trigger_take_img_pair_function(args=None):
 
     trigger_client = Trigger_Take_Img_Pair()
 
-    SERIAL_CONNECTION = Serial_Connection()
-    trigger_client.get_logger().info("Established serial connection!")
+    # only usable with the original test set-up
+    # SERIAL_CONNECTION = Serial_Connection()
+    # trigger_client.get_logger().info("Established serial connection!")
 
-    SERIAL_CONNECTION.mm_step(mm=150)
-    time.sleep(20)
+    # SERIAL_CONNECTION.mm_step(mm=150)
+    # time.sleep(20)
 
     trigger_client.send_request()
 
@@ -210,8 +212,9 @@ def trigger_take_img_pair_function(args=None):
                 trigger_client.get_logger().info(
                     f'Recieved message: \n ||{response.message}||'
                 )
-                SERIAL_CONNECTION.home()
-                time.sleep(20)
+                # only usable with the original test set-up
+                # SERIAL_CONNECTION.home()
+                # time.sleep(20)
             break
 
     # Destroy the node explicitly

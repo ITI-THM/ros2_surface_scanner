@@ -29,6 +29,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ScannerStatus.msg"
   "msg/ImagePair.msg"
   "msg/CameraCalibrationImgs.msg"
+  "srv/CalibrateLaserImport.srv"
   DEPENDENCIES sensor_msgs
  )
 

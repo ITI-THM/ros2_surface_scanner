@@ -117,6 +117,7 @@ class Camera_Node(Node):
 
         images = []
 
+        #TODO fix path
         for name in image_names:
             img = cv.imread(f'/home/tristan/Praktikum/calib_imgs/{name}')
             img = self.bridge.cv2_to_imgmsg(img)

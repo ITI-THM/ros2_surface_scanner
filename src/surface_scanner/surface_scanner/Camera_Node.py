@@ -110,6 +110,9 @@ class Camera_Node(Node):
 
     def send_cam_calib_imgs(self, request, response):
         
+        # Functionality for manually capturing 10 different images is not yet implemented!
+        # Therefor the images will be send to te scanner_node out of a special directory.
+
         image_names = []
 
         for i in range(0, 10):
@@ -119,7 +122,7 @@ class Camera_Node(Node):
 
         #TODO fix path
         for name in image_names:
-            img = cv.imread(f'/home/tristan/Praktikum/calib_imgs/{name}')
+            img = cv.imread(f'./ros2_surface_scanner/src/surface_scanner/intr_calib_imgs/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 

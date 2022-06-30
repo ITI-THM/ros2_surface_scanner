@@ -1,5 +1,42 @@
 # The surface_scanner package
 
+## 	Requirements
+* The sysmtem ist tested under Ubuntu 20.04 4 LTS.
+* A Basler a2A1920-160ucPRO is used as camera (*with the current code it should be possible to use any other Basler camera*).
+* The used ROS version is [**ROS2 Galactic**](https://docs.ros.org/en/galactic/index.html).
+* Used Python packages are:
+  * [Numpy](https://numpy.org/),
+  * [OpenCv](https://opencv.org/),
+  * [Open3D](http://www.open3d.org/),
+  * [Pypylon](https://github.com/basler/pypylon) (driver for Basler cameras).
+* The test-setup consist of:
+  * Arduino with CNC-Shield to use GRBL,
+  * linear slide from a 3D-printer,
+  * Python libary [serial](https://pyserial.readthedocs.io/en/latest/shortintro.html).
+
+## Installation
+
+Go to your ROS workspace an clone the repository.
+```
+git clone ...
+```
+Use **colcon** to build the package:
+```
+colcon build
+```
+To use the ROS2-nodes you have to source your current worspace from inside the workspace directory:
+```
+. install/setup.bash
+```
+
+## Usage
+### Start the Scanner
+To launch the whole surface scanner use the launch-file:
+```
+ros2 launch ros2_surface_scanner/launch/surface_scanner_launch.py
+```
+This will start three nodes, the **surface_scanner_node**, **camera_node** and **rviz2**.
+
 ## Nodes
 ### surface_scanner_node
 Responsible for all calculations. Stores all data.
@@ -55,18 +92,11 @@ Used as point cloud subscriber
 
 <img src="../doc_imgs/ROS2_Nodes.jpg" alt="ros2_nodes" height="900">
 
-## Usage
-### Start the Scanner
-To launch the whole surface scanner use the launch-file:
-```
-ros2 launch ros2_surface_scanner/launch/surface_scanner_launch.py
-```
-This will start three nodes, the **surface_scanner_node**, **camera_node** and **rviz2**.
-
-### Calibration
-Now you have to calibrate the scanner. The calibration consists of an **intrinsic** and an **extrinsic** calibration. For the intrinsic calibration, a chessboard must be recorded from 10 different positions. For the extrinsic one, the special calibration board with the ChArUco board must be placed under the sensor. 
+## Calibration
 
 >The following functions will start a client that calls a defined service.
+
+Now you have to calibrate the scanner. The calibration consists of an **intrinsic** and an **extrinsic** calibration. For the intrinsic calibration, a chessboard must be recorded from 10 different positions. For the extrinsic one, the special calibration board with the ChArUco board must be placed under the sensor. 
 
 ```
 ros2 run surface_scanner intr_calib_imgs
@@ -75,14 +105,16 @@ ros2 run surface_scanner intr_calib_imgs
 This function is used to take the intrinsic calibration images.
 >However, the functionality for manually capturing 10 different images is not yet implemented.
 
-Therefor you have to take the 10 images with your camera by yourself. You have to put these 10 images in the following Directory: **Ordner**.
+Therefor you have to take the 10 images with your camera by yourself. You have to put these 10 images in the following Directory: [ros2_surface_scanner/src/surface_scanner/intr_calib_imgs](ros2_surface_scanner/src/surface_scanner/intr_calib_imgs). Additionally the images must be named **calibration_img_<0-9>.png**.
+
+*If .png is the wrong file type for you, you have to chance it manually in the code. You can find the thisd code segment in the **Camera_Node** under **send_cam_calib_imgs**.*
+
 The images shoud be look like this:
 <p float="left">
 <img src="../doc_imgs/calibration_img_0.png" alt="scan0" width="270" height="180">
 <img src="../doc_imgs/calibration_img_1.png" alt="scan1" width="270" height="180">
 <img src="../doc_imgs/calibration_img_2.png" alt="scan2" width="270" height="180">
 </p>
-
 
 ```
 ros2 run surface_scanner extr_calib_imgs
@@ -95,22 +127,24 @@ This function is used to take the extrinsic calibration images. You have to take
 </p>
 
 
-Now it is possible to calibrate the whole scanner by typing the follwinf function into your terminal:
+Now it is possible to calibrate the whole scanner by typing the following function into your terminal:
 ```
 ros2 run surface_scanner calibrate
 ```
+If the calibration succeded you will find the results in the [out](ros2_surface_scanner/src/surface_scanner/out)-directory. The Scanner_Node will also send a point cloud of the calculated laser plane to rviz2. The used topic for that is *laser_plane*.
 
+For the intrinsic calibration an .npz-file should be created. You can use this file to import the camera data when you start the scanner another time. So you don't have to do an intrinsisc calibration every time. Just use this calibration method:
 ```
 ros2 run surface_scanner calibrate_with_import <path to camera parameters>
 ```
 
-
-### Use the Scanner
+## Use the Scanner
+When the scanner is calibrated you can use it to reconstruct surfaces. A method that is always possible after calibration is to acquire one surface line with the following function. You will find the created pointcloud in the out-directory.
 ```
 ros2 run surface_scanner surface_line
 ```
-#### Test Set-Up
-
+### Test Set-Up
+To reconstruct the whole surface the test setup is necessary. When you use this command, the object is moved under the scanner in mm steps.
 ```
 ros2 run surface_scanner start_scan
 ```

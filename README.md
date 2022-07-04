@@ -11,7 +11,7 @@ Here some [example scans](scans) produced by the sensor:
 <img src="doc_imgs/scan_img_2.png" alt="scan2" width="270" height="180">
 </p>
 
-📖 The scanner was developed as part of a Bachelor's thesis at the ___Institut für Technik und Informatik___ at ___Technische Hochschule Mittelhessen___ in Germany. You can find the thesis [here](thesis).
+📖 The scanner was developed as part of a Bachelor's thesis at the ___Institut für Technik und Informatik (ITI)___ at ___University of Applied Sciences Mittelhessen___ in Germany. You can find the thesis [here](thesis).
 
 # The surface_scanner package
 
@@ -48,7 +48,7 @@ To use the ROS2-nodes you have to source your current worspace from inside the w
 ### Start the Scanner
 To launch the whole surface scanner use the launch-file:
 ```
-ros2 launch ros2_surface_scanner/launch/surface_scanner_launch.py
+ros2 launch surface_scanner surface_scanner.launch.py
 ```
 This will start three nodes, the **surface_scanner_node**, **camera_node** and **rviz2**.
 
@@ -56,55 +56,56 @@ This will start three nodes, the **surface_scanner_node**, **camera_node** and *
 ### surface_scanner_node
 Responsible for all calculations. Stores all data.
 #### Subscribed Topics
-* **`/CameraCalibrationImgs`**
+* **`/CameraCalibrationImgs`** ([interfaces/msg/CameraCalibrationImgs](interfaces/msg/CameraCalibrationImgs.msg))
 
     List of 10 images for intrinsic calibration.
-* **`/ImagePair`**
+* **`/ImagePair`** ([interfaces/msg/ImagePair](interfaces/msg/ImagePair.msg))
 
     Two images for extrinsic calibration or to reconstruct surface line.
-* **`/ScannerStatus`**
+* **`/ScannerStatus`** ([interfaces/msg/ScannerStatus](interfaces/msg/ScannerStatus.msg))
 
     Boolean flag that shows the scanner status (is scanning, is not scanning)
 #### Published Topics
-* **`/pointcloud`** ([sensor_msgs/PointCloud2])
+* **`/pointcloud`** ([sensor_msgs/PointCloud2](http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html))
 
     The resulting pointcloud.
 #### Services
-* **`calibrate_scanner`**
+* **`calibrate_scanner`** ([std_srvs/Trigger](http://docs.ros.org/en/api/std_srvs/html/srv/Trigger.html))
 
     Calibrates the scanner. Only usable if the scanner has recieved the calibration (intrinsic and extrinsic) images. Calibration result can be checked via Rviz2.
-* **`calibrate_with_import`**
+* **`calibrate_with_import`** ([interfaces/srv/CalibrateLaserImport](interfaces/srv/CalibrateLaserImport.srv))
 
     Calibrates the scanner by importing the camera data. Only usable if the scanner has recieved the extrinsic calibration images. Path to the intrisic camera data as **.npz**-file is required. Calibration result can be checked via Rviz2.
 
 ### camera_node
 The optical sensor of the triangolation sensor. Takes images for calibration and to reconstruct the surface. The pictures will be send to the surface_scanner_node via special topics.
 #### Published Topics
-* **`/CameraCalibrationImgs`**
+* **`/CameraCalibrationImgs`** ([interfaces/msg/CameraCalibrationImgs](interfaces/msg/CameraCalibrationImgs.msg))
 
     Images for intrinsic calibration.
-* **`/ImagePair`**
+* **`/ImagePair`** ([interfaces/msg/ImagePair](interfaces/msg/ImagePair.msg))
 
     Two images for extrinsic calibration or to reconstruct surface line.
 #### Services
-* **`send_cam_calib_imgs`**
+* **`send_cam_calib_imgs`** ([std_srvs/Trigger](http://docs.ros.org/en/api/std_srvs/html/srv/Trigger.html))
 
     Used to take 10 images for intrinsic camera calibration. The image list will be published via **/CameraCalibrationImgs**-Topic.
-* **`send_laser_calib_imgs`**
+* **`send_laser_calib_imgs`** ([std_srvs/Trigger](http://docs.ros.org/en/api/std_srvs/html/srv/Trigger.html))
 
     Used to take an image pair of the special calibration board. The image pair will be published via **/ImagePair**-Topic.
 
-* **`send_img_pair_surface`**
+* **`send_img_pair_surface`** ([std_srvs/Trigger](http://docs.ros.org/en/api/std_srvs/html/srv/Trigger.html))
 
     Used to take an image pair of the surface. The image pair will be published via **/ImagePair**-Topic.
 
 ### rviz2
 Used as point cloud subscriber
 #### Subscribed Topics
-* **`/pointcloud`** ([sensor_msgs/PointCloud2])
+* **`/pointcloud`** ([sensor_msgs/PointCloud2](http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html))
 
     [Rviz2](http://wiki.ros.org/rviz) shows the resulting pointcloud. Here you can review the results of the ongoing scan.
 
+## Overview
 <img src="doc_imgs/ROS2_Nodes.jpg" alt="ros2_nodes" height="900">
 
 ## Calibration

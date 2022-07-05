@@ -1,5 +1,12 @@
 # A laser triangulation  sensor with ROS2
 
+![](https://img.shields.io/badge/Ros2-Galactic-blue?style=plastic&logo=ros)
+![](https://img.shields.io/badge/Ubuntu-20.04_LTS-orange?style=plastic&logo=ubuntu)
+![](https://img.shields.io/badge/Python-3.8-darkgreen?style=plastic&logo=python)
+![](https://img.shields.io/badge/OpenCv-4.5.5-lightblue?style=plastic&logo=opencv)
+![](https://img.shields.io/badge/Open3D-0.13.0-red?style=plastic)
+___
+
 **Author:** Tristan Elias Wolfram
 
 This Repository introduces sofware packages for a laser triangulation sensor. The sensor is used to reconstruct surfaces of wood slices.  
@@ -16,7 +23,7 @@ Here some [example scans](scans) produced by the sensor:
 # The surface_scanner package
 
 ## 	⚙️ Requirements
-* The sysmtem ist tested under Ubuntu 20.04 4 LTS.
+* The system ist tested under Ubuntu 20.04 4 LTS.
 * A Basler a2A1920-160ucPRO is used as camera (*with the current code it should be possible to use any other Basler camera*).
 * The used ROS version is [**ROS2 Galactic**](https://docs.ros.org/en/galactic/index.html).
 * Used Python packages are:
@@ -31,9 +38,9 @@ Here some [example scans](scans) produced by the sensor:
 
 ## Installation
 
-Go to your ROS workspace an clone the repository.
+Go to your **ROS workspace** in the **src**-directory and clone the repository.
 ```
-git clone ...
+git clone https://github.com/TristanWolfram/ros2_surface_scanner.git
 ```
 Use **colcon** to build the package:
 ```

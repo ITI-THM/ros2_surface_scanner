@@ -11,7 +11,7 @@ import std_msgs.msg as std_msgs
 from std_srvs.srv import Trigger
 
 from std_msgs.msg import String
-from interfaces.msg import ImagePair, ScannerStatus
+from interfaces.msg import ImagePair
 from interfaces.msg import CameraCalibrationImgs
 from interfaces.srv import CalibrateLaserImport
 
@@ -81,14 +81,6 @@ class Surface_Scanner_Node(Node):
             10
         )
 
-        # SUBSCRIBER: recieves scanner_status
-        self.scan_status_sub = self.create_subscription(
-            ScannerStatus,
-            'scanner_status',
-            self.scanner_status_callback,
-            10
-        )
-
         # Make scanner object
         self.scanner = Scanner()
 
@@ -97,7 +89,7 @@ class Surface_Scanner_Node(Node):
         self.__laser_img = None
         self.__calib_imgs = None
 
-        self.__scanner_status: bool = False
+        # self.__scanner_status: bool = False
 
         # self.scanner.display_pcd(with_laser=True)
 
@@ -197,8 +189,6 @@ class Surface_Scanner_Node(Node):
     def image_pair_callback(self, img_pair):
 
         if img_pair.is_for_laser_calib:
-            # this option is only for debugging purposes
-            # only one line will be transformed to a point cloud
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
             
@@ -209,36 +199,24 @@ class Surface_Scanner_Node(Node):
             origin_img = self.cv_bridge.imgmsg_to_cv2(img_pair.origin_img)
             laser_img = self.cv_bridge.imgmsg_to_cv2(img_pair.laser_img)
 
-            if self.__scanner_status:
-
-                if self.scanner.is_scanner_calibrated():
-                    self.get_logger().info(f'Recieved image pair to generate surface point cloud! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
-                    
-                    self.scanner.generate_pcd(
-                        surface_img=origin_img,
-                        surface_img_laser=laser_img,
-                        single_line=False
-                    )
-
-                    points = np.asarray(self.scanner.get_point_cloud().points)
-                    colors = np.asarray(self.scanner.get_point_cloud().colors)
-
-                    pcd = point_cloud(points, colors, 'map')
-                    self.pcd_publisher.publish(pcd)
-
-                    self.get_logger().info(
-                        f"Publish generated point cloud: ' {self.scanner.get_point_cloud()}'")
-                else:
-                    self.get_logger().warning("Scanner is not calibrated!")
-
-            else:
+            if self.scanner.is_scanner_calibrated():
+                self.get_logger().info(f'Recieved image pair to generate surface point cloud! \n Shape: \n origin_img: {origin_img.shape} \n laser_img: {laser_img.shape}')
                 
-                if self.scanner.is_scanner_calibrated():
-                    self.scanner.generate_pcd(
-                        surface_img=origin_img,
-                        surface_img_laser=laser_img,
-                        single_line=True
-                    )
+                self.scanner.generate_pcd(
+                    surface_img=origin_img,
+                    surface_img_laser=laser_img,
+                )
+
+                points = np.asarray(self.scanner.get_point_cloud().points)
+                colors = np.asarray(self.scanner.get_point_cloud().colors)
+
+                pcd = point_cloud(points, colors, 'map')
+                self.pcd_publisher.publish(pcd)
+
+                self.get_logger().info(
+                    f"Publish generated point cloud: ' {self.scanner.get_point_cloud()}'")
+            else:
+                self.get_logger().warning("Scanner is not calibrated!")
 
     def cam_calib_imgs_callback(self, imgs):
         self.__calib_imgs = []
@@ -246,14 +224,6 @@ class Surface_Scanner_Node(Node):
             self.__calib_imgs.append(self.cv_bridge.imgmsg_to_cv2(imgs.imgs[index]))
         print(self.__calib_imgs[0].shape)
         self.get_logger().info(f"Recieved list with {len(self.__calib_imgs)} images for intrinsic camera calibration!")
-
-    def scanner_status_callback(self, status_msg):
-        self.get_logger().info(f"Updated status 'scanning' to {status_msg.is_scanner_active}")
-        self.__scanner_status = status_msg.is_scanner_active
-        if status_msg.is_scanner_active == False:
-            pcd = self.scanner.get_point_cloud()
-            o3d.io.write_point_cloud("./ros2_surface_scanner/src/surface_scanner/out/surface_reconstructed/surface.ply", pcd)
-            self.scanner.reset_pcd()
 
     def refresh_img_pair_fields(self):
         self.__origin_img = None

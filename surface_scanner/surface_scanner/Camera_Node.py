@@ -120,9 +120,8 @@ class Camera_Node(Node):
 
         images = []
 
-        #TODO fix path
         for name in image_names:
-            img = cv.imread(f'./ros2_surface_scanner/src/surface_scanner/intr_calib_imgs/{name}')
+            img = cv.imread(f'./ros2_surface_scanner/surface_scanner/intr_calib_imgs/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 

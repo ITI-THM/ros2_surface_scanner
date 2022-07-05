@@ -19,11 +19,8 @@ class Scanner:
 
         self.__camera: Camera = Camera()
         self.__laser: Laser = Laser()
-        self.__surface: o3d.geometry.PointCloud = o3d.geometry.PointCloud()
-        self.__surface_points = np.empty((3, 0))
-        self.__surface_colors = np.empty((0, 3))
+        self.__current_surface: o3d.geometry.PointCloud = o3d.geometry.PointCloud()
         self.__calibrated: bool = False
-        self.__x_step: int = 0
 
     def calibrate_scanner(self,
                           pictures,
@@ -41,7 +38,6 @@ class Scanner:
                                calibration_img_with_laser=calibration_img_laser)
         
         self.__calibrated = control_flag
-        self.__x_step = 0
 
     def calibrate_scanner_with_import(self,
                                       src: str,
@@ -57,45 +53,21 @@ class Scanner:
                                calibration_img_with_laser=calibration_img_laser)
 
         self.__calibrated = control_flag
-        self.__x_step = 0
 
-    def generate_pcd(self, surface_img, surface_img_laser, single_line:bool):
+    def generate_pcd(self, surface_img, surface_img_laser):
 
         '''
         Method to generate a point cloud out of the surface image pair given that the scanner is calibrated.
         '''
-
-        if single_line:
-            # only one image pair will be transformed to a pointcloud. The pointcloud is saved in 'out'.
-            surface_koords, point_colors = self.__generate_surface_line_koordinates(
+        surface_koords, point_colors = self.__generate_surface_line_koordinates(
                 surface_img=surface_img,
-                surface_img_laser=surface_img_laser,
-                displacement=False
-            )
+                surface_img_laser=surface_img_laser
+        )
 
-            surface_pcd = o3d.geometry.PointCloud()
-            surface_pcd.points = o3d.utility.Vector3dVector(surface_koords.T)
-            surface_pcd.colors = o3d.utility.Vector3dVector(point_colors)
+        self.update_pcd(points=surface_koords.T, colors=point_colors)
+        print("INFO: Finished point cloud generation!")
 
-            o3d.io.write_point_cloud("./ros2_surface_scanner/src/surface_scanner/out/single_lines/surface_line.ply",surface_pcd)
-        else:
-            # part of the scan-process. A point cloud will be created out of the image pair. The point cloud is added to the 
-            # to the whole point cloud that represents the surface
-            surface_koords, point_colors = self.__generate_surface_line_koordinates(
-                surface_img=surface_img,
-                surface_img_laser=surface_img_laser,
-                displacement=True
-            )
-
-            self.__surface_points = np.append(self.__surface_points, surface_koords, axis=1)
-            self.__surface_colors = np.append(self.__surface_colors, point_colors, axis=0)
-
-            self.update_pcd(points=self.__surface_points.T, colors=self.__surface_colors)
-
-            self.__x_step += 1
-            print("INFO: Finished point cloud generation!")
-
-    def __generate_surface_line_koordinates(self, surface_img, surface_img_laser, displacement: bool):
+    def __generate_surface_line_koordinates(self, surface_img, surface_img_laser):
 
         '''
         Generates the surface koordinates using the plane equation.
@@ -124,10 +96,6 @@ class Scanner:
             plane=self.__laser.get_plane_eq()
         )
 
-        if displacement:
-            # Include the x-displacement
-            points_surface[0] = points_surface[0] - (self.__x_step * 0.001)
-
         points_surface_cam = world2cam(
             pts=points_surface,
             rot_matrix=surface_line.get_rot_matrix(),
@@ -137,25 +105,6 @@ class Scanner:
         point_colors = self.__get_pixel_colors(pts_laser=surface_line.get_laser_points().T, img_original=surface_img)
 
         return points_surface_cam, point_colors
-
-    def display_pcd(self, with_laser: bool = False):
-
-        '''
-        Only for debugging purposes
-        '''
-
-        if len(self.__surface.points) != 0:
-            coordinate_axis = o3d.geometry.TriangleMesh.create_coordinate_frame(
-                size=30,
-                origin=[0, 0, 0]
-            )
-            if with_laser:
-                pcd_laser = self.make_laser_lines_pcd()
-                o3d.visualization.draw_geometries([self.__surface, pcd_laser, coordinate_axis])
-            else:
-                o3d.visualization.draw_geometries([self.__surface, coordinate_axis])
-        else:
-            print("WARNING: Point cloud is empty!")
 
     def __calibrate_laser(self,
                           calibration_img,
@@ -180,8 +129,8 @@ class Scanner:
 
         # generate output images
         #--------------------------------------------------------------------------------------        
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_board.png', charuco_board)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_board_laser.png', charuco_board_laser)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_board.png', charuco_board)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_board_laser.png', charuco_board_laser)
         #--------------------------------------------------------------------------------------  
 
         # Create parameter for detecting the boards
@@ -225,24 +174,24 @@ class Scanner:
         aruco.drawAxis(charuco_drawn_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         charuco_drawn_secondary = charuco_board.copy()
         aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
 
         charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
         copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
         laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
         aruco.drawAxis(laserline_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_primary.png', laserline_primary)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_primary.png', laserline_primary)
 
         charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
         copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
         laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
         laserline_together = laserline_primary + laserline_secondary
         aruco.drawAxis(laserline_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
-        cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/laserline_together.png', laserline_together)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
+        cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_together.png', laserline_together)
         #--------------------------------------------------------------------------------------------------------------------------------------------
 
         # fill in laser-line parameter in laser
@@ -302,9 +251,9 @@ class Scanner:
                 aruco.drawDetectedCornersCharuco(charuco_drawn, charuco_corners , charuco_ids ,(0, 255, 0))
                 
                 if primary:
-                    cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_primary.png', charuco_drawn)
+                    cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_primary.png', charuco_drawn)
                 else:
-                    cv.imwrite('./ros2_surface_scanner/src/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_secondary.png', charuco_drawn)
+                    cv.imwrite('./ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_convex_hull_secondary.png', charuco_drawn)
                 #-----------------------------------------------------------------------------------------------
 
 
@@ -405,17 +354,11 @@ class Scanner:
         return pcd_laser
 
     def get_point_cloud(self):
-        return self.__surface
+        return self.__current_surface
 
     def is_scanner_calibrated(self):
         return self.__calibrated
 
     def update_pcd(self, points, colors):
-        self.__surface.points = o3d.utility.Vector3dVector(points)
-        self.__surface.colors = o3d.utility.Vector3dVector(colors)
-
-    def reset_pcd(self):
-        self.__x_step = 0
-        self.__surface = o3d.geometry.PointCloud()
-        self.__surface_points = np.empty((3, 0))
-        self.__surface_colors = np.empty((0, 3))
+        self.__current_surface.points = o3d.utility.Vector3dVector(points)
+        self.__current_surface.colors = o3d.utility.Vector3dVector(colors)

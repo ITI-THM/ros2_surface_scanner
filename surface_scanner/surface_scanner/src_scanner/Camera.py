@@ -93,7 +93,7 @@ class Camera:
 
                 # Draw and display the corners
                 cv.drawChessboardCorners(pic, (8, 6), corners2, ret)
-                cv.imwrite(f"./src/surface_scanner/out/intinsic_calibration/chessboard_corner_{img_counter}.png", pic)
+                cv.imwrite(f"./ros2_surface_scanner/surface_scanner/out/intinsic_calibration/chessboard_corner_{img_counter}.png", pic)
                 img_counter += 1
 
         cv.destroyAllWindows()
@@ -105,19 +105,8 @@ class Camera:
         self.__rvecs = rvecs
         self.__tvecs = tvecs
 
-        # print("Camera matrix : \n")
-        # print(mtx)
-        # print("dist : \n")
-        # print(dist)
-        # print("rvecs : \n")
-        # print(rvecs)
-        # print(len(rvecs))
-        # print("tvecs : \n")
-        # print(tvecs)
-        # print(len(tvecs))
-
         print(f"INFO: Camera calibration finished with camera matrix: \n {self.__cam_mtx}!")
 
         if save_data_in_npz:
-            np.savez_compressed('./src/surface_scanner/out/intinsic_calibration/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
+            np.savez_compressed('./ros2_surface_scanner/surface_scanner/out/intinsic_calibration/camera_params.npz', mtx=mtx, dist=dist, rvecs=rvecs, tvecs=tvecs)
             print("INFO: Camera-Params saved in 'camera_params.npz'!")

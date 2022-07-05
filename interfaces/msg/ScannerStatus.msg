@@ -1,1 +1,0 @@
-bool is_scanner_active

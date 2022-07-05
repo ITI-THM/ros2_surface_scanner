@@ -9,7 +9,7 @@ ___
 
 **Author:** Tristan Elias Wolfram
 
-This Repository introduces sofware packages for a laser triangulation sensor. The sensor is used to reconstruct surfaces of wood slices.  
+This Repository introduces a sofware package for a laser triangulation sensor. The sensor is used to reconstruct surfaces of wood slices.  
 
 Here some [example scans](scans) produced by the sensor:
 <p float="left">

@@ -3,7 +3,6 @@ import sys
 import rclpy
 from rclpy.node import Node
 
-from interfaces.msg import ScannerStatus
 from interfaces.srv import CalibrateLaserImport
 
 from std_srvs.srv import Trigger
@@ -83,12 +82,6 @@ class Trigger_Take_Img_Pair_Surface(Node):
 
     def __init__(self):
         super().__init__('img_pair_stream_node')
-
-        # PUBLISHER: point cloud of surface line
-        self.status_pub = self.create_publisher(
-            ScannerStatus, 
-            'scanner_status', 
-            10)
 
         # CLIENT
         self.client = self.create_client(
@@ -293,11 +286,6 @@ def trigger_send_img_pair_stream_function(args=None):
     SERIAL_CONNECTION = Serial_Connection()
     trigger_client.get_logger().info("Established serial connection!")
 
-    # set scanner active
-    status_msg = ScannerStatus()
-    status_msg.is_scanner_active = True
-    trigger_client.status_pub.publish(status_msg)
-
     for mm_step in range(0, 290):
         if not rclpy.ok():
             trigger_client.get_logger().warn("rclpy ERROR!")
@@ -314,11 +302,6 @@ def trigger_send_img_pair_stream_function(args=None):
     time.sleep(36)
 
     trigger_client.get_logger().info("Finished surface scan!")
-
-    # shut down scanner
-    status_msg = ScannerStatus()
-    status_msg.is_scanner_active = False
-    trigger_client.status_pub.publish(status_msg)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically

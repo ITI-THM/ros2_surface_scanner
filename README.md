@@ -69,9 +69,6 @@ Responsible for all calculations. Stores all data.
 * **`/ImagePair`** ([interfaces/msg/ImagePair](interfaces/msg/ImagePair.msg))
 
     Two images for extrinsic calibration or to reconstruct surface line.
-* **`/ScannerStatus`** ([interfaces/msg/ScannerStatus](interfaces/msg/ScannerStatus.msg))
-
-    Boolean flag that shows the scanner status (is scanning, is not scanning)
 #### Published Topics
 * **`/pointcloud`** ([sensor_msgs/PointCloud2](http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html))
 
@@ -110,11 +107,17 @@ Used as point cloud subscriber
 #### Subscribed Topics
 * **`/pointcloud`** ([sensor_msgs/PointCloud2](http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html))
 
-    [Rviz2](http://wiki.ros.org/rviz) shows the resulting pointcloud. Here you can review the results of the ongoing scan.
+    [Rviz2](http://wiki.ros.org/rviz) shows the resulting pointcloud. Here you can review the results 
+    of the ongoing scan.
 
-## Overview
+#### Subscribed Topics
+* **`/laser_plane`** ([sensor_msgs/PointCloud2](http://docs.ros.org/en/api/sensor_msgs/html/msg/PointCloud2.html))
+
+    This topic show the calculated laser plane and the laser lines used to calibrate it. Here you can check if the calibration was successful.
+
+<!--## Overview
 <img src="doc_imgs/ROS2_Nodes.jpg" alt="ros2_nodes" height="900">
-
+-->
 ## Calibration
 
 >The following functions will start a client that calls a defined service.

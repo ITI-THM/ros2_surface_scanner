@@ -10,6 +10,7 @@ from interfaces.msg import CameraCalibrationImgs
 import cv2 as cv
 from pypylon import pylon
 import time
+import os.path
 
 class Camera_Node(Node):
 
@@ -31,15 +32,25 @@ class Camera_Node(Node):
 
         self.__camera.MaxNumBuffer = 5
         self.__camera.Open()
-        self.__camera.StartGrabbing(pylon.GrabStrategy_OneByOne)
 
-        # Activate GPIO of Line 2
-        self.__camera.LineSelector.SetValue("Line2")
-        self.__camera.LineMode.SetValue("Output")
-        self.__camera.LineSource.SetValue("UserOutput1")
-        self.__camera.LineInverter.SetValue(False)
-        self.__camera.UserOutputSelector.SetValue('UserOutput1')
-        self.__camera.UserOutputValue.SetValue(False)
+        cam_config_file = './ros2_surface_scanner/surface_scanner/input/cam_config.pfs'
+
+        if(os.path.exists(cam_config_file)):
+            self.get_logger().info("Importing camera configuration from 'input'-directory!")
+
+            pylon.FeaturePersistence.Load(cam_config_file, self.__camera.GetNodeMap(), True)
+        else:
+            self.get_logger().info("Found no camera configuration file. Using standard settings!")
+
+            # Activate GPIO of Line 2
+            self.__camera.LineSelector.SetValue("Line2")
+            self.__camera.LineMode.SetValue("Output")
+            self.__camera.LineSource.SetValue("UserOutput1")
+            self.__camera.LineInverter.SetValue(False)
+            self.__camera.UserOutputSelector.SetValue('UserOutput1')
+            self.__camera.UserOutputValue.SetValue(False)
+
+        self.__camera.StartGrabbing(pylon.GrabStrategy_OneByOne)
 
         # Setup Image Converter
         self.__converter = pylon.ImageFormatConverter()
@@ -121,7 +132,7 @@ class Camera_Node(Node):
         images = []
 
         for name in image_names:
-            img = cv.imread(f'./ros2_surface_scanner/surface_scanner/intr_calib_imgs/{name}')
+            img = cv.imread(f'./ros2_surface_scanner/surface_scanner/input/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 

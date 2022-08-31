@@ -65,11 +65,11 @@ class Calibration_Client_Import(Node):
         self.future = self.client.call_async(self.request)
 
 
-class Trigger_Take_Img_Pair(Node):
+class Trigger_Take_Img_Pair_Calib(Node):
 
     def __init__(self):
-        super().__init__('trigger_img_pair_node')
-        self.client = self.create_client(Trigger, 'send_laser_calib_imgs')
+        super().__init__('trigger_img_pair_calib_node')
+        self.client = self.create_client(Trigger, 'send_img_pair_calib')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('camera not available, waiting again...')
         self.request = Trigger.Request()
@@ -81,7 +81,7 @@ class Trigger_Take_Img_Pair(Node):
 class Trigger_Take_Img_Pair_Surface(Node):
 
     def __init__(self):
-        super().__init__('img_pair_stream_node')
+        super().__init__('trigger_img_pair_surface_node')
 
         # CLIENT
         self.client = self.create_client(
@@ -176,10 +176,10 @@ def calibrate_client_import_function(args=None):
     rclpy.shutdown()
 
 
-def trigger_take_img_pair_function(args=None):
+def trigger_take_img_pair_calib_function(args=None):
     rclpy.init(args=args)
 
-    trigger_client = Trigger_Take_Img_Pair()
+    trigger_client = Trigger_Take_Img_Pair_Calib()
 
     # only usable with the original test set-up
     # SERIAL_CONNECTION = Serial_Connection()

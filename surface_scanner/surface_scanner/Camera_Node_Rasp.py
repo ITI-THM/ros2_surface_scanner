@@ -8,6 +8,9 @@ from interfaces.msg import ImagePair
 from interfaces.msg import CameraCalibrationImgs
 import cv2 as cv
 import time
+import numpy as np
+import RPi.GPIO as GPIO
+import os
 
 class Camera_Node_Rasp(Node):
 
@@ -55,7 +58,7 @@ class Camera_Node_Rasp(Node):
 
     # Callback functions:
 
-    def send_img_pair_calibration(self, request, response):
+    def send_img_pair_calib(self, request, response):
 
         images = self.__getLaserImages()
 
@@ -91,7 +94,7 @@ class Camera_Node_Rasp(Node):
         images = []
 
         for name in image_names:
-            img = cv.imread(f'./ros2_surface_scanner/surface_scanner/input/{name}')
+            img = cv.imread(f'./src/ros2_surface_scanner/surface_scanner/input/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 
@@ -113,9 +116,6 @@ class Camera_Node_Rasp(Node):
         origin_img = self.bridge.cv2_to_imgmsg(images[0])
         laser_img = self.bridge.cv2_to_imgmsg(images[1])
 
-        cv.imshow('title', images[1])
-        exit_key = cv.waitKey(1)
-
         image_pair_msg = ImagePair()
         image_pair_msg.is_for_laser_calib = False
         image_pair_msg.origin_img = origin_img
@@ -131,31 +131,31 @@ class Camera_Node_Rasp(Node):
 
     def __getLaserImages(self):
 
-        pin = 11
+        pin = 13
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin, GPIO.OUT)
 
-        origin_img = __capture_image()
+        origin_img = self.__capture_image()
 
         GPIO.output(pin, True)
         time.sleep(0.05)
         
-        laser_img = __capture_image()
+        laser_img = self.__capture_image()
 
         GPIO.output(pin, False)
         GPIO.cleanup()
         return np.array([origin_img, laser_img])
 
-    def __capture_image():
+    def __capture_image(self):
         cam = cv.VideoCapture(0)
 
         ret, frame = cam.read()
         if ret:
-                origin_img = frame
+                img = frame
                 
         cam.release()
 
-        return origin_img
+        return img
 
 def main(args=None):
     rclpy.init(args=args)

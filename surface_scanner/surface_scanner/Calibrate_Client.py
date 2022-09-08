@@ -283,23 +283,24 @@ def trigger_send_img_pair_stream_function(args=None):
 
     trigger_client = Trigger_Take_Img_Pair_Surface()
 
-    SERIAL_CONNECTION = Serial_Connection()
+    # SERIAL_CONNECTION = Serial_Connection()
     trigger_client.get_logger().info("Established serial connection!")
 
+    # Range refers to setupt with arduino.
     for mm_step in range(0, 290):
         if not rclpy.ok():
-            trigger_client.get_logger().warn("rclpy ERROR!")
+            # trigger_client.get_logger().warn("rclpy ERROR!")
             break
 
-        SERIAL_CONNECTION.mm_step(mm=1)
+        # SERIAL_CONNECTION.mm_step(mm=1)
         time.sleep(0.5)
         
         trigger_client.get_logger().info(f"Sending request for image pair for mm_step: {mm_step}!")
         trigger_client.send_request()
         rclpy.spin_once(trigger_client)
 
-    SERIAL_CONNECTION.home()
-    time.sleep(36)
+    # SERIAL_CONNECTION.home()
+    # time.sleep(36)
 
     trigger_client.get_logger().info("Finished surface scan!")
 

@@ -28,11 +28,11 @@ def take_one_pic():
 
         ret, frame = cam.read()
         if ret:
-                origin_img = frame
+                img = frame
                 
         cam.release()
 
-        return origin_img
+        return img
 '''cap = cv2.VideoCapture(0)
 
 # Capture frame
@@ -49,3 +49,4 @@ images = getLaserImages()
 
 cv.imwrite('/home/tristan/Dokumente/Bilder/origin_img.jpg', images[0])
 cv.imwrite('/home/tristan/Dokumente/Bilder/laser_img.jpg', images[1])
+cv.imwrite('/home/tristan/Dokumente/Bilder/diff_img.jpg', cv.subtract(images[1], images[0]))

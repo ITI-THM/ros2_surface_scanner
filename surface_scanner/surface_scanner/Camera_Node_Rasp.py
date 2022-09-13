@@ -6,6 +6,7 @@ from cv_bridge import CvBridge
 from std_srvs.srv import Trigger
 from interfaces.msg import ImagePair
 from interfaces.msg import CameraCalibrationImgs
+from sensor_msgs.msg import Image
 import cv2 as cv
 import time
 import numpy as np
@@ -39,6 +40,13 @@ class Camera_Node_Rasp(Node):
             'send_cam_calib_imgs',
             self.send_cam_calib_imgs
         )
+
+        #SERVICE: starts image stream and publishes each frame
+        self.img_stream_srv = self.create_service(
+            Trigger,
+            'img_stream',
+            self.start_img_stream
+        )
         
         # PUBLISHER: image pair
         self.img_pair_publisher = self.create_publisher(
@@ -51,6 +59,13 @@ class Camera_Node_Rasp(Node):
         self.cam_calib_imgs_publisher = self.create_publisher(
             CameraCalibrationImgs,
             'cam_calib_imgs',
+            10
+        )
+
+        # PUBLISHER: for one image
+        self.img_publisher = self.create_publisher(
+            Image,
+            'img_publisher',
             10
         )
 
@@ -127,6 +142,24 @@ class Camera_Node_Rasp(Node):
 
         response.success = True
         response.message = "Successfully sending images!"
+        return response
+
+    def start_img_stream(self, request, response):
+        index = 0
+        while True:
+            frame = self.__capture_image()
+            frame_msg = self.bridge.cv2_to_imgmsg(frame)
+            self.img_publisher.publish(frame)
+            self.get_logger().info(f"Published image frame {index}!")
+            index = index + 1
+            if cv.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cam.release()
+        cv.destroyAllWindows()
+
+        response.success = True
+        response.message = "Successfully stopped image stream!"
         return response
 
     def __getLaserImages(self):

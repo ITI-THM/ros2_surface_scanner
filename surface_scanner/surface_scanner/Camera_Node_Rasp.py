@@ -4,8 +4,7 @@ from rclpy.node import Node
 from cv_bridge import CvBridge
 
 from std_srvs.srv import Trigger
-from interfaces.msg import ImagePair
-from interfaces.msg import CameraCalibrationImgs
+from interfaces.msg import ImagePair, CameraCalibrationImgs
 from sensor_msgs.msg import Image
 import cv2 as cv
 import time
@@ -19,6 +18,11 @@ class Camera_Node_Rasp(Node):
         super().__init__('camera_node_rasp')
 
         self.bridge = CvBridge()
+       
+        # open camera
+        self.cam = cv.VideoCapture(0)
+
+        self.timer = None
 
         # SERVICE: send image pair to calibrate laser
         self.send_img_pair_calib_srv = self.create_service(
@@ -41,11 +45,18 @@ class Camera_Node_Rasp(Node):
             self.send_cam_calib_imgs
         )
 
-        #SERVICE: starts image stream and publishes each frame
-        self.img_stream_srv = self.create_service(
+        # SERVICE: starts image stream and publishes each frame
+        self.start_img_stream_srv = self.create_service(
             Trigger,
-            'img_stream',
+            'start_img_stream',
             self.start_img_stream
+        )
+
+        # SERVICE: stops the image stream
+        self.stop_img_stream_srv = self.create_service(
+            Trigger,
+            'stop_img_stream',
+            self.stop_img_stream
         )
         
         # PUBLISHER: image pair
@@ -145,22 +156,43 @@ class Camera_Node_Rasp(Node):
         return response
 
     def start_img_stream(self, request, response):
-        index = 0
-        while True:
-            frame = self.__capture_image()
-            frame_msg = self.bridge.cv2_to_imgmsg(frame)
-            self.img_publisher.publish(frame)
-            self.get_logger().info(f"Published image frame {index}!")
-            index = index + 1
-            if cv.waitKey(1) & 0xFF == ord('q'):
-                break
+        
+        if self.timer is None:
+            self.timer = self.create_timer(
+                0.1, 
+                self.__timer_callback
+            )
 
-        cam.release()
-        cv.destroyAllWindows()
+            response.success = True
+            response.message = "Successfully started sending images!"
+        else:
+            response.success = False
+            response.message = "Image stream is already activated!"
 
-        response.success = True
-        response.message = "Successfully stopped image stream!"
         return response
+
+    def stop_img_stream(self, request, response):
+
+        if self.timer is not None:
+            self.timer.cancel()
+            self.timer.destroy()
+            self.timer = None
+
+            response.success = True
+            response.message = "Successfully stopped image stream!"
+        else:
+            response.success = False
+            response.message = "Image stream not activated!"
+
+        return response
+
+    def __timer_callback(self):
+        # publish image
+        self.img_publisher.publish(
+            self.bridge.cv2_to_imgmsg(self.__capture_image())
+        )
+
+        self.get_logger().info('Publishing video frame')
 
     def __getLaserImages(self):
 
@@ -180,13 +212,12 @@ class Camera_Node_Rasp(Node):
         return np.array([origin_img, laser_img])
 
     def __capture_image(self):
-        cam = cv.VideoCapture(0)
 
-        ret, frame = cam.read()
+        # capture frame
+        ret, frame = self.cam.read()
+
         if ret:
-                img = frame
-                
-        cam.release()
+            img = frame
 
         return img
 
@@ -200,6 +231,7 @@ def main(args=None):
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
+    self.cam.release()
     camera_node.destroy_node()
     rclpy.shutdown()
 

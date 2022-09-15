@@ -115,11 +115,23 @@ class Trigger_Take_Cam_Calib_Imgs(Node):
     def send_request(self):
         self.future = self.client.call_async(self.request)
 
-class Trigger_Img_Stream(Node):
+class Start_Img_Stream(Node):
 
     def __init__(self):
-        super().__init__('trigger_img_stream_node')
-        self.client = self.create_client(Trigger, 'img_stream')
+        super().__init__('start_img_stream_node')
+        self.client = self.create_client(Trigger, 'start_img_stream')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('camera not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+class Stop_Img_Stream(Node):
+
+    def __init__(self):
+        super().__init__('stop_img_stream_node')
+        self.client = self.create_client(Trigger, 'stop_img_stream')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('camera not available, waiting again...')
         self.request = Trigger.Request()
@@ -322,25 +334,25 @@ def trigger_send_img_pair_stream_function(args=None):
     trigger_client.destroy_node()
     rclpy.shutdown()
 
-def trigger_img_stream(args=None):
+def start_img_stream_function(args=None):
     rclpy.init(args=args)
 
-    img_stream_client = Trigger_Img_Stream()
+    img_stream_client = Start_Img_Stream()
     img_stream_client.send_request()
 
     while rclpy.ok():
-        rclpy.spin_once(trigger_client)
-        if trigger_client.future.done():
+        rclpy.spin_once(img_stream_client)
+        if img_stream_client.future.done():
             try:
-                response = trigger_client.future.result()
+                response = img_stream_client.future.result()
             except Exception as e:
-                trigger_client.get_logger().info(
+                img_stream_client.get_logger().info(
                     'Service call failed %r' % (e,))
             else:
-                trigger_client.get_logger().info(
+                img_stream_client.get_logger().info(
                     f'Status: "{response.success}"'
                 )
-                trigger_client.get_logger().info(
+                img_stream_client.get_logger().info(
                     f'Recieved message: \n ||{response.message}||'
                 )
             break
@@ -348,7 +360,36 @@ def trigger_img_stream(args=None):
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    trigger_client.destroy_node()
+    img_stream_client.destroy_node()
+    rclpy.shutdown()
+
+def stop_img_stream_function(args=None):
+    rclpy.init(args=args)
+
+    img_stream_client = Stop_Img_Stream()
+    img_stream_client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(img_stream_client)
+        if img_stream_client.future.done():
+            try:
+                response = img_stream_client.future.result()
+            except Exception as e:
+                img_stream_client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                img_stream_client.get_logger().info(
+                    f'Status: "{response.success}"'
+                )
+                img_stream_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    img_stream_client.destroy_node()
     rclpy.shutdown()
 
 def main(args=None):

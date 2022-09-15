@@ -34,7 +34,8 @@ setup(
             'extr_calib_imgs = surface_scanner.Calibrate_Client:trigger_take_img_pair_calib_function',
             'intr_calib_imgs = surface_scanner.Calibrate_Client:trigger_take_cam_calib_imgs_function',
             'surface_line = surface_scanner.Calibrate_Client:trigger_surface_line_function',
-            'img_stream = surface_scanner.Calibrate_Client:trigger_img_stream',
+            'start_img_stream = surface_scanner.Calibrate_Client:start_img_stream_function',
+            'stop_img_stream = surface_scanner.Calibrate_Client:stop_img_stream_function',
         ],
     },
 )

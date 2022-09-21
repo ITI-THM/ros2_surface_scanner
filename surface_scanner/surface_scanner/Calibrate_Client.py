@@ -65,11 +65,11 @@ class Calibration_Client_Import(Node):
         self.future = self.client.call_async(self.request)
 
 
-class Trigger_Take_Img_Pair(Node):
+class Trigger_Take_Img_Pair_Calib(Node):
 
     def __init__(self):
-        super().__init__('trigger_img_pair_node')
-        self.client = self.create_client(Trigger, 'send_laser_calib_imgs')
+        super().__init__('trigger_img_pair_calib_node')
+        self.client = self.create_client(Trigger, 'send_img_pair_calib')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('camera not available, waiting again...')
         self.request = Trigger.Request()
@@ -81,7 +81,7 @@ class Trigger_Take_Img_Pair(Node):
 class Trigger_Take_Img_Pair_Surface(Node):
 
     def __init__(self):
-        super().__init__('img_pair_stream_node')
+        super().__init__('trigger_img_pair_surface_node')
 
         # CLIENT
         self.client = self.create_client(
@@ -108,6 +108,30 @@ class Trigger_Take_Cam_Calib_Imgs(Node):
     def __init__(self):
         super().__init__('trigger_cam_calib_img_node')
         self.client = self.create_client(Trigger, 'send_cam_calib_imgs')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('camera not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+class Start_Img_Stream(Node):
+
+    def __init__(self):
+        super().__init__('start_img_stream_node')
+        self.client = self.create_client(Trigger, 'start_img_stream')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('camera not available, waiting again...')
+        self.request = Trigger.Request()
+
+    def send_request(self):
+        self.future = self.client.call_async(self.request)
+
+class Stop_Img_Stream(Node):
+
+    def __init__(self):
+        super().__init__('stop_img_stream_node')
+        self.client = self.create_client(Trigger, 'stop_img_stream')
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('camera not available, waiting again...')
         self.request = Trigger.Request()
@@ -176,10 +200,10 @@ def calibrate_client_import_function(args=None):
     rclpy.shutdown()
 
 
-def trigger_take_img_pair_function(args=None):
+def trigger_take_img_pair_calib_function(args=None):
     rclpy.init(args=args)
 
-    trigger_client = Trigger_Take_Img_Pair()
+    trigger_client = Trigger_Take_Img_Pair_Calib()
 
     # only usable with the original test set-up
     # SERIAL_CONNECTION = Serial_Connection()
@@ -283,23 +307,24 @@ def trigger_send_img_pair_stream_function(args=None):
 
     trigger_client = Trigger_Take_Img_Pair_Surface()
 
-    SERIAL_CONNECTION = Serial_Connection()
+    # SERIAL_CONNECTION = Serial_Connection()
     trigger_client.get_logger().info("Established serial connection!")
 
+    # Range refers to setupt with arduino.
     for mm_step in range(0, 290):
         if not rclpy.ok():
-            trigger_client.get_logger().warn("rclpy ERROR!")
+            # trigger_client.get_logger().warn("rclpy ERROR!")
             break
 
-        SERIAL_CONNECTION.mm_step(mm=1)
+        # SERIAL_CONNECTION.mm_step(mm=1)
         time.sleep(0.5)
         
         trigger_client.get_logger().info(f"Sending request for image pair for mm_step: {mm_step}!")
         trigger_client.send_request()
         rclpy.spin_once(trigger_client)
 
-    SERIAL_CONNECTION.home()
-    time.sleep(36)
+    # SERIAL_CONNECTION.home()
+    # time.sleep(36)
 
     trigger_client.get_logger().info("Finished surface scan!")
 
@@ -309,6 +334,63 @@ def trigger_send_img_pair_stream_function(args=None):
     trigger_client.destroy_node()
     rclpy.shutdown()
 
+def start_img_stream_function(args=None):
+    rclpy.init(args=args)
+
+    img_stream_client = Start_Img_Stream()
+    img_stream_client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(img_stream_client)
+        if img_stream_client.future.done():
+            try:
+                response = img_stream_client.future.result()
+            except Exception as e:
+                img_stream_client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                img_stream_client.get_logger().info(
+                    f'Status: "{response.success}"'
+                )
+                img_stream_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    img_stream_client.destroy_node()
+    rclpy.shutdown()
+
+def stop_img_stream_function(args=None):
+    rclpy.init(args=args)
+
+    img_stream_client = Stop_Img_Stream()
+    img_stream_client.send_request()
+
+    while rclpy.ok():
+        rclpy.spin_once(img_stream_client)
+        if img_stream_client.future.done():
+            try:
+                response = img_stream_client.future.result()
+            except Exception as e:
+                img_stream_client.get_logger().info(
+                    'Service call failed %r' % (e,))
+            else:
+                img_stream_client.get_logger().info(
+                    f'Status: "{response.success}"'
+                )
+                img_stream_client.get_logger().info(
+                    f'Recieved message: \n ||{response.message}||'
+                )
+            break
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    img_stream_client.destroy_node()
+    rclpy.shutdown()
 
 def main(args=None):
     rclpy.init(args=args)

@@ -131,9 +131,9 @@ ros2 run surface_scanner intr_calib_imgs
 This function is used to take the intrinsic calibration images.
 >However, the functionality for manually capturing 10 different images is not yet implemented.
 
-Therefor you have to take the 10 images with your camera by yourself. You have to put these 10 images in the following Directory: [surface_scanner/intr_calib_imgs](surface_scanner/intr_calib_imgs). Additionally the images must be named **calibration_img_<0-9>.png**.
+Therefore you have to take the 10 images with your camera by yourself. You have to put these 10 images in the following Directory: [surface_scanner/input/](surface_scanner/input). Additionally the images must be named **calibration_img_<0-9>.png**.
 
-*If .png is the wrong file type for you, you have to chance it manually in the code. You can find the thisd code segment in the **Camera_Node** under **send_cam_calib_imgs**.*
+*If .png is the wrong file type for you, you have to change it manually in the code. You can find the code segment in the **Camera_Node**. Lock for the function **send_cam_calib_imgs**.*
 
 The images shoud be look like this:
 <p float="left">

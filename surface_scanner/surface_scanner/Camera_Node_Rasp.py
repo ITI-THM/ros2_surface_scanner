@@ -4,58 +4,25 @@ from rclpy.node import Node
 from cv_bridge import CvBridge
 
 from std_srvs.srv import Trigger
-from interfaces.msg import ImagePair
-from interfaces.msg import CameraCalibrationImgs
-
+from interfaces.msg import ImagePair, CameraCalibrationImgs
+from sensor_msgs.msg import Image
 import cv2 as cv
-from pypylon import pylon
 import time
-import os.path
+import numpy as np
+import RPi.GPIO as GPIO
+import os
 
-class Camera_Node(Node):
+class Camera_Node_Rasp(Node):
 
     def __init__(self):
-        super().__init__('camera_node')
+        super().__init__('camera_node_rasp')
 
         self.bridge = CvBridge()
-          
-        # CAMERA: setup camera settings!
-        self.__camera = pylon.InstantCamera(
-            pylon.TlFactory.GetInstance().CreateFirstDevice())
+       
+        # open camera
+        self.cam = cv.VideoCapture(0)
 
-        self.__camera.RegisterConfiguration(
-            pylon.SoftwareTriggerConfiguration(), 
-            pylon.RegistrationMode_ReplaceAll,
-            pylon.Cleanup_Delete
-        )
-        self.get_logger().info(f"Using camera device {self.__camera.GetDeviceInfo().GetModelName()}")
-
-        self.__camera.MaxNumBuffer = 5
-        self.__camera.Open()
-
-        cam_config_file = './ros2_surface_scanner/surface_scanner/input/cam_config.pfs'
-
-        if(os.path.exists(cam_config_file)):
-            self.get_logger().info("Importing camera configuration from 'input'-directory!")
-
-            pylon.FeaturePersistence.Load(cam_config_file, self.__camera.GetNodeMap(), True)
-        else:
-            self.get_logger().info("Found no camera configuration file. Using standard settings!")
-
-            # Activate GPIO of Line 2
-            self.__camera.LineSelector.SetValue("Line2")
-            self.__camera.LineMode.SetValue("Output")
-            self.__camera.LineSource.SetValue("UserOutput1")
-            self.__camera.LineInverter.SetValue(False)
-            self.__camera.UserOutputSelector.SetValue('UserOutput1')
-            self.__camera.UserOutputValue.SetValue(False)
-
-        self.__camera.StartGrabbing(pylon.GrabStrategy_OneByOne)
-
-        # Setup Image Converter
-        self.__converter = pylon.ImageFormatConverter()
-        self.__converter.OutputPixelFormat = pylon.PixelType_BGR8packed
-        self.__converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
+        self.timer = None
 
         # SERVICE: send image pair to calibrate laser
         self.send_img_pair_calib_srv = self.create_service(
@@ -77,6 +44,20 @@ class Camera_Node(Node):
             'send_cam_calib_imgs',
             self.send_cam_calib_imgs
         )
+
+        # SERVICE: starts image stream and publishes each frame
+        self.start_img_stream_srv = self.create_service(
+            Trigger,
+            'start_img_stream',
+            self.start_img_stream
+        )
+
+        # SERVICE: stops the image stream
+        self.stop_img_stream_srv = self.create_service(
+            Trigger,
+            'stop_img_stream',
+            self.stop_img_stream
+        )
         
         # PUBLISHER: image pair
         self.img_pair_publisher = self.create_publisher(
@@ -92,11 +73,18 @@ class Camera_Node(Node):
             10
         )
 
+        # PUBLISHER: for one image
+        self.img_publisher = self.create_publisher(
+            Image,
+            'img_publisher',
+            10
+        )
+
         self.get_logger().info('Camera-Node ready!')
 
     # Callback functions:
 
-    def send_img_pair_calibration(self, request, response):
+    def send_img_pair_calib(self, request, response):
 
         images = self.__getLaserImages()
 
@@ -132,7 +120,7 @@ class Camera_Node(Node):
         images = []
 
         for name in image_names:
-            img = cv.imread(f'./ros2_surface_scanner/surface_scanner/input/{name}')
+            img = cv.imread(f'./src/ros2_surface_scanner/surface_scanner/input/{name}')
             img = self.bridge.cv2_to_imgmsg(img)
             images.append(img)
 
@@ -154,9 +142,6 @@ class Camera_Node(Node):
         origin_img = self.bridge.cv2_to_imgmsg(images[0])
         laser_img = self.bridge.cv2_to_imgmsg(images[1])
 
-        cv.imshow('title', images[1])
-        exit_key = cv.waitKey(1)
-
         image_pair_msg = ImagePair()
         image_pair_msg.is_for_laser_calib = False
         image_pair_msg.origin_img = origin_img
@@ -170,50 +155,83 @@ class Camera_Node(Node):
         response.message = "Successfully sending images!"
         return response
 
-    # Camera functions:
+    def start_img_stream(self, request, response):
+        
+        if self.timer is None:
+            self.timer = self.create_timer(
+                0.1, 
+                self.__timer_callback
+            )
 
-    def __del__(self):
-        self.__camera.StopGrabbing()
-        self.__camera.Close()
-        cv.destroyAllWindows()
+            response.success = True
+            response.message = "Successfully started sending images!"
+        else:
+            response.success = False
+            response.message = "Image stream is already activated!"
+
+        return response
+
+    def stop_img_stream(self, request, response):
+
+        if self.timer is not None:
+            self.timer.cancel()
+            self.timer.destroy()
+            self.timer = None
+
+            response.success = True
+            response.message = "Successfully stopped image stream!"
+        else:
+            response.success = False
+            response.message = "Image stream not activated!"
+
+        return response
+
+    def __timer_callback(self):
+        # publish image
+        self.img_publisher.publish(
+            self.bridge.cv2_to_imgmsg(self.__capture_image())
+        )
+
+        self.get_logger().info('Publishing video frame')
 
     def __getLaserImages(self):
-        self.__camera.UserOutputValue.SetValue(False)
-        # time.sleep(0.01)
-        for i in range(2):
-            if self.__camera.WaitForFrameTriggerReady(200, pylon.TimeoutHandling_ThrowException):
-                if i > 0:
-                    self.__camera.UserOutputValue.SetValue(True)
-                self.__camera.ExecuteSoftwareTrigger()
-                time.sleep(0.01)
-                self.get_logger().info(f"Line Value: {self.__camera.LineStatus.GetValue()}")
 
-        self.__camera.UserOutputValue.SetValue(False)
+        pin = 13
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(pin, GPIO.OUT)
 
-        # stime.sleep(0.2)
+        origin_img = self.__capture_image()
 
-        if self.__camera.GetGrabResultWaitObject().Wait(0):
-            self.get_logger().info("Grab results wait in the output queue.")
+        GPIO.output(pin, True)
+        time.sleep(0.05)
+        
+        laser_img = self.__capture_image()
 
-        images = []
-        for i in range(2):
-            result = self.__camera.RetrieveResult(
-                200 , pylon.TimeoutHandling_ThrowException)
-            image = self.__converter.Convert(result)
-            images.append(image.GetArray())
+        GPIO.output(pin, False)
+        GPIO.cleanup()
+        return np.array([origin_img, laser_img])
 
-        return images
+    def __capture_image(self):
+
+        # capture frame
+        ret, frame = self.cam.read()
+
+        if ret:
+            img = frame
+
+        return img
 
 def main(args=None):
     rclpy.init(args=args)
 
-    camera_node = Camera_Node()
+    camera_node = Camera_Node_Rasp()
 
     rclpy.spin(camera_node)
 
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
+    self.cam.release()
     camera_node.destroy_node()
     rclpy.shutdown()
 

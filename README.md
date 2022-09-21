@@ -191,7 +191,17 @@ For the intrinsic calibration an .npz-file should be created. You can use this f
 ros2 run surface_scanner calibrate_with_import <path to camera parameters>
 ```
 
-## Use the Scanner
+## Camera Stream
+You can turn on an camera stream. The camera node will now continuously publish images with the given topic (*img_publisher*). Rviz2 can subscribe to this topic an shows the images.
+
+You can use this image stream to focus the camera or to put the calibration board or chessboard in the right position.
+```
+ros2 run surface_scanner start_img_stream
+
+ros2 run surface_scanner stop_img_stream
+```
+
+## Pointcloud generation
 When the scanner is calibrated you can use it to reconstruct surfaces. A method that is always possible after calibration is to acquire one surface line with the following function. You will find the created pointcloud in the out-directory.
 ```
 ros2 run surface_scanner surface_line

@@ -24,6 +24,13 @@ class Camera_Node_Rasp(Node):
 
         self.timer = None
 
+        # SERVICE: send images for intrinsic camera calibration
+        self.send_cam_calibration_imgs_srv = self.create_service(
+            Trigger,
+            'send_cam_calib_imgs',
+            self.send_cam_calib_imgs
+        )
+
         # SERVICE: send image pair to calibrate laser
         self.send_img_pair_calib_srv = self.create_service(
             Trigger, 
@@ -36,13 +43,6 @@ class Camera_Node_Rasp(Node):
             Trigger,
             'send_img_pair_surface',
             self.send_img_pair_surface
-        )
-
-        # SERVICE: send images for intrinsic camera calibration
-        self.send_cam_calibration_imgs_srv = self.create_service(
-            Trigger,
-            'send_cam_calib_imgs',
-            self.send_cam_calib_imgs
         )
 
         # SERVICE: starts image stream and publishes each frame
@@ -231,7 +231,7 @@ def main(args=None):
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    self.cam.release()
+    camera_node.cam.release()
     camera_node.destroy_node()
     rclpy.shutdown()
 

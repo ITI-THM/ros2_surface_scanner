@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
-pin = 11
+pin = 13
 blink_delay = 0.5
 laser_status = True
 

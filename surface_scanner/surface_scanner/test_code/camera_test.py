@@ -7,7 +7,7 @@ import numpy as np
 
 def getLaserImages():
 
-        pin = 11
+        pin = 13
         GPIO.setmode(GPIO.BOARD)
         GPIO.setup(pin, GPIO.OUT)
 

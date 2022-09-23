@@ -171,27 +171,19 @@ class Scanner:
         # generade output images
         #--------------------------------------------------------------------------------------------------------------------------------------------
         charuco_drawn_primary = charuco_board.copy()
-        # aruco.drawAxis(charuco_drawn_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
+        cv.drawFrameAxes(charuco_drawn_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
         charuco_drawn_secondary = charuco_board.copy()
-        # aruco.drawAxis(charuco_drawn_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
+        cv.drawFrameAxes(charuco_drawn_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
         cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_primary.png', charuco_drawn_primary)
         cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_secondary.png', charuco_drawn_secondary)
 
         charuco_cut_primary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_primary)
-        # copy = aruco.drawAxis(charuco_cut_primary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        # cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
-        laserline_primary = cv.subtract(charuco_cut_primary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_primary))
-        # aruco.drawAxis(laserline_primary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
-        cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_primary.png', laserline_primary)
+        copy = cv.drawFrameAxes(charuco_cut_primary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_primary, tvec_primary, 0.1)
+        cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_primary.png', copy)
 
         charuco_cut_secondary = cv.bitwise_and(charuco_board_laser, charuco_board_laser, mask=charuco_mask_secondary)
-        # copy = aruco.drawAxis(charuco_cut_secondary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        # cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
-        laserline_secondary = cv.subtract(charuco_cut_secondary, cv.bitwise_and(charuco_board, charuco_board, mask=charuco_mask_secondary))
-        laserline_together = laserline_primary + laserline_secondary
-        # aruco.drawAxis(laserline_secondary, self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
-        cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_secondary.png', laserline_secondary)
-        cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/laserline_together.png', laserline_together)
+        copy = cv.drawFrameAxes(charuco_cut_secondary.copy(), self.__camera.get_cam_mtx(), self.__camera.get_dist(), rot_matrix_secondary, tvec_secondary, 0.1)
+        cv.imwrite('./src/ros2_surface_scanner/surface_scanner/out/extrinsic_calibration/charuco_cut_secondary.png', copy)
         #--------------------------------------------------------------------------------------------------------------------------------------------
 
         # fill in laser-line parameter in laser

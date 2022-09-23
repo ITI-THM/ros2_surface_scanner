@@ -169,6 +169,10 @@ The images shoud be look like this:
 <img src="doc_imgs/calibration_img_2.png" alt="scan2" width="270" height="180">
 </p>
 
+>Used intrinsic calibration board:
+>* 7x9
+>* checker size = 0.025 m
+
 ```
 ros2 run surface_scanner extr_calib_imgs
 ```
@@ -179,6 +183,19 @@ This function is used to take the extrinsic calibration images. You have to take
 <img src="doc_imgs/charuco_board_laser.png" alt="scan1" width="270" height="180">
 </p>
 
+>Extrinsic calibration board:
+>* primary (**up**):
+>   * aruco dictionary: **DICT_4x4**
+>   * X=7, Y=5
+>   * square length = 0.025m, marker length = 0.019m
+>* secondary (**down**):
+>   * aruco dictionary: **DICT_5x5**
+>   * X=7, Y=5 
+>   * square length = 0.025m, marker length = 0.019m
+>
+>Note that the accuracy of the extrinsic calibration board is critical to the accuracy of the entire sensor.
+>
+>You can use the pattern generator from [calib.io](https://calib.io/pages/camera-calibration-pattern-generator) to generate your own calibration board.
 
 Now it is possible to calibrate the whole scanner by typing the following function into your terminal:
 ```

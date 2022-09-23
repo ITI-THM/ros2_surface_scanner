@@ -18,9 +18,6 @@ class Camera_Node_Rasp(Node):
         super().__init__('camera_node_rasp')
 
         self.bridge = CvBridge()
-       
-        # open camera
-        self.cam = cv.VideoCapture(0)
 
         self.timer = None
 
@@ -207,17 +204,22 @@ class Camera_Node_Rasp(Node):
         
         laser_img = self.__capture_image()
 
+        # publish laser img to compare it with the pointcloud in rviz
+        self.img_publisher.publish(self.bridge.cv2_to_imgmsg(laser_img))
+
         GPIO.output(pin, False)
         GPIO.cleanup()
         return np.array([origin_img, laser_img])
 
     def __capture_image(self):
 
-        # capture frame
-        ret, frame = self.cam.read()
+        cam = cv.VideoCapture(0)
 
+        ret, frame = cam.read()
         if ret:
-            img = frame
+                img = frame
+                
+        cam.release()
 
         return img
 
@@ -231,7 +233,7 @@ def main(args=None):
     # Destroy the node explicitly
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
-    camera_node.cam.release()
+    # camera_node.cam.release()
     camera_node.destroy_node()
     rclpy.shutdown()
 

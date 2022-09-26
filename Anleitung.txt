@@ -1,0 +1,28 @@
+1. Raspberry Pi an den Strom anschließen
+
+2. Mit ssh verbinden (im wlan - THM-Forum)
+    Raspberry Pi 3b plus:
+        tristan@192.168.1.2
+
+    Nutzerdaten für beide Raspberrys:
+        Nutzer: tristan, Passwort: 1234
+
+3. Workspace öffnen
+    cd Dokumente/surface_ws
+
+4. Workspace bauen
+    colcon build
+
+5. Scanner kann benutzt werden
+    Neues Terminal:
+        . install/setup.bash
+        ros2 launch surface_scanner surface_scanner_rasp.launch.pi 
+
+Der Raspberry Pi 4 kann schon über Ethernet angesprochen werden. Seid dem ich das so eingerichtet habe,
+geht leider das Wlan nicht mehr... 
+
+192.168.1.20 wurde als static ip address gesetzt, also:
+    - Ethernet Kabel einstecken
+    - wired connection vom host pc zu "manual" stellen:
+        Ip-Address: (z. B.) 192.168.1.5, Netmask: 24, Gateway: 255.255.255.0
+    - Terminal öffnen: tristan@192.168.1.20

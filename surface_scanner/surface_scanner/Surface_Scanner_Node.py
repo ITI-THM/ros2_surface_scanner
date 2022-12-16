@@ -215,6 +215,8 @@ class Surface_Scanner_Node(Node):
 
                 self.get_logger().info(
                     f"Publish generated point cloud: ' {self.scanner.get_point_cloud()}'")
+
+                # o3d.io.write_point_cloud("./src/ros2_surface_scanner/surface_scanner/out/steps_small.ply", self.scanner.get_point_cloud())
             else:
                 self.get_logger().warning("Scanner is not calibrated!")
 

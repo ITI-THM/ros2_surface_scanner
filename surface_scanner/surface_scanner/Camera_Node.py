@@ -96,7 +96,7 @@ class Camera_Node(Node):
 
     # Callback functions:
 
-    def send_img_pair_calibration(self, request, response):
+    def send_img_pair_calib(self, request, response):
 
         images = self.__getLaserImages()
 
